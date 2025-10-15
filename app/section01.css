@@ -1,0 +1,16 @@
+.section01 .container {
+  
+  margin: 0 auto !important;
+  display: block;
+}
+
+.PointerHighlight {
+  font-size: 30px;
+  width: 600px;
+  margin: 50px auto;
+  
+}
+.PointerHighlight span{
+ display: flex;
+}
+
