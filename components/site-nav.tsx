@@ -23,6 +23,7 @@ export function SiteNav() {
 
         <div className="flex flex-1 w-full justify-end">
           <nav className="flex items-center">
+            <p className="mr-4">다크 모드</p>
             <AnimatedThemeToggler />
           </nav>
         </div>

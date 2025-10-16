@@ -15,7 +15,7 @@ import {
   DraggableCardContainer,
 } from "@/components/ui/draggable-card";
 import FallingText from '@/components/FallingText';
-
+import Waves from '@/components/Waves';
 
 interface BlogData {
   title: string;
@@ -129,13 +129,48 @@ export default async function HomePage({
     },
   ];
 
+  const blogContent = {
+  slug: "amazing-tailwindcss-grid-layouts",
+  author: "Manu Arora",
+  date: "28th March, 2023",
+  title: "Amazing Tailwindcss Grid Layout Examples",
+  description:
+    "Grids are cool, but Tailwindcss grids are cooler. In this article, we will learn how to create amazing Grid layouts with Tailwindcs grid and React.",
+  image: "/demo/thumbnail.png",
+  authorAvatar: "/manu.png",
+}
+
+
+
+;
+ 
+const TitleComponent = ({
+  title,
+  avatar,
+}: {
+  title: string;
+  avatar: string;
+}) => (
+  <div className="flex items-center space-x-2">
+    <img
+      src={avatar}
+      height="20"
+      width="20"
+      alt="thumbnail"
+      className="rounded-full border-2 border-white"
+    />
+    <p>{title}</p>
+  </div>
+);
+
   return (
     <div className="min-h-screen bg-background relative">
+    
       <MacbookScrollDemo />
 
       {/* section01 자기소개 */}
 
-      <section className="section01">
+      <section className="section01 intro">
         <div className="mx-auto max-w-lg py-20 text-2xl font-bold tracking-tight md:text-4xl "></div>
 
         <div className="container">
@@ -163,10 +198,24 @@ export default async function HomePage({
             ))}
           </DraggableCardContainer>
 
+             <div className="mx-auto w-80">
+
+      
+    </div>
+
 
 
 
         </div>
+
+
+      </section>
+
+      {/* section01 자기소개 */}
+
+
+      {/* section02 기술스택 */}
+      <section className="section02 skills">
 
         <FallingText
   text={`React Bits is a library of animated and interactive React components designed to streamline UI development and simplify your workflow.`}
@@ -181,8 +230,10 @@ export default async function HomePage({
 />
 
       </section>
+      {/* section02 기술스택 */}
 
-      {/* section01 자기소개 */}
+
+
       <div className="absolute top-0 left-0 z-0 w-full h-[200px] [mask-image:linear-gradient(to_top,transparent_25%,black_95%)]">
         <FlickeringGrid
           className="absolute top-0 left-0 size-full"
