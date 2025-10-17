@@ -1,0 +1,186 @@
+---
+title: "Nexus Vision"
+description: "Explore essential React Native libraries that will streamline your mobile app development and enhance functionality."
+date: "2024-11-20"
+tags: ["반응형", "디자인", "개인프로젝트"]
+featured: false
+readTime: "22 min read"
+author: "dillion"
+thumbnail: "/thumbnails/react-native-libraries.jpg"
+---
+
+혁신적인 기업 비전을 담은 'Nexus Vision' 웹사이트 프로젝트입니다. 현대적인 디자인과 창의적인 레이아웃으로 기업의 가치와 비전을 효과적으로 전달하는 것을 목표로 제작했습니다.
+
+## 프로젝트 개요
+
+Nexus Vision은 미래 지향적 기업 이미지를 강조하는 프로모션 웹사이트로, 독창적인 디자인과 사용자 경험을 중심으로 기획되었습니다.
+
+### 프로젝트 특징
+
+- **창작 디자인**: 독자적인 브랜드 아이덴티티 구축
+- **반응형 레이아웃**: 모든 디바이스에서 최적의 경험 제공
+- **모던한 UI**: 그라디언트, 애니메이션 등 최신 디자인 트렌드 적용
+- **섹션별 구성**: 비전, 서비스, 팀, 연락처 등 명확한 정보 구조
+
+## 기술 스택
+
+- HTML5 / CSS3
+- JavaScript
+- CSS Grid & Flexbox
+- CSS Animations
+- Responsive Web Design
+
+## 핵심 디자인 구현
+
+### 히어로 섹션
+
+```html
+<section class="hero-section">
+  <div class="hero-content">
+    <h1 class="gradient-text">Nexus Vision</h1>
+    <p class="tagline">Connecting Ideas, Creating Future</p>
+  </div>
+  <div class="hero-visual">
+    <!-- 시각적 요소 -->
+  </div>
+</section>
+```
+
+### 그라디언트 효과
+
+```css
+.gradient-text {
+  background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-size: 4rem;
+  font-weight: 900;
+}
+
+.gradient-bg {
+  background: linear-gradient(to bottom, #1a1a2e, #16213e);
+}
+```
+
+### 카드 레이아웃
+
+```css
+.services-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  padding: 4rem 2rem;
+}
+
+.service-card {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(10px);
+  border-radius: 20px;
+  padding: 2rem;
+  transition: transform 0.3s ease;
+}
+
+.service-card:hover {
+  transform: translateY(-10px);
+}
+```
+
+## 인터랙티브 요소
+
+### 스크롤 애니메이션
+
+```javascript
+// Intersection Observer를 활용한 스크롤 애니메이션
+const observerOptions = {
+  threshold: 0.3,
+  rootMargin: '0px 0px -100px 0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('fade-in');
+    }
+  });
+}, observerOptions);
+```
+
+### 호버 효과
+
+```css
+.card-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.card-hover::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+  transition: left 0.5s;
+}
+
+.card-hover:hover::before {
+  left: 100%;
+}
+```
+
+## 디자인 컨셉
+
+### 색상 팔레트
+
+- **Primary**: #667eea (보라)
+- **Secondary**: #764ba2 (자주)
+- **Dark**: #1a1a2e (네이비)
+- **Accent**: #f64f59 (코랄)
+
+### 레이아웃 원칙
+
+- **Z-패턴**: 자연스러운 시선 흐름 유도
+- **여백 활용**: 넉넉한 패딩과 마진으로 가독성 향상
+- **계층 구조**: 명확한 정보 우선순위 설정
+
+## 반응형 디자인
+
+```css
+/* 데스크톱 */
+@media (min-width: 1024px) {
+  .container {
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+}
+
+/* 태블릿 */
+@media (max-width: 768px) {
+  .services-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .gradient-text {
+    font-size: 2.5rem;
+  }
+}
+
+/* 모바일 */
+@media (max-width: 480px) {
+  .hero-section {
+    padding: 2rem 1rem;
+  }
+}
+```
+
+## 프로젝트를 통해 배운 점
+
+- **브랜드 아이덴티티**: 시각적 일관성 유지의 중요성
+- **최신 CSS 기법**: backdrop-filter, gradient 등 모던 CSS 활용
+- **애니메이션 원칙**: 자연스러운 움직임과 적절한 타이밍
+- **사용자 경험**: 시각적 계층과 인터랙션 디자인
+
+## 마치며
+
+Nexus Vision 프로젝트를 통해 창의적인 디자인과 기술적 구현을 결합하는 방법을 배울 수 있었습니다. 특히 최신 CSS 기법과 애니메이션을 활용하여 사용자에게 인상적인 경험을 제공하는 웹사이트를 만드는 과정이 매우 유익했습니다.

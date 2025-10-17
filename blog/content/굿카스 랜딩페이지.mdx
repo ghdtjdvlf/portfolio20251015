@@ -1,0 +1,109 @@
+---
+title: "굿카스 랜딩페이지"
+description: "Discover stunning React landing page templates and learn the design principles that make them convert visitors into customers."
+date: "2024-11-22"
+tags: ["개인프로젝트", "반응형", "디자인"]
+featured: false
+readTime: "21 min read"
+author: "dillion"
+thumbnail: "/thumbnails/react-landing-page-templates.jpg"
+---
+
+중고차 거래 플랫폼 '굿카스'의 프로모션 랜딩페이지를 기획하고 디자인한 개인 프로젝트입니다. 사용자의 시선을 사로잡고 행동을 유도하는 효과적인 랜딩페이지를 목표로 제작했습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1551650975-87deedd944c3?w=900&auto=format&fit=crop&q=60"
+  alt="Landing Page Design"
+  caption="Modern landing page showcasing clean design and clear call-to-action"
+/>
+
+## 프로젝트 개요
+
+중고차 구매를 고민하는 고객들에게 신뢰감을 주고, 간편한 상담 신청을 유도하는 것을 핵심 목표로 한 랜딩페이지입니다.
+
+### 주요 기능
+
+- **강력한 히어로 섹션**: 핵심 메시지와 CTA 버튼
+- **신뢰도 구축**: 고객 후기, 거래 실적 표시
+- **서비스 소개**: 중고차 구매 프로세스 단계별 설명
+- **상담 신청 폼**: 간단한 정보 입력으로 빠른 상담 예약
+- **반응형 디자인**: 모바일 최적화
+
+## 기술 스택
+
+- HTML5 / CSS3
+- JavaScript
+- Responsive Web Design
+- CSS Animations
+
+## 핵심 디자인 요소
+
+### 히어로 섹션
+
+```html
+<section class="hero">
+  <div class="hero-content">
+    <h1>믿을 수 있는 중고차, 합리적인 가격</h1>
+    <p>전문가의 꼼꼼한 검수와 투명한 거래</p>
+    <button class="cta-button">무료 상담 신청</button>
+  </div>
+</section>
+```
+
+### 신뢰 지표 섹션
+
+```css
+.trust-indicators {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+  text-align: center;
+}
+
+.stat-number {
+  font-size: 3rem;
+  font-weight: bold;
+  color: #ff6b00;
+}
+```
+
+### 상담 신청 폼
+
+```javascript
+// 폼 유효성 검사
+const validateForm = (formData) => {
+  const { name, phone, carType } = formData;
+  return name && phone.match(/^01[0-9]-[0-9]{4}-[0-9]{4}$/);
+};
+```
+
+## 디자인 전략
+
+### 색상 선택
+
+- **주요 색상**: 오렌지 (#ff6b00) - 활력, 신뢰
+- **보조 색상**: 네이비 (#1a1a2e) - 안정감, 전문성
+- **배경**: 화이트 - 깨끗함, 명확함
+
+### 타이포그래피
+
+- **헤딩**: Pretendard Bold - 강렬한 인상
+- **본문**: Pretendard Regular - 가독성 우선
+
+## 전환율 최적화 (CRO)
+
+- **명확한 CTA**: 각 섹션마다 행동 유도 버튼 배치
+- **신뢰 요소**: 고객 후기, 거래 건수, 보증 서비스 강조
+- **간소화된 폼**: 필수 정보만 입력받아 이탈율 감소
+- **모바일 최적화**: 터치 영역 최적화, 빠른 로딩 속도
+
+## 프로젝트를 통해 배운 점
+
+- **랜딩페이지 설계**: 사용자 여정 설계와 전환 목표 설정
+- **마케팅 심리**: 신뢰 구축과 행동 유도 기법
+- **성능 최적화**: 이미지 최적화와 빠른 로딩 속도의 중요성
+- **A/B 테스팅 개념**: 다양한 CTA 문구와 배치 실험
+
+## 마치며
+
+랜딩페이지 제작을 통해 마케팅과 디자인, 개발이 어떻게 융합되는지 이해할 수 있었습니다. 특히 사용자의 행동을 유도하는 UX 디자인의 중요성과 전환율 최적화 전략을 실전에서 적용해볼 수 있었던 값진 경험이었습니다.

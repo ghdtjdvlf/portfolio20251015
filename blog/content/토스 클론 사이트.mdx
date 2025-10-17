@@ -1,0 +1,191 @@
+---
+title: "토스 클론 페이지"
+description: "Discover the best React portfolio templates to showcase your work professionally and land your dream job or clients."
+date: "2024-11-18"
+tags: ["반응형", "클론", "개인프로젝트"]
+featured: true
+readTime: "16 min read"
+author: "arghya"
+thumbnail: "/thumbnails/react-portfolio-templates.jpg"
+---
+
+토스(Toss) 메인 페이지를 클론 코딩한 프로젝트입니다. 국내 대표 핀테크 서비스의 직관적인 UI/UX와 인터랙티브한 애니메이션을 분석하고 재현했습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&auto=format&fit=crop&q=60"
+  alt="Developer Portfolio"
+  caption="Professional developer showcasing their React portfolio"
+/>
+
+## 프로젝트 개요
+
+토스의 깔끔하고 직관적인 디자인과 스크롤에 따라 작동하는 다양한 애니메이션 효과를 구현한 클론 코딩 프로젝트입니다.
+
+### 주요 구현 사항
+
+- **스크롤 애니메이션**: Intersection Observer를 활용한 섹션별 등장 효과
+- **반응형 디자인**: 모바일 퍼스트 접근 방식
+- **인터랙티브 UI**: 마우스 호버와 스크롤 이벤트 처리
+- **타이포그래피**: 토스의 브랜드 타이포그래피 재현
+
+## 기술 스택
+
+- HTML5 / CSS3
+- JavaScript
+- Intersection Observer API
+- CSS Animations & Transitions
+
+## 핵심 구현 내용
+
+### 히어로 섹션
+
+```html
+<section class="hero-section">
+  <h1 class="hero-title">
+    금융의 모든 것<br />
+    토스에서 쉽고 간편하게
+  </h1>
+  <p class="hero-description">
+    이미 천만명이 토스로 금융생활을 하고 있어요.
+  </p>
+  <button class="download-button">앱 다운로드</button>
+</section>
+```
+
+### 스크롤 애니메이션
+
+```javascript
+// Intersection Observer 설정
+const observerOptions = {
+  threshold: 0.5,
+  rootMargin: '0px'
+};
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      entry.target.classList.add('animate-in');
+    }
+  });
+}, observerOptions);
+
+// 모든 섹션 관찰
+document.querySelectorAll('.section').forEach(section => {
+  observer.observe(section);
+});
+```
+
+### 카드 애니메이션
+
+```css
+.feature-card {
+  opacity: 0;
+  transform: translateY(50px);
+  transition: all 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+.feature-card.animate-in {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+```
+
+### 반응형 레이아웃
+
+```css
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .feature-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+## 토스의 디자인 철학 분석
+
+### 미니멀리즘
+
+- **여백 활용**: 넉넉한 공간으로 집중도 향상
+- **색상 절제**: 브랜드 블루를 포인트로 활용
+- **간결한 문구**: 핵심 메시지 위주의 카피
+
+### 사용자 경험
+
+```css
+/* 부드러운 전환 효과 */
+* {
+  transition: all 0.3s ease;
+}
+
+/* 명확한 인터랙션 피드백 */
+button:hover {
+  transform: scale(1.05);
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 접근성 고려 */
+button:focus {
+  outline: 3px solid #0064FF;
+  outline-offset: 2px;
+}
+```
+
+## 학습 내용
+
+### Intersection Observer API
+
+```javascript
+// 섹션별 다른 애니메이션 적용
+const fadeInObserver = new IntersectionObserver((entries) => {
+  entries.forEach((entry, index) => {
+    if (entry.isIntersecting) {
+      setTimeout(() => {
+        entry.target.style.opacity = '1';
+        entry.target.style.transform = 'translateY(0)';
+      }, index * 100); // 순차적 애니메이션
+    }
+  });
+});
+```
+
+### CSS Custom Properties
+
+```css
+:root {
+  --toss-blue: #0064FF;
+  --toss-dark: #191F28;
+  --toss-gray: #4E5968;
+  --spacing-xl: 80px;
+  --spacing-lg: 60px;
+  --spacing-md: 40px;
+}
+
+.section {
+  padding: var(--spacing-xl) 0;
+}
+```
+
+## 프로젝트를 통해 배운 점
+
+- **기업 브랜딩**: 일관된 디자인 시스템의 중요성
+- **성능 최적화**: 애니메이션과 성능의 균형
+- **사용자 중심 설계**: 직관적인 네비게이션과 명확한 정보 전달
+- **모던 웹 기술**: Intersection Observer, CSS Variables 활용
+
+## 마치며
+
+토스의 세련된 UI/UX를 클론 코딩하면서 사용자 경험을 최우선으로 하는 디자인 철학을 배울 수 있었습니다. 특히 스크롤 애니메이션과 인터랙티브한 요소들이 어떻게 사용자의 몰입도를 높이는지 실감할 수 있었던 프로젝트였습니다.

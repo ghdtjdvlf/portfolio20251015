@@ -1,0 +1,567 @@
+---
+title: "카카오톡 API 활용 사이트"
+description: "Kakao OAuth 로그인과 Kakao Maps API를 활용한 위치 기반 서비스 웹 애플리케이션. 소셜 로그인, 지도 검색, 장소 마커 등의 기능을 구현했습니다."
+date: "2025-01-17"
+tags: ["개인프로젝트", "React", "API연동", "OAuth"]
+featured: true
+readTime: "12 min read"
+author: "arghya"
+thumbnail: "/thumbnails/kakao-api.jpg"
+---
+
+Kakao의 다양한 API(OAuth 로그인, Maps API)를 활용하여 위치 기반 서비스를 제공하는 웹 애플리케이션을 개발했습니다. 소셜 로그인부터 지도 검색까지 실전 API 통합 경험을 쌓을 수 있었습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1569025690938-a00729c9e1f9?w=900&auto=format&fit=crop&q=60"
+  alt="Kakao API Integration"
+  caption="Kakao OAuth & Maps API 기반 웹 서비스"
+/>
+
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="https://sp-timer.web.app/kakao" target="_blank" rel="noopener noreferrer" style={{display: 'inline-block', padding: '12px 32px', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: 'white', textDecoration: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '16px', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'}}>
+    🔗 사이트 보러가기
+  </a>
+</div>
+
+## 프로젝트 개요
+
+이 프로젝트는 Kakao의 OAuth 2.0 로그인과 Maps API를 활용한 위치 기반 서비스 웹 애플리케이션입니다. 사용자는 카카오 계정으로 로그인하고, 지도에서 장소를 검색하고 탐색할 수 있습니다.
+
+### 주요 기능
+
+- **Kakao OAuth 로그인**: 카카오 계정 기반 소셜 로그인
+- **사용자 정보 조회**: 프로필 이미지, 닉네임, 이메일 표시
+- **Kakao Maps 지도**: 인터랙티브 지도 탐색
+- **장소 검색**: 키워드 기반 장소 검색 (Places API)
+- **마커 표시**: 검색 결과 지도 마커 표시
+- **반응형 디자인**: 모바일/데스크톱 최적화
+
+### 기술 스택
+
+**Frontend**
+- React 18 + TypeScript
+- Emotion (styled-components)
+- Vite
+
+**API & OAuth**
+- Kakao OAuth 2.0
+- Kakao Maps SDK
+- Kakao Places API
+
+## 핵심 구현 사항
+
+### 1. Kakao OAuth 2.0 로그인
+
+Authorization Code Grant 방식을 구현하여 안전한 소셜 로그인을 제공합니다.
+
+```tsx
+const KAKAO_REST_API_KEY = ''; // Kakao REST API Key
+const KAKAO_REDIRECT_URI = ''; // Redirect URI
+
+export const kakaoAuthConfig = {
+  restApiKey: KAKAO_REST_API_KEY,
+  redirectUri: KAKAO_REDIRECT_URI,
+  authUrl: 'https://kauth.kakao.com/oauth/authorize',
+  tokenUrl: 'https://kauth.kakao.com/oauth/token',
+  userInfoUrl: 'https://kapi.kakao.com/v2/user/me',
+};
+
+// 인증 URL 생성
+export const getKakaoAuthUrl = (): string => {
+  const params = new URLSearchParams({
+    client_id: kakaoAuthConfig.restApiKey,
+    redirect_uri: kakaoAuthConfig.redirectUri,
+    response_type: 'code',
+  });
+
+  return `${kakaoAuthConfig.authUrl}?${params.toString()}`;
+};
+
+// Authorization Code → Access Token 교환
+export const getKakaoToken = async (code: string): Promise<KakaoLoginResponse> => {
+  const params = new URLSearchParams({
+    grant_type: 'authorization_code',
+    client_id: kakaoAuthConfig.restApiKey,
+    redirect_uri: kakaoAuthConfig.redirectUri,
+    code: code,
+  });
+
+  const response = await fetch(kakaoAuthConfig.tokenUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    body: params.toString(),
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to get Kakao token');
+  }
+
+  return response.json();
+};
+
+// Access Token으로 사용자 정보 조회
+export const getKakaoUserInfo = async (accessToken: string): Promise<KakaoUserInfo> => {
+  const response = await fetch(kakaoAuthConfig.userInfoUrl, {
+    method: 'GET',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+      'Content-Type': 'application/x-www-form-urlencoded',
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to get user info');
+  }
+
+  return response.json();
+};
+```
+
+### 2. OAuth 콜백 처리
+
+리다이렉트된 후 Authorization Code를 처리하여 토큰을 발급받습니다.
+
+```tsx
+const KakaoLogin: FC<KakaoLoginProps> = ({ onLoginSuccess, onLogout }) => {
+  const [user, setUser] = useState<KakaoUserInfo | null>(null);
+  const [accessToken, setAccessToken] = useState<string | null>(null);
+
+  // LocalStorage에서 로그인 상태 복원
+  useEffect(() => {
+    const savedUser = localStorage.getItem('kakao_user');
+    const savedToken = localStorage.getItem('kakao_access_token');
+
+    if (savedUser && savedToken) {
+      setUser(JSON.parse(savedUser));
+      setAccessToken(savedToken);
+    }
+  }, []);
+
+  // OAuth 콜백 처리
+  useEffect(() => {
+    const handleCallback = async () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const code = urlParams.get('code');
+
+      if (code && !user) {
+        setIsLoading(true);
+        try {
+          // Authorization Code → Access Token
+          const tokenResponse = await getKakaoToken(code);
+          const token = tokenResponse.access_token;
+
+          // Access Token → 사용자 정보
+          const userInfo = await getKakaoUserInfo(token);
+
+          // 상태 및 LocalStorage 저장
+          setUser(userInfo);
+          setAccessToken(token);
+          localStorage.setItem('kakao_user', JSON.stringify(userInfo));
+          localStorage.setItem('kakao_access_token', token);
+
+          if (onLoginSuccess) {
+            onLoginSuccess(userInfo);
+          }
+
+          // URL 정리
+          window.history.replaceState({}, document.title, window.location.pathname);
+        } catch (error) {
+          console.error('Kakao login failed:', error);
+          alert('로그인에 실패했습니다. 다시 시도해주세요.');
+        } finally {
+          setIsLoading(false);
+        }
+      }
+    };
+
+    handleCallback();
+  }, [user, onLoginSuccess]);
+
+  // 로그인 버튼 클릭
+  const handleLogin = () => {
+    const authUrl = getKakaoAuthUrl();
+    window.location.href = authUrl; // Kakao 로그인 페이지로 리다이렉트
+  };
+
+  return (
+    <LoginButton onClick={handleLogin}>
+      <KakaoIcon>🗨️</KakaoIcon>
+      <span>카카오 로그인</span>
+    </LoginButton>
+  );
+};
+```
+
+### 3. 로그아웃 처리
+
+Access Token을 사용하여 로그아웃 API를 호출합니다.
+
+```tsx
+export const kakaoLogout = async (accessToken: string): Promise<void> => {
+  const response = await fetch('https://kapi.kakao.com/v1/user/logout', {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${accessToken}`,
+    },
+  });
+
+  if (!response.ok) {
+    throw new Error('Failed to logout');
+  }
+};
+
+// 컴포넌트에서 사용
+const handleLogout = async () => {
+  if (!accessToken) return;
+
+  setIsLoading(true);
+  try {
+    await kakaoLogout(accessToken);
+
+    // 상태 및 LocalStorage 정리
+    setUser(null);
+    setAccessToken(null);
+    localStorage.removeItem('kakao_user');
+    localStorage.removeItem('kakao_access_token');
+
+    if (onLogout) {
+      onLogout();
+    }
+  } catch (error) {
+    console.error('Logout failed:', error);
+    // 에러가 발생해도 로컬 상태는 정리
+    setUser(null);
+    setAccessToken(null);
+    localStorage.removeItem('kakao_user');
+    localStorage.removeItem('kakao_access_token');
+  } finally {
+    setIsLoading(false);
+  }
+};
+```
+
+### 4. Kakao Maps SDK 초기화
+
+지도를 표시하기 위해 Kakao Maps SDK를 동적으로 로드합니다.
+
+```tsx
+const KakaoApp: FC = () => {
+  useEffect(() => {
+    const KAKAO_JS_KEY = ''; // Kakao JavaScript Key
+
+    if (!KAKAO_JS_KEY) {
+      console.warn('Kakao JavaScript Key is not set.');
+      return;
+    }
+
+    // 이미 로드되어 있는지 확인
+    if (window.kakao && window.kakao.maps) {
+      window.kakao.maps.load(() => {
+        console.log('Kakao Maps loaded');
+      });
+      return;
+    }
+
+    // Kakao Maps SDK 스크립트 로드
+    const script = document.createElement('script');
+    script.src = `https://dapi.kakao.com/v2/maps/sdk.js?appkey=${KAKAO_JS_KEY}&libraries=services&autoload=false`;
+    script.async = true;
+    script.onload = () => {
+      if (window.kakao && window.kakao.maps) {
+        window.kakao.maps.load(() => {
+          console.log('Kakao Maps loaded');
+        });
+      }
+    };
+    document.head.appendChild(script);
+
+    return () => {
+      // Cleanup
+    };
+  }, []);
+
+  return (
+    <Container>
+      <KakaoLogin onLoginSuccess={handleLoginSuccess} onLogout={handleLogout} />
+      <KakaoMap />
+    </Container>
+  );
+};
+```
+
+### 5. 지도 표시 및 마커 생성
+
+지도를 렌더링하고 검색 결과에 마커를 표시합니다.
+
+```tsx
+const KakaoMap: FC<KakaoMapProps> = ({ onPlaceSelect }) => {
+  const mapContainer = useRef<HTMLDivElement>(null);
+  const [map, setMap] = useState<any>(null);
+  const [marker, setMarker] = useState<any>(null);
+
+  // 지도 초기화
+  useEffect(() => {
+    if (!mapContainer.current || !window.kakao) return;
+
+    const kakao = window.kakao;
+
+    // 지도 생성
+    const options = {
+      center: new kakao.maps.LatLng(37.545887, 126.921518), // 서울시청
+      level: 3,
+    };
+
+    const mapInstance = new kakao.maps.Map(mapContainer.current, options);
+    setMap(mapInstance);
+
+    // 마커 생성
+    const markerInstance = new kakao.maps.Marker({
+      position: mapInstance.getCenter(),
+    });
+    markerInstance.setMap(mapInstance);
+    setMarker(markerInstance);
+  }, []);
+
+  return <MapContainer ref={mapContainer} />;
+};
+```
+
+### 6. 장소 검색 (Places API)
+
+Kakao Places API를 사용하여 장소를 검색합니다.
+
+```tsx
+const handleSearch = () => {
+  if (!map || !searchKeyword.trim()) return;
+
+  setIsSearching(true);
+  const kakao = window.kakao;
+  const ps = new kakao.maps.services.Places();
+
+  // 키워드로 장소 검색
+  ps.keywordSearch(searchKeyword, (data: any, status: any) => {
+    setIsSearching(false);
+
+    if (status === kakao.maps.services.Status.OK) {
+      setSearchResults(data);
+    } else {
+      alert('검색 결과가 없습니다.');
+      setSearchResults([]);
+    }
+  });
+};
+
+// 검색 결과 선택 시 지도 이동
+const handlePlaceClick = (place: SearchResult) => {
+  if (!map || !marker) return;
+
+  const kakao = window.kakao;
+  const position = new kakao.maps.LatLng(parseFloat(place.y), parseFloat(place.x));
+
+  // 지도 중심 이동 및 마커 위치 변경
+  map.setCenter(position);
+  marker.setPosition(position);
+
+  // 검색 결과 초기화
+  setSearchResults([]);
+  setSearchKeyword(place.place_name);
+
+  // 콜백 호출
+  if (onPlaceSelect) {
+    onPlaceSelect(place);
+  }
+};
+```
+
+## UI 컴포넌트 구현
+
+### 검색 바
+
+```tsx
+const SearchContainer = styled.div`
+  position: absolute;
+  top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  gap: 8px;
+  width: 90%;
+  max-width: 500px;
+`;
+
+const SearchInputWrapper = styled.div`
+  flex: 1;
+  position: relative;
+  display: flex;
+  align-items: center;
+  background: rgba(255, 255, 255, 0.95);
+  backdrop-filter: blur(20px);
+  border-radius: ${theme.borderRadius.lg};
+  box-shadow: ${theme.shadows.lg};
+  border: 1px solid rgba(0, 0, 0, 0.05);
+`;
+
+const SearchInput = styled.input`
+  flex: 1;
+  height: 48px;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+  color: ${theme.colors.text};
+
+  &::placeholder {
+    color: ${theme.colors.textSecondary};
+  }
+`;
+```
+
+### 검색 결과 리스트
+
+```tsx
+{searchResults.length > 0 && (
+  <ResultsContainer>
+    <ResultsTitle>검색 결과 ({searchResults.length})</ResultsTitle>
+    <ResultsList>
+      {searchResults.map((place, index) => (
+        <ResultItem key={index} onClick={() => handlePlaceClick(place)}>
+          <PlaceName>{place.place_name}</PlaceName>
+          <PlaceAddress>
+            {place.road_address_name || place.address_name}
+          </PlaceAddress>
+          {place.category_name && (
+            <PlaceCategory>
+              {place.category_name.split(' > ').pop()}
+            </PlaceCategory>
+          )}
+        </ResultItem>
+      ))}
+    </ResultsList>
+  </ResultsContainer>
+)}
+```
+
+## 사용자 정보 표시
+
+로그인 성공 후 사용자 프로필을 표시합니다.
+
+```tsx
+if (user) {
+  return (
+    <Container>
+      <UserCard>
+        <UserInfo>
+          {user.properties.profile_image && (
+            <ProfileImage src={user.properties.profile_image} alt="Profile" />
+          )}
+          <UserDetails>
+            <UserName>{user.properties.nickname}</UserName>
+            {user.kakao_account.email && (
+              <UserEmail>{user.kakao_account.email}</UserEmail>
+            )}
+          </UserDetails>
+        </UserInfo>
+        <LogoutButton onClick={handleLogout} disabled={isLoading}>
+          로그아웃
+        </LogoutButton>
+      </UserCard>
+    </Container>
+  );
+}
+```
+
+## 반응형 디자인
+
+모바일과 데스크톱 모두에서 최적화된 UI를 제공합니다.
+
+```tsx
+const SearchContainer = styled.div`
+  width: 90%;
+  max-width: 500px;
+
+  @media (max-width: 640px) {
+    width: 95%;
+  }
+`;
+
+const MapWrapper = styled.div`
+  flex: 1;
+  border-radius: ${theme.borderRadius.xl};
+  overflow: hidden;
+  box-shadow: ${theme.shadows.xl};
+  min-height: 450px;
+
+  @media (max-width: 640px) {
+    min-height: 350px;
+    border-radius: ${theme.borderRadius.lg};
+  }
+`;
+```
+
+## 배포
+
+Firebase Hosting을 통해 프로덕션 배포를 진행했습니다.
+
+```bash
+# 빌드
+npm run build
+
+# Firebase 배포
+firebase deploy --only hosting
+```
+
+**라이브 데모**: [https://sp-timer.web.app](https://sp-timer.web.app)
+
+## 프로젝트를 통해 배운 점
+
+### 1. OAuth 2.0 플로우 이해
+Authorization Code Grant 방식의 전체 플로우를 구현하면서 소셜 로그인의 보안 메커니즘을 깊이 이해할 수 있었습니다. 특히 Authorization Code와 Access Token의 차이, Redirect URI의 역할 등을 실전에서 경험했습니다.
+
+### 2. 외부 SDK 통합
+Kakao Maps SDK를 동적으로 로드하고 초기화하는 과정에서 외부 라이브러리 통합 시 고려해야 할 타이밍과 에러 처리를 배웠습니다.
+
+### 3. LocalStorage 활용
+Access Token과 사용자 정보를 LocalStorage에 저장하여 페이지 새로고침 후에도 로그인 상태를 유지하는 방법을 구현했습니다.
+
+### 4. 비동기 처리의 중요성
+OAuth 콜백 처리, API 호출, 지도 초기화 등 여러 비동기 작업을 순차적으로 처리하며 Promise 체이닝과 async/await 패턴의 중요성을 체감했습니다.
+
+## 보안 고려사항
+
+### Access Token 관리
+
+```tsx
+// ⚠️ 주의: 실제 프로덕션에서는 HttpOnly Cookie 사용 권장
+// LocalStorage는 XSS 공격에 취약함
+
+// 더 안전한 방법: 백엔드에서 토큰 관리
+// 1. Backend에서 Authorization Code를 받아 Token 교환
+// 2. Access Token을 HttpOnly Cookie에 저장
+// 3. Frontend는 Cookie를 통해 인증된 API 요청
+```
+
+### Redirect URI 검증
+
+```tsx
+// Kakao Developers 콘솔에서 허용된 Redirect URI만 등록
+// 프로덕션과 개발 환경 각각 등록 필요
+const REDIRECT_URI = import.meta.env.PROD
+  ? 'https://yourapp.com/kakao/callback'
+  : 'http://localhost:5173/kakao/callback';
+```
+
+## 향후 개선 계획
+
+- 현재 위치 기반 주변 장소 추천
+- 즐겨찾기 장소 저장 (LocalStorage/Firebase)
+- 경로 탐색 기능 (Kakao Direction API)
+- 친구에게 장소 공유 (Kakao Talk Sharing)
+- 리뷰 시스템 구현
+- 지도 클러스터링 (많은 마커 최적화)
+
+## 마치며
+
+Kakao API를 활용한 프로젝트를 통해 OAuth 2.0 인증 플로우와 지도 API 통합 등 실전 기술을 습득할 수 있었습니다. 특히 외부 SDK 통합, 비동기 처리, 보안 고려사항 등 실무에서 중요한 요소들을 경험하며 성장할 수 있었습니다.

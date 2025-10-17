@@ -1,0 +1,189 @@
+---
+title: "필성 성형외과"
+description: "Discover the best React portfolio templates to showcase your work professionally and land your dream job or clients."
+date: "2024-11-18"
+tags: ["그누보드", "CMS", "디자인"]
+featured: true
+readTime: "16 min read"
+author: "arghya"
+thumbnail: "/thumbnails/react-portfolio-templates.jpg"
+---
+
+그누보드(GnuBoard) CMS를 활용하여 제작한 성형외과 웹사이트 프로젝트입니다. 병원의 전문성과 신뢰감을 전달하는 디자인과 환자 편의를 위한 다양한 기능을 구현했습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=900&auto=format&fit=crop&q=60"
+  alt="Developer Portfolio"
+  caption="Professional developer showcasing their React portfolio"
+/>
+
+## 프로젝트 개요
+
+그누보드 CMS 기반의 성형외과 웹사이트로, 병원 소개, 시술 정보, 예약 시스템, 게시판 등 병원 웹사이트에 필요한 핵심 기능들을 구현했습니다.
+
+### 주요 기능
+
+- **병원 소개**: 의료진 프로필, 시설 안내, 진료 시간
+- **시술 정보**: 카테고리별 시술 상세 정보 제공
+- **온라인 예약**: 실시간 예약 시스템
+- **게시판**: 공지사항, 이벤트, 전후 사진, 후기
+- **관리자 페이지**: 그누보드 관리 기능 활용
+
+## 기술 스택
+
+- GnuBoard 5
+- PHP
+- MySQL
+- HTML5 / CSS3
+- JavaScript / jQuery
+- Responsive Web Design
+
+## 핵심 구현 내용
+
+### 그누보드 커스터마이징
+
+```php
+// 스킨 커스터마이징
+<?php
+include_once('./_common.php');
+
+// 병원 정보 설정
+$hospital_name = "필성 성형외과";
+$hospital_phone = "02-1234-5678";
+
+// 메인 슬라이드 배너
+$banner_sql = " select * from {$g5['banner_table']}
+                where ba_device IN('both','pc')
+                order by ba_order, ba_id desc
+                limit {$start}, {$rows} ";
+?>
+```
+
+### 예약 시스템
+
+```php
+// 예약 폼 처리
+if ($_POST['mode'] == 'reservation') {
+    $name = clean_xss_tags($_POST['name']);
+    $phone = clean_xss_tags($_POST['phone']);
+    $date = clean_xss_tags($_POST['date']);
+    $time = clean_xss_tags($_POST['time']);
+    $consultation = clean_xss_tags($_POST['consultation']);
+
+    $sql = " insert into reservation_table set
+                name = '$name',
+                phone = '$phone',
+                reservation_date = '$date',
+                reservation_time = '$time',
+                consultation_type = '$consultation',
+                reg_datetime = NOW() ";
+    sql_query($sql);
+}
+```
+
+### 반응형 레이아웃
+
+```css
+/* 데스크톱 레이아웃 */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.treatment-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 2rem;
+}
+
+/* 모바일 최적화 */
+@media (max-width: 768px) {
+  .treatment-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .mobile-menu {
+    display: block;
+  }
+}
+```
+
+## 디자인 컨셉
+
+### 신뢰감 있는 디자인
+
+- **색상**: 화이트와 골드를 기본으로 고급스러움 표현
+- **타이포그래피**: 가독성 높은 서체 사용
+- **이미지**: 전문적인 의료 시설 사진 활용
+
+### 사용자 동선 최적화
+
+```html
+<!-- 주요 동선 -->
+<nav class="quick-menu">
+  <a href="#reservation" class="btn-reservation">빠른 예약</a>
+  <a href="#consultation" class="btn-consultation">비용 상담</a>
+  <a href="#location" class="btn-location">오시는 길</a>
+</nav>
+```
+
+## 그누보드 활용
+
+### 게시판 설정
+
+- **공지사항**: 이벤트와 병원 소식 전달
+- **갤러리**: 전후 사진, 시설 소개
+- **후기**: 환자 만족도 및 신뢰도 구축
+- **FAQ**: 자주 묻는 질문 정리
+
+### 스킨 제작
+
+```html
+<!-- 게시판 리스트 스킨 -->
+<div class="board-list">
+  <?php for ($i=0; $i<count($list); $i++) { ?>
+  <article class="board-item">
+    <a href="<?php echo $list[$i]['href'] ?>">
+      <h3><?php echo $list[$i]['subject'] ?></h3>
+      <p class="date"><?php echo $list[$i]['datetime'] ?></p>
+    </a>
+  </article>
+  <?php } ?>
+</div>
+```
+
+## CMS 관리 기능
+
+### 관리자 페이지
+
+- 회원 관리
+- 예약 관리
+- 게시판 관리
+- 통계 및 분석
+- 배너 관리
+
+### 보안 설정
+
+```php
+// XSS 방어
+$content = clean_xss_tags($content);
+
+// SQL Injection 방어
+$search = sql_real_escape_string($search);
+
+// 파일 업로드 검증
+if (!preg_match("/\.(gif|jpg|jpeg|png)$/i", $filename)) {
+    alert("이미지 파일만 업로드 가능합니다.");
+}
+```
+
+## 프로젝트를 통해 배운 점
+
+- **CMS 활용**: 그누보드의 효율적인 활용법과 커스터마이징
+- **PHP 개발**: 서버사이드 스크립팅과 데이터베이스 연동
+- **의료 웹사이트**: 특수 목적 웹사이트의 요구사항 이해
+- **보안**: 웹 보안의 중요성과 기본적인 방어 기법
+
+## 마치며
+
+그누보드 CMS를 활용한 성형외과 웹사이트 제작을 통해 실무에서 많이 사용되는 CMS 기반 웹 개발 경험을 쌓을 수 있었습니다. 특히 서버사이드 개발과 데이터베이스 연동, 그리고 사용자 관리 시스템 구축 등 풀스택 개발의 기초를 다질 수 있었던 프로젝트였습니다.

@@ -1,0 +1,71 @@
+---
+title: "애플 클론 페이지"
+description: "Transform your React applications with these powerful animation libraries that make creating smooth, engaging user experiences effortless."
+date: "2024-11-25"
+tags: ["반응형", "클론", "개인프로젝트"]
+featured: false
+readTime: "14 min read"
+author: "arghya"
+thumbnail: "/thumbnails/react-animation-libraries.jpg"
+---
+
+## 프로젝트 개요
+
+Apple 공식 웹사이트의 디자인과 레이아웃을 모방하여 제작한 클론 코딩 프로젝트입니다. 실제 Apple 웹사이트의 세련된 UI/UX를 재현하며 반응형 웹 디자인을 학습하고 구현했습니다.
+
+### 주요 기능
+
+- **반응형 디자인**: 모바일, 태블릿, 데스크톱 모든 기기에 최적화
+- **Apple 스타일 UI**: 미니멀한 디자인과 깔끔한 레이아웃
+- **스크롤 애니메이션**: Intersection Observer를 활용한 스크롤 이벤트 처리
+- **네비게이션 메뉴**: 고정 헤더와 드롭다운 메뉴 구현
+
+### 기술 스택
+
+- HTML5 / CSS3
+- JavaScript
+- Responsive Web Design
+- CSS Grid & Flexbox
+
+## 핵심 구현
+
+### 반응형 네비게이션
+
+```css
+.header {
+  position: fixed;
+  width: 100%;
+  background: rgba(0, 0, 0, 0.8);
+  backdrop-filter: blur(10px);
+}
+
+@media (max-width: 768px) {
+  .nav-menu {
+    flex-direction: column;
+    display: none;
+  }
+}
+```
+
+### 제품 섹션 레이아웃
+
+```html
+<section class="product-section">
+  <h2>iPhone 15 Pro</h2>
+  <p>티타늄. 초강력. 초경량. 초프로.</p>
+  <div class="product-images">
+    <!-- 제품 이미지 -->
+  </div>
+</section>
+```
+
+## 프로젝트를 통해 배운 점
+
+- **UI/UX 분석 능력**: 실제 서비스의 디자인을 분석하고 재현
+- **반응형 웹 디자인**: 다양한 디바이스 대응 경험
+- **CSS 고급 기법**: Grid, Flexbox, backdrop-filter 등 활용
+- **디테일의 중요성**: 여백, 타이포그래피, 색상 등 세밀한 조정
+
+## 마치며
+
+Apple의 세련된 디자인을 클론 코딩하면서 웹 표준과 반응형 디자인의 중요성을 깊이 이해할 수 있었습니다. 특히 미니멀한 디자인 속에서도 사용자 경험을 극대화하는 방법을 배울 수 있었습니다.

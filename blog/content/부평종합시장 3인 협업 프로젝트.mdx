@@ -1,0 +1,118 @@
+---
+title: "부평종합시장 3인 협업 프로젝트"
+description: "Explore the best NextJS portfolio templates and examples to showcase your work professionally and stand out from the competition."
+date: "2024-11-28"
+tags: ["협업프로젝트","디자인", "반응형"]
+featured: true
+readTime: "17 min read"
+author: "arghya"
+thumbnail: "/thumbnails/nextjs-portfolio-templates.jpg"
+---
+
+부평종합시장 웹사이트 리디자인 프로젝트로, 3인 팀 협업을 통해 기존 시장 웹사이트를 현대적이고 사용자 친화적으로 개선했습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1460925895917-afdab827c52f?w=900&auto=format&fit=crop&q=60"
+  alt="Portfolio Website Design"
+  caption="Modern portfolio website showcasing creative work"
+/>
+
+## 프로젝트 개요
+
+인천 부평종합시장의 기존 웹사이트를 분석하고, 현대적인 디자인과 향상된 사용자 경험을 제공하는 새로운 웹사이트를 디자인하고 구현했습니다.
+
+### 주요 개선 사항
+
+<Accordion type="multiple" className="w-full not-prose flex flex-col gap-2">
+  <AccordionItem value="item-1" className="flex flex-col gap-2">
+    <AccordionTrigger className="cursor-pointer">Features</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4">
+      <ul className="list-disc space-y-2 pl-4">
+        <li>
+          <strong>재디자인된 네비게이션 메뉴</strong> - 개선된 구조와 시각적 계층
+        </li>
+        <li>
+          향상된 접근성 기능 - 전체 키보드 네비게이션 지원
+        </li>
+        <li>고대비 모드 - 시각 장애가 있는 사용자를 위한 지원</li>
+        <li>최적화된 터치 타겟 - 모바일 상호작용 개선</li>
+        <li>향상된 스와이프 제스처 및 모바일 전용 네비게이션</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+  <AccordionItem value="item-2" className="flex flex-col gap-2">
+    <AccordionTrigger className="cursor-pointer">Bug Fixes</AccordionTrigger>
+    <AccordionContent className="flex flex-col gap-4 text-balance">
+      <ul className="list-disc space-y-2 pl-4">
+        <li>
+          다양한 화면 크기에서 일관되지 않은 버튼 배치 수정
+        </li>
+        <li>가독성에 영향을 주는 색상 대비 문제 해결</li>
+        <li>폼 네비게이션의 탭 순서 문제 수정</li>
+        <li>모바일 기기에서 화면 방향 전환 처리 개선</li>
+        <li>스크린 리더와의 ARIA 라벨 호환성 향상</li>
+      </ul>
+    </AccordionContent>
+  </AccordionItem>
+</Accordion>
+
+## 기술 스택
+
+- HTML5 / CSS3
+- JavaScript
+- Responsive Design
+- 웹 접근성 (WCAG 2.1 준수)
+
+## 협업 프로세스
+
+### 역할 분담
+
+- **기획 및 디자인**: 사용자 리서치, 와이어프레임 제작
+- **프론트엔드 개발**: HTML/CSS/JS 구현, 반응형 레이아웃
+- **테스트 및 QA**: 크로스 브라우징 테스트, 접근성 검증
+
+### 주요 구현 내용
+
+```html
+<!-- 시장 소개 섹션 -->
+<section class="market-intro">
+  <h2>부평종합시장</h2>
+  <p>60년 전통의 인천 대표 전통시장</p>
+  <div class="market-features">
+    <!-- 시장 특징 -->
+  </div>
+</section>
+```
+
+```css
+/* 반응형 그리드 레이아웃 */
+.store-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 2rem;
+}
+
+@media (max-width: 768px) {
+  .store-grid {
+    grid-template-columns: 1fr;
+  }
+}
+```
+
+## 프로젝트를 통해 배운 점
+
+### 협업의 중요성
+
+- **Git 협업**: 브랜치 전략과 코드 리뷰 프로세스
+- **커뮤니케이션**: 정기 미팅과 진행상황 공유
+- **역할 분담**: 효율적인 업무 분배와 일정 관리
+
+### 기술적 성장
+
+- **접근성 구현**: ARIA 속성과 시맨틱 HTML 활용
+- **반응형 디자인**: 다양한 디바이스 대응 전략
+- **크로스 브라우징**: 브라우저 호환성 처리 경험
+
+## 마치며
+
+3인 협업 프로젝트를 통해 실무와 유사한 개발 프로세스를 경험할 수 있었습니다. 특히 팀원들과의 소통과 협업, 그리고 사용자 중심의 웹사이트 개발 방법론을 배울 수 있었던 값진 경험이었습니다.

@@ -1,0 +1,435 @@
+---
+title: "Google Gemini 활용 챗봇 사이트"
+description: "Google Gemini AI API를 활용한 쇼핑몰 고객 지원 챗봇 웹 애플리케이션. 실시간 스트리밍 응답, 세션 관리, LocalStorage 영속화 등을 구현했습니다."
+date: "2025-01-17"
+tags: ["개인프로젝트", "AI/ML", "React", "챗봇"]
+featured: true
+readTime: "14 min read"
+author: "arghya"
+thumbnail: "/thumbnails/chatbot-gemini.jpg"
+---
+
+Google의 최신 생성형 AI 모델인 Gemini 2.5 Flash를 활용하여 실전 쇼핑몰 고객 지원 챗봇을 개발했습니다. 실시간 스트리밍 응답과 자연스러운 대화 흐름, 다중 세션 관리 기능을 중점적으로 구현했습니다.
+
+<ImageViewer
+  src="https://images.unsplash.com/photo-1531746790731-6c087fecd65a?w=900&auto=format&fit=crop&q=60"
+  alt="AI Chatbot"
+  caption="Google Gemini API 기반 쇼핑몰 챗봇"
+/>
+
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="https://sp-timer.web.app/chatbot" target="_blank" rel="noopener noreferrer" style={{display: 'inline-block', padding: '12px 32px', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: 'white', textDecoration: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '16px', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'}}>
+    🔗 사이트 보러가기
+  </a>
+</div>
+
+## 프로젝트 개요
+
+이 프로젝트는 Google Gemini AI를 활용한 쇼핑몰 고객 상담 챗봇입니다. 실시간 스트리밍 응답으로 자연스러운 대화 경험을 제공하며, 다중 세션 관리로 여러 대화를 동시에 관리할 수 있습니다.
+
+### 주요 기능
+
+- **실시간 스트리밍 응답**: Server-Sent Events(SSE)를 활용한 타이핑 효과
+- **다중 세션 관리**: 여러 대화를 독립적으로 관리
+- **대화 히스토리 유지**: LocalStorage를 통한 영속화
+- **컨텍스트 유지**: 이전 대화 기억 및 연속적인 대화
+- **쇼핑몰 특화 프롬프트**: 상담사 역할의 전문적인 응답
+- **반응형 UI**: 모바일/데스크톱 최적화 인터페이스
+
+### 기술 스택
+
+**Frontend**
+- React 18 + TypeScript
+- TanStack Query (v5)
+- Jotai (상태 관리 + LocalStorage)
+- Emotion (styled-components)
+- Vite
+
+**AI & API**
+- Google Gemini 2.5 Flash API
+- Server-Sent Events (SSE) Streaming
+
+## 핵심 구현 사항
+
+### 1. Gemini API 스트리밍 통합
+
+실시간 응답을 위해 SSE(Server-Sent Events) 기반의 스트리밍 API를 구현했습니다.
+
+```tsx
+export const geminiApi = {
+  sendMessageStream: async ({
+    prompt,
+    history = [],
+    onChunk
+  }: GeminiRequest & { onChunk?: (text: string) => void }) => {
+    const contents = [];
+
+    // 첫 메시지: 시스템 프롬프트 포함
+    if (history.length === 0) {
+      contents.push({
+        role: 'user',
+        parts: [{ text: `${SYSTEM_PROMPT}\n\n고객: ${prompt}` }],
+      });
+    } else {
+      // 이후 대화: 컨텍스트 유지
+      contents.push(
+        ...formatHistory(history),
+        {
+          role: 'user',
+          parts: [{ text: `${ROLE_REMINDER}\n\n고객: ${prompt}` }],
+        }
+      );
+    }
+
+    const response = await fetch(`${STREAM_API_URL}?key=${API_KEY}&alt=sse`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        contents,
+        generationConfig: {
+          temperature: 0.7,
+          topK: 40,
+          topP: 0.95,
+          maxOutputTokens: 2048,
+        },
+      }),
+    });
+
+    // SSE 스트림 처리
+    const reader = response.body.getReader();
+    const decoder = new TextDecoder();
+    let fullText = '';
+
+    while (true) {
+      const { done, value } = await reader.read();
+      if (done) break;
+
+      const chunk = decoder.decode(value, { stream: true });
+      // Parse SSE data
+      fullText += parseSSEChunk(chunk);
+
+      if (onChunk) {
+        onChunk(fullText); // 실시간 업데이트
+      }
+    }
+
+    return { text: fullText };
+  },
+};
+```
+
+### 2. 시스템 프롬프트 엔지니어링
+
+쇼핑몰 상담사 역할을 명확히 정의하여 일관된 응답 품질을 보장합니다.
+
+```tsx
+const SYSTEM_PROMPT = `[중요 역할 설정]
+당신은 한국 온라인 쇼핑몰의 친절한 고객 지원 상담사입니다.
+
+[필수 응답 규칙]
+1. 반드시 100% 한국어로만 답변하세요
+2. 영어나 다른 언어 설명은 절대 하지 마세요
+3. 항상 존댓말(~습니다, ~해요)을 사용하세요
+4. 쇼핑몰 상담사의 톤으로 친절하게 대화하세요
+5. 쇼핑몰 이름은 필성몰이야
+
+[당신의 역할]
+- 배송/주문/반품 등 쇼핑 관련 문의 응답
+- 상품 추천 및 정보 안내
+- 할인/쿠폰 정보 안내
+- 고객 불편 사항 해결
+
+[응답 스타일]
+- 간단한 인사에도 쇼핑몰 상담사답게 응대
+- 이모지 적절히 사용 (😊, 🛍️, 📦 등)
+- 친근하면서도 전문적인 톤 유지`;
+```
+
+### 3. Jotai + LocalStorage 상태 관리
+
+세션 데이터를 LocalStorage에 자동으로 저장하여 새로고침 후에도 대화 히스토리를 유지합니다.
+
+```tsx
+// LocalStorage 영속화를 포함한 Atom
+export const sessionsAtom = atomWithStorage<ChatSession[]>('chatbot-sessions', []);
+
+export const currentSessionIdAtom = atom<string | null>(null);
+
+// 현재 활성 세션 계산
+export const currentSessionAtom = atom(
+  (get) => {
+    const sessions = get(sessionsAtom);
+    const currentId = get(currentSessionIdAtom);
+    return sessions.find((session) => session.id === currentId) || null;
+  }
+);
+
+// 새 세션 생성
+export const createSessionAtom = atom(
+  null,
+  (get, set) => {
+    const newSession: ChatSession = {
+      id: Date.now().toString(),
+      title: '새로운 채팅',
+      messages: [],
+      createdAt: new Date(),
+      updatedAt: new Date(),
+    };
+
+    const sessions = get(sessionsAtom);
+    set(sessionsAtom, [newSession, ...sessions]);
+    set(currentSessionIdAtom, newSession.id);
+
+    return newSession;
+  }
+);
+```
+
+### 4. TanStack Query를 활용한 AI 응답 관리
+
+Mutation을 통해 낙관적 업데이트와 에러 처리를 구현했습니다.
+
+```tsx
+export const useChat = () => {
+  const [currentSession] = useAtom(currentSessionAtom);
+  const updateSession = useSetAtom(updateSessionAtom);
+
+  const sendMessageMutation = useMutation({
+    mutationFn: async ({ prompt, assistantMessageId }) => {
+      const history = currentSession.messages.filter(
+        msg => !msg.isLoading && msg.id !== assistantMessageId
+      );
+
+      const response = await geminiApi.sendMessage({ prompt, history });
+
+      // 타이핑 효과 시뮬레이션
+      const words = response.text.split('');
+      let currentIndex = 0;
+
+      const typingInterval = setInterval(() => {
+        if (currentIndex < words.length) {
+          currentIndex += Math.floor(Math.random() * 3) + 1;
+          const displayText = words.slice(0, currentIndex).join('');
+
+          // 실시간 메시지 업데이트
+          updateMessageContent(assistantMessageId, displayText);
+        } else {
+          clearInterval(typingInterval);
+        }
+      }, 30);
+
+      return response.text;
+    },
+
+    onMutate: async ({ prompt, assistantMessageId }) => {
+      // 낙관적 업데이트: 즉시 UI에 메시지 표시
+      const userMessage = createUserMessage(prompt);
+      const streamingMessage = createStreamingMessage(assistantMessageId);
+
+      updateSession({
+        ...currentSession,
+        messages: [...currentSession.messages, userMessage, streamingMessage],
+      });
+    },
+
+    onError: (error, variables, context) => {
+      // 에러 메시지 표시
+      updateMessageContent(
+        context.assistantMessageId,
+        `오류: ${error.message}`
+      );
+    },
+  });
+
+  return { sendMessage: sendMessageMutation.mutate };
+};
+```
+
+### 5. 세션 관리 UI
+
+사이드바에서 여러 대화 세션을 관리할 수 있습니다.
+
+```tsx
+const SessionList: FC = ({ onClose }) => {
+  const [sessions] = useAtom(sessionsAtom);
+  const [currentSessionId, setCurrentSessionId] = useAtom(currentSessionIdAtom);
+  const createSession = useSetAtom(createSessionAtom);
+  const deleteSession = useSetAtom(deleteSessionAtom);
+
+  const handleNewChat = () => {
+    createSession();
+    onClose();
+  };
+
+  const handleSelectSession = (sessionId: string) => {
+    setCurrentSessionId(sessionId);
+    onClose();
+  };
+
+  return (
+    <Container>
+      <Header>
+        <Title>대화 목록</Title>
+        <NewChatButton onClick={handleNewChat}>
+          + 새 채팅
+        </NewChatButton>
+      </Header>
+
+      <SessionsList>
+        {sessions.map((session) => (
+          <SessionItem
+            key={session.id}
+            session={session}
+            isActive={session.id === currentSessionId}
+            onSelect={() => handleSelectSession(session.id)}
+            onDelete={() => deleteSession(session.id)}
+          />
+        ))}
+      </SessionsList>
+    </Container>
+  );
+};
+```
+
+## 타이핑 효과 구현
+
+자연스러운 대화 경험을 위해 문자 단위 타이핑 애니메이션을 구현했습니다.
+
+```tsx
+const simulateTyping = (fullText: string, onUpdate: (text: string) => void) => {
+  const words = fullText.split('');
+  let currentIndex = 0;
+
+  const interval = setInterval(() => {
+    if (currentIndex < words.length) {
+      // 1-3 글자씩 랜덤하게 타이핑
+      currentIndex += Math.floor(Math.random() * 3) + 1;
+      if (currentIndex > words.length) currentIndex = words.length;
+
+      const displayText = words.slice(0, currentIndex).join('');
+      onUpdate(displayText);
+    } else {
+      clearInterval(interval);
+    }
+  }, 30); // 30ms마다 업데이트
+
+  return interval;
+};
+```
+
+## 반응형 디자인
+
+모바일과 데스크톱 모두에서 최적화된 UI를 제공합니다.
+
+```tsx
+const Sidebar = styled.aside<{ isOpen: boolean }>`
+  width: 300px;
+  background: ${theme.colors.surface};
+  border-right: 1px solid ${theme.colors.borderLight};
+
+  @media (max-width: 768px) {
+    position: fixed;
+    top: 70px;
+    left: 0;
+    bottom: 0;
+    z-index: 200;
+    transform: translateX(${props => props.isOpen ? '0' : '-100%'});
+    transition: transform ${theme.transitions.normal};
+    box-shadow: ${props => props.isOpen ? theme.shadows.xl : 'none'};
+  }
+`;
+
+const MenuButton = styled.button`
+  @media (min-width: 769px) {
+    display: none; // 데스크톱에서는 숨김
+  }
+`;
+```
+
+## 성능 최적화
+
+### 메모리 관리
+
+```tsx
+// 컴포넌트 언마운트 시 타이핑 효과 정리
+useEffect(() => {
+  return () => {
+    if (typingIntervalRef.current) {
+      clearInterval(typingIntervalRef.current);
+    }
+  };
+}, []);
+```
+
+### LocalStorage 용량 관리
+
+```tsx
+// 오래된 세션 자동 삭제 (최대 50개)
+const MAX_SESSIONS = 50;
+
+const cleanOldSessions = (sessions: ChatSession[]) => {
+  if (sessions.length > MAX_SESSIONS) {
+    return sessions
+      .sort((a, b) => b.updatedAt.getTime() - a.updatedAt.getTime())
+      .slice(0, MAX_SESSIONS);
+  }
+  return sessions;
+};
+```
+
+## API 설정 가이드
+
+Gemini API 키를 환경 변수로 설정합니다.
+
+```bash
+# .env 파일
+VITE_GEMINI_API_KEY=your_api_key_here
+```
+
+```tsx
+const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent';
+const STREAM_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:streamGenerateContent';
+```
+
+## 배포
+
+Firebase Hosting을 통해 프로덕션 배포를 진행했습니다.
+
+```bash
+# 빌드
+npm run build
+
+# Firebase 배포
+firebase deploy --only hosting
+```
+
+**라이브 데모**: [https://sp-timer.web.app](https://sp-timer.web.app)
+
+## 프로젝트를 통해 배운 점
+
+### 1. AI API 통합의 실전 경험
+Google Gemini API의 스트리밍 기능을 활용하여 실시간 응답을 구현하면서, SSE(Server-Sent Events)의 동작 원리를 깊이 이해할 수 있었습니다.
+
+### 2. 프롬프트 엔지니어링의 중요성
+명확한 시스템 프롬프트를 통해 AI의 응답 품질과 일관성을 크게 향상시킬 수 있었습니다. 역할 정의, 응답 규칙, 톤 설정 등이 핵심이었습니다.
+
+### 3. 상태 관리의 복잡도
+다중 세션 관리와 LocalStorage 영속화를 Jotai로 구현하면서, 파생 상태(Derived Atoms)와 원자 액션(Atom Actions)의 강력함을 체감했습니다.
+
+### 4. UX 디테일의 중요성
+단순히 응답을 보여주는 것이 아니라, 타이핑 효과로 자연스러운 대화 흐름을 만드는 것이 사용자 경험에 큰 영향을 미쳤습니다.
+
+## 향후 개선 계획
+
+- 음성 입력/출력 기능 추가 (Web Speech API)
+- 이미지 업로드 및 분석 (Gemini Vision)
+- 대화 내보내기 기능 (PDF, Markdown)
+- 다크 모드 지원
+- 코드 하이라이팅 (대화 내 코드 블록)
+- 즐겨찾기/북마크 기능
+- 세션 검색 기능
+
+## 마치며
+
+Google Gemini API를 활용한 챗봇 프로젝트를 통해 생성형 AI를 실전 애플리케이션에 통합하는 방법을 배울 수 있었습니다. 특히 스트리밍 응답 처리, 프롬프트 엔지니어링, 상태 관리 등 다양한 기술적 과제를 해결하며 실력을 향상시킬 수 있었습니다.
