@@ -25,7 +25,7 @@ export function TagFilter({ tags, selectedTag, tagCounts }: TagFilterProps) {
     if (tag !== "All") {
       params.set("tag", tag);
     }
-    router.push(`${pathname}?${params.toString()}`);
+    router.push(`${pathname}?${params.toString()}`, { scroll: false });
   };
 
   const DesktopTagFilter = () => (

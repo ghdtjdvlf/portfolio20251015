@@ -1,12 +1,18 @@
 import type { Metadata, Viewport } from "next";
-import { GeistSans } from "geist/font/sans";
-import { GeistMono } from "geist/font/mono";
+import localFont from "next/font/local";
 import { ThemeProvider } from "@/components/theme-provider";
 import { siteConfig } from "@/lib/site";
 import { metadataKeywords } from "./metadata";
 import { SiteNav } from "@/components/site-nav";
 import Footer from "@/components/footer";
 import "@/app/globals.css";
+
+const pretendard = localFont({
+  src: "../node_modules/pretendard/dist/web/variable/woff2/PretendardVariable.woff2",
+  display: "swap",
+  weight: "45 920",
+  variable: "--font-pretendard",
+});
 
 export const viewport: Viewport = {
   themeColor: "black",
@@ -30,7 +36,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${GeistSans.variable} ${GeistMono.variable} antialiased`}
+      className={`${pretendard.variable} antialiased`}
       suppressHydrationWarning
     >
       <body>

@@ -8,6 +8,7 @@ import {
   useMotionTemplate,
 } from "motion/react";
 import { cn } from "@/lib/utils";
+import { deflate } from "zlib";
 
 export const CometCard = ({
   rotateDepth = 17.5,
@@ -113,3 +114,5 @@ export const CometCard = ({
     </div>
   );
 };
+
+export default CometCard
