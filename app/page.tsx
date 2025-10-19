@@ -20,6 +20,7 @@ import SpotlightCard from '@/components/SpotlightCard';
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import { TextReveal } from "@/components/ui/text-reveal"
 import  CometCard from "@/components/ui/comet-card";
+import ScrollVelocity from '@/components/ScrollVelocity';
 
 interface BlogData {
   title: string;
@@ -92,49 +93,49 @@ export default async function HomePage({
     {
       title: "늘 밝고 긍정적인 에너지를 지니고 있어요 (웃는상)",
       image:
-        "https://images.unsplash.com/photo-1732310216648-603c0255c000?q=80&w=3540&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/웃는상.png",
       className: "absolute top-10 left-[20%] rotate-[-5deg]",
     },
     {
       title: "귀여운 강아지,고양이와 같이 살아요",
       image:
-        "https://images.unsplash.com/photo-1697909623564-3dae17f6c20b?q=80&w=2667&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/뚱자나비.gif",
       className: "absolute top-40 left-[25%] rotate-[-7deg]",
     },
     {
       title: "빠른 습득력과 적응력이 장점",
       image:
-        "https://images.unsplash.com/photo-1697909623564-3dae17f6c20b?q=80&w=2667&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "https://media1.tenor.com/m/8yQGBBHCHlcAAAAd/boy-math.gif",
       className: "absolute top-40 left-[25%] rotate-[-7deg]",
     },
     {
       title: "아임웹, 카페24 기반 실무 경험 있어요!",
       image:
-        "https://images.unsplash.com/photo-1501854140801-50d01698950b?q=80&w=2600&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/아임웹카페24.png",
       className: "absolute top-5 left-[40%] rotate-[8deg]",
     },
     {
       title: "원스톤 쇼핑몰에서 1년간 디자인,퍼블리싱 직무로 근무 했어요",
       image:
-        "https://images.unsplash.com/photo-1518173946687-a4c8892bbd9f?q=80&w=3648&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/1년근무.png",
       className: "absolute top-32 left-[55%] rotate-[10deg]",
     },
     {
       title: "피그마와 퍼블리싱에 자신있어요",
       image:
-        "https://images.unsplash.com/photo-1421789665209-c9b2a435e3dc?q=80&w=3542&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/피그마퍼블리싱.png",
       className: "absolute top-20 right-[35%] rotate-[2deg]",
     },
     {
       title: "저는 00년생 26살 홍성필입니다.",
       image:
-        "https://images.unsplash.com/photo-1505142468610-359e7d316be0?q=80&w=3070&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/저는 00년생.png",
       className: "absolute top-24 left-[45%] rotate-[-7deg]",
     },
     {
       title: "한장씩 넘겨주세요!",
       image:
-        "https://images.unsplash.com/photo-1441974231531-c6227db76b6e?q=80&w=2560&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+        "/thumbnails/뚱자 꽃.gif",
       className: "absolute top-8 left-[30%] rotate-[4deg]",
     },
   ];
@@ -178,19 +179,17 @@ const TitleComponent = ({
       <div className="h-[30rem] flex items-center justify-center">
         <TextHoverEffect text="퍼블리셔 홍성필" />
       </div>
-      z
       <div className="h1-title">
-        {" "}
         <h1>웹 퍼블리셔 홍성필 포트폴리오</h1>
       </div>
-      <TextReveal>Magic UI will change the way you design.</TextReveal>
+      <TextReveal>센스있는, 효율적인, 능동적인</TextReveal>
       <section className="section00">
         <div className="intro_wrap">
           <div className="CometCard-container">
             <CometCard>
               <button
                 type="button"
-                className="my-10 flex w-80 cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:my-20 md:p-4"
+                className="my-10 flex w-100 cursor-pointer flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:my-20 md:p-4"
                 aria-label="View invite F7RA"
                 style={{
                   transformStyle: "preserve-3d",
@@ -204,7 +203,7 @@ const TitleComponent = ({
                       loading="lazy"
                       className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
                       alt="Invite background"
-                      src="https://images.unsplash.com/photo-1505506874110-6a7a69069a08?q=80&w=1287&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                      src="http://ghdvlftjd.dothome.co.kr/wp-content/themes/supernormal2/img/profile.png"
                       style={{
                         boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
                         opacity: 1,
@@ -221,11 +220,9 @@ const TitleComponent = ({
           </div>
           <div className="text_wrap">
             <p>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. <br />
-              Numquam suscipit voluptas molestiae doloremque velit laboriosam
-              quibusdam, <br />
-              laudantium harum temporibus rem sint sequi quia et! <br />
-              Itaque adipisci quam quis expedita ducimus.
+              <h2>안녕하세요 ! </h2>
+             <div className="span_wrap"><span> 상황에 맞게 <strong>유연하게,</strong></span> <span>디자인엔 <strong>센스로,</strong></span> <span>작업은 <strong>효율적으로.</strong></span></div>
+              변화에 능동적으로 대응하는 퍼블리셔 홍성필입니다.
             </p>
           </div>
         </div>
@@ -236,14 +233,15 @@ const TitleComponent = ({
 
         <div className="container">
           <div className="PointerHighlight">
-            The best way to grow is to
+           홍성필은
             <PointerHighlight>
-              <span>name</span>
+              <span>어떤 사람 인가요?</span>
             </PointerHighlight>
+        
           </div>
           <DraggableCardContainer className="relative flex min-h-screen w-full items-center justify-center overflow-clip">
             <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
-              If its your first day at Fight Club, you have to fight.
+              제 이야기를 들어주셔서 정말 감사합니다
             </p>
             {items.map((item) => (
               <DraggableCardBody className={item.className}>
@@ -268,10 +266,10 @@ const TitleComponent = ({
         <div className="sec02-container">
           <div className="flex flex-col gap-2  text-center title">
             <h2 className="font-medium text-4xl md:text-5xl tracking-tighter">
-              Projects
+              Skills
             </h2>
             <p className="text-muted-foreground text-sm md:text-base lg:text-lg">
-              Latest news and updates from Magic UI.
+              프로젝트를 완성도로 이끄는 기술적 역량과 도구들을 다룹니다.
             </p>
           </div>
           {/* PC용 전체 그리드 (1024px 이상) */}
@@ -319,7 +317,7 @@ const TitleComponent = ({
               Projects
             </h2>
             <p className="text-muted-foreground text-sm md:text-base lg:text-lg">
-              Latest news and updates from Magic UI.
+             기획부터 퍼블리싱까지 직접 참여한 프로젝트들을 소개합니다.
             </p>
           </div>
         </div>

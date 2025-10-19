@@ -1,35 +1,65 @@
+/* ------------------------------
+   📱 기본 스타일 (모바일 우선)
+------------------------------ */
+body {
+  word-break: keep-all;
+  margin: 0;
+  padding: 0;
+  font-family: "Pretendard", sans-serif;
+}
+
 .h1-title {
+  margin-top: 60px;
   text-align: center;
+  font-size: clamp(28px, 5vw, 50px);
+  font-weight: 700;
 }
 
-.section00 {
- width: 1400px;
- margin: auto;
+.text_wrap {
+  margin-top: 20px;
+  font-size: clamp(16px, 3.5vw, 30px);
+  line-height: 1.6;
+  width: 90%;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-.section00 .text_wrap {
-  width: 50%;
-}
-
-.section01 .container {
-  margin: 0 auto !important;
+.text_wrap span {
   display: block;
 }
 
-.CometCard-container {
-  width: 300px;
-  margin: auto;
+.text_wrap .span_wrap {
+  margin: 20px 0;
 }
 
+/* Section00 */
+.section00 {
+  width: 100%;
+  max-width: 1400px;
+  margin: auto;
+  padding: 0 20px;
+}
+
+.section00 .text_wrap {
+  width: 100%;
+  text-align: center;
+}
+
+/* intro_wrap: 기본 column 정렬 */
 .intro_wrap {
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 30px;
+  margin: 40px auto;
+}
+
+.CometCard-container {
   margin: auto;
 }
 
-
-
 .PointerHighlight {
-  font-size: clamp(20px, 5vw, 30px);
+  font-size: clamp(18px, 4vw, 30px);
   max-width: 600px;
   width: 90%;
   margin: 30px auto;
@@ -38,8 +68,10 @@
 
 .PointerHighlight span {
   display: flex;
+  flex-wrap: wrap;
 }
 
+/* Section02 */
 .section02 {
   position: relative;
   width: 100%;
@@ -50,29 +82,27 @@
 }
 
 .title {
-  margin: 50px 0;
+  margin: 40px 0;
+  text-align: center;
+  font-size: clamp(24px, 4vw, 36px);
 }
 
 .sec02-container {
-  max-width: 1400px;
   width: 100%;
+  max-width: 1400px;
   padding: 0 20px;
   margin: 0 auto;
 }
 
-
-
-/* PC용 그리드 (기본 숨김) */
+/* Skills 영역 - 모바일 기본 */
 .skills-grid-desktop {
   display: none;
 }
 
-/* 모바일용 아코디언 (기본 보이기) */
 .skills-accordion-mobile {
   display: block;
 }
 
-/* 아코디언 스타일 */
 .skills-accordion {
   width: 100%;
 }
@@ -82,8 +112,8 @@
   border: 1px solid #e0e0e0;
   border-radius: 8px;
   background-color: #f8f9fa;
-  overflow: hidden;
   transition: all 0.3s ease;
+  overflow: hidden;
 }
 
 :is(.dark *) .accordion-item {
@@ -92,9 +122,10 @@
 }
 
 .accordion-trigger {
-  padding: 20px;
+  padding: 18px 20px;
   width: 100%;
   font-weight: 600;
+  font-size: clamp(15px, 3.5vw, 17px);
   transition: all 0.3s ease;
 }
 
@@ -116,14 +147,81 @@
   gap: 10px;
 }
 
-/* 태블릿 (640px 이상) */
-@media (min-width: 640px) {
-  .section02 {
-    padding: 80px 0;
+/* spotlight card */
+.custom-spotlight-card {
+  background-color: #f8f9fa;
+  border: 1px solid #e0e0e0;
+  transition: all 0.3s ease;
+  border-radius: 8px;
+  min-height: 120px;
+  padding: 15px;
+}
+
+.custom-spotlight-card:hover {
+  border-color: rgba(0, 229, 255, 0.3);
+  background-color: #ffffff;
+}
+
+.custom-spotlight-card .skill-title {
+  color: #1a1a1a;
+  font-size: clamp(16px, 2.5vw, 18px);
+  font-weight: 600;
+}
+
+.custom-spotlight-card p {
+  font-size: clamp(13px, 2vw, 15px);
+}
+
+.custom-spotlight-card .skill-prd {
+  color: #555555;
+  line-height: 1.6;
+}
+
+.custom-spotlight-card svg {
+  width: clamp(24px, 5vw, 30px);
+  height: clamp(24px, 5vw, 30px);
+}
+
+/* 다크모드 */
+:is(.dark *) .custom-spotlight-card {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+:is(.dark *) .custom-spotlight-card:hover {
+  background-color: #111827;
+  border-color: rgba(0, 229, 255, 0.4);
+}
+
+:is(.dark *) .custom-spotlight-card .skill-title {
+  color: #e5e7eb;
+}
+
+:is(.dark *) .custom-spotlight-card .skill-prd {
+  color: #9ca3af;
+}
+
+/* falling text */
+.fallingtext {
+  z-index: 100;
+  height: 1000px;
+  background: #444;
+  transform: translate(0, -500px);
+}
+
+/* ------------------------------
+   💻 태블릿 (min-width: 768px)
+------------------------------ */
+@media (min-width: 768px) {
+  .intro_wrap {
+    flex-direction: row;
+    justify-content: center;
+    gap: 50px;
   }
 
-  .sec02-container {
-    padding: 0 30px;
+  .section00 .text_wrap {
+    width: 70%;
+    text-align: left;
   }
 
   .skills-grid {
@@ -134,26 +232,30 @@
   .PointerHighlight {
     margin: 40px auto;
   }
+
+  .section02 {
+    padding: 80px 0;
+  }
 }
 
-/* 데스크톱 (1024px 이상) - PC용 그리드 활성화 */
+/* ------------------------------
+   🖥️ 데스크톱 (min-width: 1024px)
+------------------------------ */
 @media (min-width: 1024px) {
-  .section02 {
-    padding: 100px 0;
+  .section00 {
+    padding: 0;
   }
 
-  .sec02-container {
-    padding: 0 40px;
+  .intro_wrap {
+    gap: 80px;
   }
 
-  /* PC용 그리드 보이기 */
   .skills-grid-desktop {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 15px;
+    gap: 20px;
   }
 
-  /* 모바일용 아코디언 숨기기 */
   .skills-accordion-mobile {
     display: none;
   }
@@ -168,85 +270,20 @@
   }
 }
 
-/* 데스크톱 큰 화면 (1400px 이상) */
+/* ------------------------------
+   🖥️ 큰 화면 (min-width: 1400px)
+------------------------------ */
 @media (min-width: 1400px) {
   .sec02-container {
     padding: 0;
   }
 
   .skills-grid-desktop {
-    gap: 20px;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 24px;
   }
 
   .skills-grid {
     grid-template-columns: repeat(4, 1fr);
   }
-}
-
-
-
-.fallingtext {
-  z-index: 100;
-  height: 1000px;
-  background: #444;
-  transform: translate(0,-500px);
-}
-
-.custom-spotlight-card p {
-    font-size: clamp(13px, 2vw, 15px);
-}
-
-.custom-spotlight-card {
-  background-color: #f8f9fa; /* 밝은 배경 */
-  border: 1px solid #e0e0e0;
-  transition: all 0.3s ease;
-  border-radius: 8px;
-  min-height: 140px;
-}
-
-/* 모바일에서 카드 높이 조정 */
-@media (max-width: 639px) {
-  .custom-spotlight-card {
-    min-height: 120px;
-  }
-}
-
-.custom-spotlight-card:hover {
-  border-color: rgba(0, 229, 255, 0.3);
-  background-color: #ffffff;
-}
-
-.custom-spotlight-card .skill-title {
-  color: #1a1a1a; /* 제목 어두운색 */
-  font-size: clamp(16px, 2.5vw, 18px);
-}
-
-/* 아이콘 크기 반응형 */
-.custom-spotlight-card svg {
-  width: clamp(24px, 5vw, 30px);
-  height: clamp(24px, 5vw, 30px);
-}
-
-.custom-spotlight-card .skill-prd {
-  color: #555555; /* 설명 텍스트 진한 회색 */
-  line-height: 1.6;
-}
-
-/* 다크모드 스타일 */
-:is(.dark *) .custom-spotlight-card {
-  background-color: #1f2937; /* 다크 배경 */
-  border-color: #374151;
-}
-
-:is(.dark *) .custom-spotlight-card:hover {
-  background-color: #111827;
-  border-color: rgba(0, 229, 255, 0.4);
-}
-
-:is(.dark *) .custom-spotlight-card .skill-title {
-  color: #e5e7eb; /* 밝은 회색 */
-}
-
-:is(.dark *) .custom-spotlight-card .skill-prd {
-  color: #9ca3af; /* 중간 밝기 회색 */
 }

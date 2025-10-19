@@ -1,0 +1,53 @@
+---
+title: "카페24 기능 추가 리스트"
+description: "Firebase Hosting을 기반으로 제작된 다중 브랜드 공용 위젯 테스트 플랫폼. 타이머, 배너, 할인바 등 다양한 Cafe24 쇼핑몰용 스크립트를 통합 관리하고 실시간 테스트할 수 있는 환경을 구축했습니다."
+date: "2025-09-30"
+tags: ["개인프로젝트", "Frontend", "Cafe24", "Firebase"]
+featured: true
+readTime: "10 min read"
+author: "홍성필"
+thumbnail: "/thumbnails/카페24기능.png"
+---
+
+Cafe24 브랜드몰 운영 시 반복적으로 사용하는 UI 위젯을 통합 관리하기 위한 테스트 플랫폼을 구축했습니다. 브랜드별로 색상, 디바이스, 속성 값이 자동 반영되며 Firebase Hosting 기반으로 배포되어 있습니다.
+
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="https://sp-cafe24api.web.app/test.html" target="_blank" rel="noopener noreferrer" style={{display:'inline-block', padding:'12px 32px', background:'linear-gradient(135deg, #16a34a 0%, #15803d 100%)', color:'white', textDecoration:'none', borderRadius:'8px', fontWeight:600, fontSize:'16px', boxShadow:'0 4px 12px rgba(22, 163, 74, 0.3)'}}>
+    🔗 테스트 페이지 바로가기
+  </a>
+</div>
+
+
+## 프로젝트 개요
+기능 추가 시 각 쇼핑몰별로 FTP를 통해 HTML, CSS, JS를 개별 수정해야 했으나,
+Firebase 기반의 중앙 스크립트 배포 시스템을 구축함으로써 유지보수 효율성을 대폭 개선했습니다.
+
+### 주요 기능
+- 브랜드별 색상·테마 자동 반영  
+- PC/Mobile 디바이스별 UI 전환  
+- JavaScript 단일 삽입 구조 (`<script>` 한 줄로 로드)  
+- 코드 보기·시뮬레이터·버전 캐시 무효화 기능  
+- Firebase Hosting 기반 배포 및 실시간 반영  
+
+### 기술 스택
+**Frontend**
+- HTML5 / CSS3 / JavaScript(ES6)
+- 반응형 구조 및 브랜드 컬러 매핑
+
+**Hosting & Tools**
+- Firebase Hosting (`sp-cafe24api.web.app`)
+- 자동 버전 갱신(`?v=timestamp` 방식)
+- Script 모듈: banner.js, timer.js, ship_timer.js, bnf_bar.js
+
+## 핵심 구현 사항
+모든 위젯을 section 단위로 분리해 테스트할 수 있도록 설계했으며, 각 브랜드별 테마 색상과 디바이스 설정에 따라 동적으로 스크립트를 불러오도록 구현했습니다.
+
+```html
+<div class="section">
+  <div class="section-title">
+    <span class="badge">timer.js</span>카운트다운 타이머
+  </div>
+  <div class="demo-box">
+    <script src="https://sp-cafe24api.web.app/timer.js" data-brand="udit" data-device="pc"></script>
+  </div>
+</div>

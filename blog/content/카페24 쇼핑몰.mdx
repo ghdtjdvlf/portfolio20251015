@@ -1,139 +1,37 @@
 ---
-title: "카페24 쇼핑몰"
-description: "Discover the most powerful and popular React component libraries that will accelerate your development workflow and help you build stunning UIs."
-date: "2024-12-01"
-tags: ["카페24", "API", "CMS"]
+title: "유디트 카페24 쇼핑몰 구축"
+description: "건강기능식품 브랜드 ‘유디트(Udit)’의 카페24 기반 쇼핑몰 구축 프로젝트로, 반응형 상세페이지와 브랜드 컬러를 통합한 UI/UX를 구현했습니다."
+date: "2024-12-20"
+tags: ["기업프로젝트", "Cafe24", "Frontend", "E-commerce", "퍼블리싱"]
 featured: true
-readTime: "16 min read"
-author: "arghya"
-thumbnail: "/thumbnails/react-components-libraries.jpg"
+readTime: "10 min read"
+author: "홍성필"
+thumbnail: "/thumbnails/카페24 사이트.png"
 ---
 
-Building modern React applications requires a solid foundation of reusable components. Whether you're starting a new project or looking to enhance an existing one, having access to high-quality component libraries can significantly accelerate your development process.
+(주)퍼널먼스에서 운영하고 구축했던 사이트 입니다. 카페24 쇼핑몰 개설부터 FTP를 이용한 퍼블리싱 작업 및 유지보수를 했습니다
 
-## Why Use Component Libraries?
 
-Component libraries offer several advantages:
 
-- **Consistency**: Maintain a unified design language across your application
-- **Speed**: Rapid prototyping and development
-- **Accessibility**: Built-in accessibility features and best practices
-- **Customization**: Flexible theming and styling options
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="https://udit.co.kr/" target="_blank" rel="noopener noreferrer"
+     style={{display:'inline-block', padding:'12px 32px', background:'linear-gradient(135deg, #21884f 0%, #175c36 100%)', color:'white', textDecoration:'none', borderRadius:'8px', fontWeight:600, fontSize:'16px', boxShadow:'0 4px 12px rgba(33,136,79,0.3)'}}>
+    🔗 사이트 바로가기
+  </a>
+</div>
 
-## Top React Component Libraries
+## 프로젝트 개요
+**유디트**는 건강기능식품 브랜드로, 카페24 환경에서 브랜드몰 전반의 UI/UX를 개선하고  
+상품 상세 페이지, 이벤트 배너, 구매 유도 섹션을 **직접 설계 및 구현**한 프로젝트입니다.  
 
-### 1. Material-UI (MUI)
+### 목표
+- 브랜드 아이덴티티(그린 & 옐로우 톤) 기반의 일관된 디자인  
+- 상품 상세페이지의 신뢰도 향상 및 구매전환율 개선  
+- 모바일 퍼스트 구조로 모든 디바이스에서 최적화된 쇼핑 경험 제공  
 
-Material-UI is one of the most popular React component libraries, implementing Google's Material Design principles.
-
-```tsx
-import Button from "@mui/material/Button";
-import Stack from "@mui/material/Stack";
-
-export default function BasicButtons() {
-  return (
-    <Stack spacing={2} direction="row">
-      <Button variant="text">Text</Button>
-      <Button variant="contained">Contained</Button>
-      <Button variant="outlined">Outlined</Button>
-    </Stack>
-  );
-}
-```
-
-**Key Features:**
-
-- Comprehensive component set
-- Built-in dark mode support
-- Excellent TypeScript support
-- Active community and regular updates
-
-### 2. Ant Design
-
-A design language and React components library with a focus on enterprise-class UI design language.
-
-```tsx
-import { Button, Space } from "antd";
-
-const App = () => (
-  <Space wrap>
-    <Button type="primary">Primary Button</Button>
-    <Button>Default Button</Button>
-    <Button type="dashed">Dashed Button</Button>
-    <Button type="text">Text Button</Button>
-    <Button type="link">Link Button</Button>
-  </Space>
-);
-```
-
-**Key Features:**
-
-- Enterprise-focused design
-- Comprehensive internationalization
-- Advanced data handling components
-- Built-in form validation
-
-### 3. Chakra UI
-
-A modular and accessible component library that gives you the building blocks to build React applications.
-
-```tsx
-import { Button, ButtonGroup } from "@chakra-ui/react";
-
-function Example() {
-  return (
-    <ButtonGroup variant="outline" spacing="6">
-      <Button colorScheme="blue">Save</Button>
-      <Button>Cancel</Button>
-    </ButtonGroup>
-  );
-}
-```
-
-**Key Features:**
-
-- Simple and modular
-- Dark mode support
-- Accessibility-first approach
-- Easy theming system
-
-### 4. React Bootstrap
-
-Bootstrap components built for React, providing familiar Bootstrap styling with React functionality.
-
-```tsx
-import Button from "react-bootstrap/Button";
-import ButtonGroup from "react-bootstrap/ButtonGroup";
-
-function BasicExample() {
-  return (
-    <ButtonGroup aria-label="Basic example">
-      <Button variant="secondary">Left</Button>
-      <Button variant="secondary">Middle</Button>
-      <Button variant="secondary">Right</Button>
-    </ButtonGroup>
-  );
-}
-```
-
-## Performance Considerations
-
-When choosing a component library, consider:
-
-- **Bundle size impact**: Use tree-shaking to reduce bundle size
-- **Server-side rendering**: Ensure compatibility with SSR
-- **Loading performance**: Lazy load components when possible
-- **Accessibility**: Choose libraries with built-in a11y features
-
-## Getting Started
-
-1. **Choose your library**: Consider your project needs and design requirements
-2. **Install dependencies**: Follow the library's installation guide
-3. **Configure theming**: Set up your design tokens and theme
-4. **Start building**: Begin with basic components and expand
-
-## Conclusion
-
-The React ecosystem offers numerous high-quality component libraries, each with its own strengths. Whether you prefer the comprehensive approach of Material-UI, the enterprise focus of Ant Design, or the simplicity of Chakra UI, there's a solution that fits your project needs.
-
-Remember to evaluate libraries based on your specific requirements, including design philosophy, bundle size, community support, and long-term maintenance.
+### 주요 기능
+- **상품 타이머**: 실시간 구매 유도 카운트다운 구현  
+- **리뷰 및 평점 시각화**: 고객 만족도 4.9 / 5.0 표시  
+- **상세 정보 구조화**: 원료·효과·이벤트 섹션 분리  
+- **배너 연동 시스템**: 이벤트, 품절 안내, 수상 내역 배너 자동 노출  
+- **브랜드 공지 블록**: 품절 안내 및 고객센터 연결 CTA 삽입  
