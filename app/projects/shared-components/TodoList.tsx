@@ -1,8 +1,8 @@
 import { FC, useMemo } from 'react';
 import styled from '@emotion/styled';
 import { useAtom } from 'jotai';
-import { filterAtom, searchAtom } from '../store/atoms';
-import { useTodos } from '../hooks/useTodos';
+import { filterAtom, searchAtom } from '../todo/store/todoAtoms';
+import { useTodos } from '../shared-hooks/useTodos';
 import TodoItem from './TodoItem';
 
 const TodoList: FC = () => {

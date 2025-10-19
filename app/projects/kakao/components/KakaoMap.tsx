@@ -1,6 +1,6 @@
 import { FC, useEffect, useRef, useState } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '../../../styles/theme';
+import { theme } from '../../shared-styles/theme';
 import { SearchResult } from '../types/kakao';
 
 interface KakaoMapProps {

@@ -1,6 +1,6 @@
 import { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '../../../styles/theme';
+import { theme } from '../../shared-styles/theme';
 import { getKakaoAuthUrl, getKakaoToken, getKakaoUserInfo, kakaoLogout } from '../api/kakaoAuth';
 import { KakaoUserInfo } from '../types/kakao';
 

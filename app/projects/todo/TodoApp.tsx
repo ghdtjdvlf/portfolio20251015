@@ -3,9 +3,9 @@ import { FC } from 'react';
 import styled from '@emotion/styled';
 import { useNavigate } from 'react-router-dom';
 import { theme } from '../../styles/theme';
-import TodoInput from '../../components/TodoInput';
-import FilterBar from '../../components/FilterBar';
-import TodoList from '../../components/TodoList';
+import TodoInput from '../shared-components/TodoInput';
+import FilterBar from '../shared-components/FilterBar';
+import TodoList from '../shared-components/TodoList';
 
 const TodoApp: FC = () => {
   const navigate = useNavigate();

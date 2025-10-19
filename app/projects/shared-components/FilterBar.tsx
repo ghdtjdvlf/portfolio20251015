@@ -1,8 +1,8 @@
 import { FC } from 'react';
 import styled from '@emotion/styled';
 import { useAtom } from 'jotai';
-import { filterAtom, searchAtom, FilterType } from '../store/atoms';
-import { theme } from '../styles/theme';
+import { filterAtom, searchAtom, FilterType } from '../todo/store/todoAtoms';
+import { theme } from '../shared-styles/theme';
 
 const FilterBar: FC = () => {
   const [filter, setFilter] = useAtom(filterAtom);

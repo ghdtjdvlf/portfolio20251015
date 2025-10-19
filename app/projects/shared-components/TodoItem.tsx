@@ -1,8 +1,8 @@
 // React + TypeScript + Emotion component
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '../styles/theme';
-import { Todo } from '../api/todos';
+import { theme } from '../shared-styles/theme';
+import { Todo } from '../shared-api/todos';
 
 interface TodoItemProps {
   todo: Todo;

@@ -7,7 +7,7 @@ import { useChat } from './hooks/useChat';
 import MessageList from './components/MessageList';
 import ChatInput from './components/ChatInput';
 import SessionList from './components/SessionList';
-import { theme } from '../../styles/theme';
+import { theme } from '../shared-styles/theme';
 
 const ChatBot: FC = () => {
   const navigate = useNavigate();

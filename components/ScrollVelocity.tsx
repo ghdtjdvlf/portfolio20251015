@@ -1,6 +1,6 @@
 'use client'
 
-import { useRef, useLayoutEffect, useState } from 'react';
+import React, { useRef, useLayoutEffect, useState } from 'react';
 import {
   motion,
   useScroll,
@@ -11,7 +11,7 @@ import {
   useAnimationFrame
 } from 'motion/react';
 
-function useElementWidth(ref) {
+function useElementWidth(ref: React.RefObject<HTMLElement>) {
   const [width, setWidth] = useState(0);
 
   useLayoutEffect(() => {
@@ -28,7 +28,22 @@ function useElementWidth(ref) {
   return width;
 }
 
-export const ScrollVelocity = ({
+interface ScrollVelocityProps {
+  scrollContainerRef?: React.RefObject<HTMLElement>;
+  texts?: string[];
+  velocity?: number;
+  className?: string;
+  damping?: number;
+  stiffness?: number;
+  numCopies?: number;
+  velocityMapping?: { input: number[]; output: number[] };
+  parallaxClassName?: string;
+  scrollerClassName?: string;
+  parallaxStyle?: React.CSSProperties;
+  scrollerStyle?: React.CSSProperties;
+}
+
+export const ScrollVelocity: React.FC<ScrollVelocityProps> = ({
   scrollContainerRef,
   texts = [],
   velocity = 100,
@@ -42,6 +57,21 @@ export const ScrollVelocity = ({
   parallaxStyle,
   scrollerStyle
 }) => {
+  interface VelocityTextProps {
+    children: React.ReactNode;
+    baseVelocity?: number;
+    scrollContainerRef?: React.RefObject<HTMLElement>;
+    className?: string;
+    damping?: number;
+    stiffness?: number;
+    numCopies?: number;
+    velocityMapping?: { input: number[]; output: number[] };
+    parallaxClassName?: string;
+    scrollerClassName?: string;
+    parallaxStyle?: React.CSSProperties;
+    scrollerStyle?: React.CSSProperties;
+  }
+
   function VelocityText({
     children,
     baseVelocity = velocity,
@@ -55,7 +85,7 @@ export const ScrollVelocity = ({
     scrollerClassName,
     parallaxStyle,
     scrollerStyle
-  }) {
+  }: VelocityTextProps) {
     const baseX = useMotionValue(0);
     const scrollOptions = scrollContainerRef ? { container: scrollContainerRef } : {};
     const { scrollY } = useScroll(scrollOptions);
@@ -71,7 +101,7 @@ export const ScrollVelocity = ({
       { clamp: false }
     );
 
-    const copyRef = useRef(null);
+    const copyRef = useRef<HTMLSpanElement>(null);
     const copyWidth = useElementWidth(copyRef);
 
     function wrap(min, max, v) {

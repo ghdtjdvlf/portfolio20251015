@@ -1,7 +1,7 @@
 import { FC, useState, FormEvent } from 'react';
 import styled from '@emotion/styled';
-import { theme } from '../styles/theme';
-import { useTodos } from '../hooks/useTodos';
+import { theme } from '../shared-styles/theme';
+import { useTodos } from '../shared-hooks/useTodos';
 
 const TodoInput: FC = () => {
   const [input, setInput] = useState('');

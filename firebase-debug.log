@@ -1,0 +1,38 @@
+[debug] [2025-10-19T18:00:37.009Z] ----------------------------------------------------------------------
+[debug] [2025-10-19T18:00:37.012Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tjdvl\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-10-19T18:00:37.013Z] CLI Version:   14.20.0
+[debug] [2025-10-19T18:00:37.013Z] Platform:      win32
+[debug] [2025-10-19T18:00:37.013Z] Node Version:  v22.14.0
+[debug] [2025-10-19T18:00:37.013Z] Time:          Mon Oct 20 2025 03:00:37 GMT+0900 (대한민국 표준시)
+[debug] [2025-10-19T18:00:37.013Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\tjdvl\Documents\GitHub\portfolio20251015
+
+[debug] [2025-10-19T18:03:58.906Z] ----------------------------------------------------------------------
+[debug] [2025-10-19T18:03:58.910Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\tjdvl\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js init
+[debug] [2025-10-19T18:03:58.910Z] CLI Version:   14.20.0
+[debug] [2025-10-19T18:03:58.910Z] Platform:      win32
+[debug] [2025-10-19T18:03:58.910Z] Node Version:  v22.14.0
+[debug] [2025-10-19T18:03:58.910Z] Time:          Mon Oct 20 2025 03:03:58 GMT+0900 (대한민국 표준시)
+[debug] [2025-10-19T18:03:58.911Z] ----------------------------------------------------------------------
+[debug] 
+[info] 
+     ######## #### ########  ######## ########     ###     ######  ########
+     ##        ##  ##     ## ##       ##     ##  ##   ##  ##       ##
+     ######    ##  ########  ######   ########  #########  ######  ######
+     ##        ##  ##    ##  ##       ##     ## ##     ##       ## ##
+     ##       #### ##     ## ######## ########  ##     ##  ######  ########
+
+You're about to initialize a Firebase project in this directory:
+
+  C:\Users\tjdvl\Documents\GitHub\portfolio20251015
+

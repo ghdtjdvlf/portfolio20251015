@@ -1,7 +1,7 @@
 // Gemini API integration
 import { GeminiRequest, GeminiResponse, Message } from '../types/chat';
 
-const API_KEY = import.meta.env.VITE_GEMINI_API_KEY;
+const API_KEY = process.env.NEXT_PUBLIC_GEMINI_API_KEY;
 const API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:generateContent';
 const STREAM_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-2.5-flash:streamGenerateContent';
 
