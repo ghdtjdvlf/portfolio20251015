@@ -14,7 +14,7 @@ export function SiteNav() {
             className="mr-6 flex items-center space-x-2 font-medium text-lg tracking-tighter h-8 w-8 rounded-md overflow-hidden"
           >
             <img
-              src="http://ghdvlftjd.dothome.co.kr/wp-content/uploads/2025/07/SeongPil_logo-1.png"
+              src="/thumbnails/SeongPil_logo-1.png"
               alt=""
               className="w-10 h-10 object-cover h-logo"
             />
