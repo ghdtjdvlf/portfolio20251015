@@ -17,7 +17,7 @@ export function PromoContent({
         <div className="flex items-center gap-3">
           <img
             src="/magicui-logo.png"
-            alt="Magic UI"
+            alt=""
             className="w-8 h-8 rounded object-cover flex-shrink-0"
           />
           <div className="flex-1 min-w-0">
@@ -47,7 +47,7 @@ export function PromoContent({
       <div className="flex flex-col gap-4">
         <img
           src="/magicui-pro.png"
-          alt="Magic UI"
+          alt=""
           className="w-full h-40 rounded-md object-cover"
         />
         <div className="flex flex-col gap-1">

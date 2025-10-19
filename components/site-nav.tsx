@@ -15,7 +15,7 @@ export function SiteNav() {
           >
             <img
               src="http://ghdvlftjd.dothome.co.kr/wp-content/uploads/2025/07/SeongPil_logo-1.png"
-              alt="Magic UI"
+              alt=""
               className="w-10 h-10 object-cover h-logo"
             />
           </Link>
