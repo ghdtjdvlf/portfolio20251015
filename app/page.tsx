@@ -219,11 +219,9 @@ const TitleComponent = ({
             </CometCard>
           </div>
           <div className="text_wrap">
-            <p>
               <h2>안녕하세요 ! </h2>
              <div className="span_wrap"><span> 상황에 맞게 <strong>유연하게,</strong></span> <span>디자인엔 <strong>센스로,</strong></span> <span>작업은 <strong>효율적으로.</strong></span></div>
-              변화에 능동적으로 대응하는 퍼블리셔 홍성필입니다.
-            </p>
+              <p>변화에 능동적으로 대응하는 퍼블리셔 홍성필입니다.</p>
           </div>
         </div>
       </section>
