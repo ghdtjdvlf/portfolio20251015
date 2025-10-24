@@ -1,13 +1,14 @@
+'use client';
 import { FC, useEffect } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { theme } from '../../styles/theme';
 import KakaoMap from './components/KakaoMap';
 import KakaoLogin from './components/KakaoLogin';
 import { KakaoUserInfo } from './types/kakao';
 
 const KakaoApp: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   // Load Kakao Maps SDK
   useEffect(() => {
@@ -58,7 +59,7 @@ const KakaoApp: FC = () => {
       <Header>
         <HeaderContent>
           <HeaderLeft>
-            <HomeButton onClick={() => navigate('/')}>
+            <HomeButton onClick={() => router.push('/')}>
               <Arrow>←</Arrow>
               <span>홈</span>
             </HomeButton>

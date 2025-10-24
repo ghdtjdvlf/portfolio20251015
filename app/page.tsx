@@ -241,8 +241,8 @@ const TitleComponent = ({
             <p className="absolute top-1/2 mx-auto max-w-sm -translate-y-3/4 text-center text-2xl font-black text-neutral-400 md:text-4xl dark:text-neutral-800">
               제 이야기를 들어주셔서 정말 감사합니다
             </p>
-            {items.map((item) => (
-              <DraggableCardBody className={item.className}>
+            {items.map((item, index) => (
+              <DraggableCardBody key={index} className={item.className}>
                 <img
                   src={item.image}
                   alt={item.title}

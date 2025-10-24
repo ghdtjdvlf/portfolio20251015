@@ -1,6 +1,7 @@
+'use client';
 import { FC, useEffect, useState } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useAtom, useSetAtom } from 'jotai';
 import { currentSessionIdAtom, createSessionAtom } from './store/chatAtoms';
 import { useChat } from './hooks/useChat';
@@ -10,7 +11,7 @@ import SessionList from './components/SessionList';
 import { theme } from '../shared-styles/theme';
 
 const ChatBot: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [currentSessionId] = useAtom(currentSessionIdAtom);
   const createSession = useSetAtom(createSessionAtom);
   const { currentSession, sendMessage, isLoading } = useChat();
@@ -37,7 +38,7 @@ const ChatBot: FC = () => {
       <Header>
         <HeaderContent>
           <HeaderLeft>
-            <HomeButton onClick={() => navigate('/')}>
+            <HomeButton onClick={() => router.push('/')}>
               <Arrow>←</Arrow>
               <span>홈</span>
             </HomeButton>

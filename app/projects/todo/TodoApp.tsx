@@ -1,19 +1,20 @@
+'use client';
 // Todo 프로젝트를 독립된 컴포넌트로 분리
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { theme } from '../../styles/theme';
 import TodoInput from '../shared-components/TodoInput';
 import FilterBar from '../shared-components/FilterBar';
 import TodoList from '../shared-components/TodoList';
 
 const TodoApp: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
 
   return (
     <Container>
       <Header>
-        <HomeButton onClick={() => navigate('/')}>
+        <HomeButton onClick={() => router.push('/')}>
           <Arrow>←</Arrow>
           <span>홈</span>
         </HomeButton>

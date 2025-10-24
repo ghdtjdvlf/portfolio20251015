@@ -1,6 +1,7 @@
+'use client';
 import { FC } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { useAtomValue } from 'jotai';
 import { selectedCategoryAtom, searchQueryAtom } from './store/movieAtoms';
 import { useMoviesByCategory, useSearchMovies } from './hooks/useMovies';
@@ -11,7 +12,7 @@ import SearchBar from './components/SearchBar';
 import { theme } from '../../styles/theme';
 
 const MovieApp: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const selectedCategory = useAtomValue(selectedCategoryAtom);
   const searchQuery = useAtomValue(searchQueryAtom);
 
@@ -44,7 +45,7 @@ const MovieApp: FC = () => {
   return (
     <Container>
       <Header>
-        <HomeButton onClick={() => navigate('/')}>
+        <HomeButton onClick={() => router.push('/')}>
           <Arrow>←</Arrow>
           <span>홈</span>
         </HomeButton>

@@ -1,13 +1,14 @@
+'use client';
 import { FC, useState } from 'react';
 import styled from '@emotion/styled';
-import { useNavigate } from 'react-router-dom';
+import { useRouter } from 'next/navigation';
 import { usePokemonList, useSearchPokemon } from './hooks/usePokemon';
 import PokemonCard from './components/PokemonCard';
 import SearchBar from './components/SearchBar';
 import { theme } from '../../styles/theme';
 
 const PokemonDex: FC = () => {
-  const navigate = useNavigate();
+  const router = useRouter();
   const [searchQuery, setSearchQuery] = useState('');
   const { data, fetchNextPage, hasNextPage, isFetchingNextPage, isLoading } = usePokemonList();
   const { data: searchResult, isLoading: isSearching, error: searchError } = useSearchPokemon(searchQuery);
@@ -25,7 +26,7 @@ const PokemonDex: FC = () => {
     return (
       <Container>
         <Header>
-          <HomeButton onClick={() => navigate('/')}>
+          <HomeButton onClick={() => router.push('/')}>
             <Arrow>←</Arrow>
             <span>홈</span>
           </HomeButton>
@@ -60,7 +61,7 @@ const PokemonDex: FC = () => {
   return (
     <Container>
       <Header>
-        <HomeButton onClick={() => navigate('/')}>
+        <HomeButton onClick={() => router.push('/')}>
           <Arrow>←</Arrow>
           <span>홈</span>
         </HomeButton>
