@@ -1,0 +1,500 @@
+---
+title: "API 리액트 영화 추천 사이트"
+description: "TMDB API를 활용한 영화 정보 및 추천 웹 애플리케이션. 카테고리 필터링, 무한 스크롤, 실시간 검색, 상세 모달 등의 기능을 구현했습니다."
+date:
+  start: "2025.10.11"
+  end: "2025.10.20"
+  day: "작업기간 10일"
+tags: ["개인프로젝트", "React", "API", "반응형"]
+featured: true
+readTime: "13 min read"
+author: "arghya"
+thumbnail: "/thumbnails/영화움짤.gif"
+---
+
+The Movie Database (TMDB) API를 활용하여 최신 영화 정보를 제공하는 웹 애플리케이션을 개발했습니다. 카테고리별 필터링, 무한 스크롤 페이지네이션, 실시간 검색 등 사용자 중심의 기능들을 구현했습니다.
+
+
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="https://sp-timer.web.app/movies" target="_blank" rel="noopener noreferrer" style={{display: 'inline-block', padding: '12px 32px', background: 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)', color: 'white', textDecoration: 'none', borderRadius: '8px', fontWeight: 600, fontSize: '16px', boxShadow: '0 4px 12px rgba(59, 130, 246, 0.3)'}}>
+    🔗 사이트 보러가기
+  </a>
+</div>
+
+
+## 프로젝트 개요
+
+이 프로젝트는 TMDB(The Movie Database) API를 활용하여 최신 영화 정보를 제공하는 웹 애플리케이션입니다. 사용자는 다양한 카테고리로 영화를 탐색하고, 검색하며, 상세 정보를 확인할 수 있습니다.
+
+### 주요 기능
+
+- **4가지 카테고리**: 인기/평점/개봉예정/상영중 영화 필터링
+- **무한 스크롤**: 자동 페이지네이션으로 끊김 없는 탐색
+- **실시간 검색**: 영화 제목 기반 즉시 검색
+- **상세 모달**: 평점, 개봉일, 러닝타임, 제작비, 수익 정보
+- **장르 시스템**: 영화 장르별 배지 표시
+- **반응형 그리드**: 화면 크기에 따른 동적 레이아웃
+
+### 기술 스택
+
+**Frontend**
+- React 18 + TypeScript
+- TanStack Query (Infinite Queries)
+- Jotai (카테고리/검색 상태 관리)
+- Emotion (styled-components)
+- Vite
+
+**API**
+- TMDB API v3
+- 한국어 로컬라이제이션
+
+## 핵심 구현 사항
+
+### 1. TMDB API 통합
+
+TMDB API의 다양한 엔드포인트를 활용하여 영화 데이터를 가져옵니다.
+
+```tsx
+const BASE_URL = 'https://api.themoviedb.org/3';
+const API_KEY = '8265bd1679663a7ea12ac168da84d2e8';
+
+export const movieApi = {
+  // 인기 영화
+  getPopularMovies: async (page: number = 1): Promise<MovieListResponse> => {
+    const response = await fetch(
+      `${BASE_URL}/movie/popular?api_key=${API_KEY}&language=ko-KR&page=${page}`
+    );
+    return response.json();
+  },
+
+  // 평점 높은 영화
+  getTopRatedMovies: async (page: number = 1): Promise<MovieListResponse> => {
+    const response = await fetch(
+      `${BASE_URL}/movie/top_rated?api_key=${API_KEY}&language=ko-KR&page=${page}`
+    );
+    return response.json();
+  },
+
+  // 개봉 예정 영화
+  getUpcomingMovies: async (page: number = 1): Promise<MovieListResponse> => {
+    const response = await fetch(
+      `${BASE_URL}/movie/upcoming?api_key=${API_KEY}&language=ko-KR&page=${page}`
+    );
+    return response.json();
+  },
+
+  // 현재 상영중
+  getNowPlayingMovies: async (page: number = 1): Promise<MovieListResponse> => {
+    const response = await fetch(
+      `${BASE_URL}/movie/now_playing?api_key=${API_KEY}&language=ko-KR&page=${page}`
+    );
+    return response.json();
+  },
+
+  // 영화 상세 정보
+  getMovieDetails: async (movieId: number): Promise<MovieDetails> => {
+    const response = await fetch(
+      `${BASE_URL}/movie/${movieId}?api_key=${API_KEY}&language=ko-KR`
+    );
+    return response.json();
+  },
+
+  // 영화 검색
+  searchMovies: async (query: string, page: number = 1) => {
+    const response = await fetch(
+      `${BASE_URL}/search/movie?api_key=${API_KEY}&language=ko-KR&query=${encodeURIComponent(query)}&page=${page}`
+    );
+    return response.json();
+  },
+};
+```
+
+### 2. 무한 스크롤 구현
+
+TanStack Query의 `useInfiniteQuery`를 활용하여 무한 스크롤을 구현했습니다.
+
+```tsx
+export const useMoviesByCategory = (category: MovieCategory) => {
+  const apiMap = {
+    popular: movieApi.getPopularMovies,
+    top_rated: movieApi.getTopRatedMovies,
+    upcoming: movieApi.getUpcomingMovies,
+    now_playing: movieApi.getNowPlayingMovies,
+  };
+
+  return useInfiniteQuery({
+    queryKey: ['movies', category],
+    queryFn: ({ pageParam = 1 }) => apiMap[category](pageParam),
+    getNextPageParam: (lastPage) => {
+      // 다음 페이지가 있으면 페이지 번호 반환
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1;
+      }
+      return undefined; // 더 이상 페이지 없음
+    },
+    initialPageParam: 1,
+  });
+};
+
+// 컴포넌트에서 사용
+const MovieApp: FC = () => {
+  const {
+    data,
+    fetchNextPage,
+    hasNextPage,
+    isFetchingNextPage,
+  } = useMoviesByCategory(selectedCategory);
+
+  const allMovies = data?.pages.flatMap(page => page.results) || [];
+
+  return (
+    <>
+      <Grid>
+        {allMovies.map((movie) => (
+          <MovieCard key={movie.id} movie={movie} />
+        ))}
+      </Grid>
+
+      {hasNextPage && (
+        <LoadMoreButton onClick={() => fetchNextPage()} disabled={isFetchingNextPage}>
+          {isFetchingNextPage ? '로딩 중...' : '더 보기'}
+        </LoadMoreButton>
+      )}
+    </>
+  );
+};
+```
+
+### 3. Jotai 상태 관리
+
+카테고리 선택과 검색 상태를 Jotai로 관리합니다.
+
+```tsx
+// 선택된 카테고리
+export const selectedCategoryAtom = atom<MovieCategory>('popular');
+
+// 검색어
+export const searchQueryAtom = atom<string>('');
+
+// 선택된 영화 ID (모달용)
+export const selectedMovieIdAtom = atom<number | null>(null);
+
+// 컴포넌트에서 사용
+const CategoryTabs: FC = () => {
+  const [selectedCategory, setSelectedCategory] = useAtom(selectedCategoryAtom);
+  const setSearchQuery = useSetAtom(searchQueryAtom);
+
+  const handleCategoryChange = (category: MovieCategory) => {
+    setSelectedCategory(category);
+    setSearchQuery(''); // 카테고리 변경 시 검색어 초기화
+  };
+
+  return (
+    <Tabs>
+      {categories.map((category) => (
+        <Tab
+          key={category.id}
+          active={selectedCategory === category.id}
+          onClick={() => handleCategoryChange(category.id)}
+        >
+          {category.icon} {category.name}
+        </Tab>
+      ))}
+    </Tabs>
+  );
+};
+```
+
+### 4. 검색 기능 구현
+
+실시간 검색을 통해 영화를 찾을 수 있습니다.
+
+```tsx
+export const useSearchMovies = (query: string) => {
+  return useInfiniteQuery({
+    queryKey: ['movies', 'search', query],
+    queryFn: ({ pageParam = 1 }) => movieApi.searchMovies(query, pageParam),
+    getNextPageParam: (lastPage) => {
+      if (lastPage.page < lastPage.total_pages) {
+        return lastPage.page + 1;
+      }
+      return undefined;
+    },
+    enabled: query.length > 0, // 검색어가 있을 때만 실행
+    initialPageParam: 1,
+  });
+};
+
+// SearchBar 컴포넌트
+const SearchBar: FC = () => {
+  const [searchQuery, setSearchQuery] = useAtom(searchQueryAtom);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
+
+  const handleClear = () => {
+    setSearchQuery('');
+  };
+
+  return (
+    <SearchContainer>
+      <SearchIcon>🔍</SearchIcon>
+      <SearchInput
+        type="text"
+        placeholder="영화 제목을 검색하세요..."
+        value={searchQuery}
+        onChange={handleSearch}
+      />
+      {searchQuery && (
+        <ClearButton onClick={handleClear}>✕</ClearButton>
+      )}
+    </SearchContainer>
+  );
+};
+```
+
+### 5. 영화 상세 모달
+
+클릭한 영화의 상세 정보를 모달로 표시합니다.
+
+```tsx
+const MovieModal: FC = () => {
+  const [selectedMovieId, setSelectedMovieId] = useAtom(selectedMovieIdAtom);
+  const { data: movie, isLoading } = useMovieDetails(selectedMovieId);
+
+  if (!selectedMovieId) return null;
+
+  const handleClose = () => setSelectedMovieId(null);
+
+  return (
+    <ModalOverlay onClick={handleClose}>
+      <ModalContent onClick={(e) => e.stopPropagation()}>
+        {isLoading ? (
+          <LoadingSpinner />
+        ) : movie ? (
+          <>
+            <CloseButton onClick={handleClose}>✕</CloseButton>
+
+            <BackdropImage
+              src={movieApi.getImageUrl(movie.backdrop_path, 'original')}
+              alt={movie.title}
+            />
+
+            <MovieInfo>
+              <Title>{movie.title}</Title>
+              <Tagline>{movie.tagline}</Tagline>
+
+              <MetaInfo>
+                <MetaItem>
+                  <Label>평점</Label>
+                  <Value>⭐ {movie.vote_average.toFixed(1)}/10</Value>
+                </MetaItem>
+                <MetaItem>
+                  <Label>개봉일</Label>
+                  <Value>{movie.release_date}</Value>
+                </MetaItem>
+                <MetaItem>
+                  <Label>러닝타임</Label>
+                  <Value>{movie.runtime}분</Value>
+                </MetaItem>
+              </MetaInfo>
+
+              <GenreList>
+                {movie.genres.map((genre) => (
+                  <GenreBadge key={genre.id}>{genre.name}</GenreBadge>
+                ))}
+              </GenreList>
+
+              <Overview>{movie.overview}</Overview>
+
+              {movie.budget > 0 && (
+                <BudgetInfo>
+                  <Label>제작비</Label>
+                  <Value>${(movie.budget / 1000000).toFixed(1)}M</Value>
+                </BudgetInfo>
+              )}
+
+              {movie.revenue > 0 && (
+                <RevenueInfo>
+                  <Label>수익</Label>
+                  <Value>${(movie.revenue / 1000000).toFixed(1)}M</Value>
+                </RevenueInfo>
+              )}
+            </MovieInfo>
+          </>
+        ) : (
+          <ErrorMessage>영화 정보를 불러올 수 없습니다.</ErrorMessage>
+        )}
+      </ModalContent>
+    </ModalOverlay>
+  );
+};
+```
+
+## 반응형 그리드 레이아웃
+
+화면 크기에 따라 동적으로 컬럼 수가 조정됩니다.
+
+```tsx
+const Grid = styled.div`
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+  gap: 24px;
+  margin-bottom: 32px;
+
+  @media (max-width: 640px) {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 16px;
+  }
+
+  @media (min-width: 641px) and (max-width: 1024px) {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  @media (min-width: 1025px) {
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  }
+`;
+```
+
+## 이미지 최적화
+
+TMDB의 다양한 이미지 크기를 활용하여 최적화합니다.
+
+```tsx
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p';
+
+export const getImageUrl = (
+  path: string | null,
+  size: 'w200' | 'w500' | 'original' = 'w500'
+): string => {
+  if (!path) return 'https://via.placeholder.com/500x750?text=No+Image';
+  return `${IMAGE_BASE_URL}/${size}${path}`;
+};
+
+// 컴포넌트에서 사용
+<PosterImage
+  src={movieApi.getImageUrl(movie.poster_path, 'w500')}
+  alt={movie.title}
+  loading="lazy"
+/>
+```
+
+## 카테고리 탭 UI
+
+사용자 친화적인 탭 인터페이스로 카테고리를 전환합니다.
+
+```tsx
+const categories = [
+  { id: 'popular', name: '인기', icon: '🔥' },
+  { id: 'top_rated', name: '평점 높은', icon: '⭐' },
+  { id: 'upcoming', name: '개봉 예정', icon: '📅' },
+  { id: 'now_playing', name: '상영중', icon: '🎬' },
+];
+
+const CategoryTabs = styled.div`
+  display: flex;
+  gap: 12px;
+  margin-bottom: 32px;
+  overflow-x: auto;
+  padding: 8px 0;
+
+  &::-webkit-scrollbar {
+    height: 6px;
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: #cbd5e1;
+    border-radius: 3px;
+  }
+`;
+
+const Tab = styled.button<{ active: boolean }>`
+  padding: 12px 24px;
+  background: ${props => props.active
+    ? 'linear-gradient(135deg, #3b82f6 0%, #2563eb 100%)'
+    : '#f1f5f9'};
+  color: ${props => props.active ? 'white' : '#475569'};
+  border: none;
+  border-radius: 12px;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: all 0.3s;
+  box-shadow: ${props => props.active ? '0 4px 12px rgba(59, 130, 246, 0.3)' : 'none'};
+
+  &:hover {
+    transform: translateY(-2px);
+  }
+`;
+```
+
+## 성능 최적화
+
+### React Query 캐싱 전략
+
+```tsx
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 5 * 60 * 1000, // 5분
+      gcTime: 10 * 60 * 1000,   // 10분
+      retry: 2,
+    },
+  },
+});
+```
+
+### Lazy Loading 이미지
+
+```tsx
+<PosterImage
+  src={movieApi.getImageUrl(movie.poster_path)}
+  alt={movie.title}
+  loading="lazy" // 브라우저 네이티브 지연 로딩
+/>
+```
+
+## 배포
+
+Firebase Hosting을 통해 프로덕션 배포를 진행했습니다.
+
+```bash
+# 빌드
+npm run build
+
+# Firebase 배포
+firebase deploy --only hosting
+```
+
+**라이브 데모**: [https://sp-timer.web.app](https://sp-timer.web.app)
+
+## 프로젝트를 통해 배운 점
+
+### 1. 무한 스크롤의 UX 중요성
+TanStack Query의 `useInfiniteQuery`를 활용하여 끊김 없는 탐색 경험을 제공할 수 있었습니다. 페이지 번호 관리, 캐싱, 에러 처리 등이 자동으로 처리되어 생산성이 크게 향상되었습니다.
+
+### 2. API 통합의 실전 경험
+TMDB API의 다양한 엔드포인트를 활용하면서 RESTful API 설계 패턴과 데이터 정규화에 대해 이해할 수 있었습니다.
+
+### 3. 상태 관리의 적재적소
+전역 상태(카테고리, 검색어)는 Jotai로, 서버 상태(영화 데이터)는 TanStack Query로 분리하여 관리함으로써 각 도구의 장점을 극대화할 수 있었습니다.
+
+### 4. 반응형 디자인의 중요성
+Grid 레이아웃과 미디어 쿼리를 활용하여 모든 디바이스에서 최적의 경험을 제공하는 것이 사용자 만족도에 큰 영향을 미쳤습니다.
+
+## 향후 개선 계획
+
+- 사용자 평가 시스템 (Firebase)
+- 영화 추천 알고리즘 (유사 영화)
+- 즐겨찾기 기능 (LocalStorage)
+- 영화 예고편 재생 (YouTube API)
+- 배우/감독 정보 페이지
+- 소셜 공유 기능
+- 다크 모드 지원
+
+## 마치며
+
+TMDB API를 활용한 영화 추천 사이트 프로젝트를 통해 실전 API 통합, 무한 스크롤, 상태 관리 등 다양한 기술적 과제를 해결할 수 있었습니다. 특히 TanStack Query의 강력한 캐싱과 Jotai의 간결한 상태 관리가 개발 경험을 크게 향상시켰습니다.

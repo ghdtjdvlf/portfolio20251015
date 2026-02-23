@@ -1,0 +1,67 @@
+---
+title: "워드프레스포트폴리오 웹사이트"
+description: "웹 퍼블리셔 홍성필의 개인 포트폴리오 사이트로, 반응형 레이아웃과 다크 모드 디자인을 적용하여 자신의 경력과 프로젝트를 효과적으로 소개합니다."
+date:
+  start: "2025.07.01"
+  end: "2025.07.10"
+  day: "작업기간 9일"
+tags: ["개인프로젝트", "Portfolio", "CMS"]
+featured: true
+readTime: "8 min read"
+author: "홍성필"
+thumbnail: "/thumbnails/워드프레스.png"
+---
+
+웹 퍼블리셔 홍성필의 포트폴리오 웹사이트입니다.  
+**디자인 감각과 기술 스택을 한눈에 보여주는 반응형 퍼블리셔 포트폴리오**로,  
+개인 브랜딩과 프로젝트 아카이브를 목적으로 제작되었습니다.
+
+<ImageViewer src="https://i.ibb.co/JpQHzGk/portfolio-main.png" alt="홍성필 포트폴리오 메인 화면" caption="ghdvlftjd.dothome.co.kr 포트폴리오 메인 페이지"/>
+
+<div style={{textAlign: 'center', margin: '32px 0'}}>
+  <a href="http://ghdvlftjd.dothome.co.kr/" target="_blank" rel="noopener noreferrer"
+     style={{display:'inline-block', padding:'12px 32px', background:'linear-gradient(135deg, #3b82f6 0%, #1e3a8a 100%)', color:'white', textDecoration:'none', borderRadius:'8px', fontWeight:600, fontSize:'16px', boxShadow:'0 4px 12px rgba(59, 130, 246, 0.3)'}}>
+    🔗 사이트 바로가기
+  </a>
+</div>
+
+## 프로젝트 개요
+이 웹사이트는 **퍼블리셔이자 기획자로서의 기술 역량과 작업물**을 한곳에 모아 정리한 개인 포트폴리오입니다.  
+시각적 정갈함, 모바일 대응성, 정보 구조의 명확성을 목표로 제작했습니다.
+
+### 주요 구성
+- **히어로 섹션:** 이름, 직무, 소개 문구 및 프로필 이미지  
+- **Skills 섹션:** 퍼블리셔 중심의 기술 스택을 카드 형태로 정리  
+- **포트폴리오 섹션:** 주요 프로젝트(쇼핑몰·랜딩·기획 프로젝트 등) 썸네일형 전시  
+- **푸터:** 기술 키워드 라인업 및 이메일 / SNS 링크 제공  
+
+### 주요 기능
+- **반응형 레이아웃** — PC, 태블릿, 모바일 환경에 최적화  
+- **다크모드 베이스** — 블랙 톤 기반의 전문적 디자인  
+- **카드형 UI 구성** — 기술 및 프로젝트를 시각적으로 정리  
+- **외부 링크 연동** — 각 프로젝트 클릭 시 실서비스 페이지로 이동  
+- **모듈형 관리 구조** — 새 프로젝트 추가 시 코드 수정 최소화  
+
+### 기술 스택
+**Frontend**
+- HTML5 / CSS3 / JavaScript  
+- Bootstrap5 기반 반응형 레이아웃  
+- GSAP, Swiper 등 시각 효과 적용  
+
+**Design & Tools**
+- Figma / Photoshop  
+- GitHub Pages 및 dothome 호스팅  
+- Notion을 통한 콘텐츠 관리  
+
+## 핵심 구현 사항
+
+### 1. 반응형 레이아웃 설계
+모든 섹션을 Bootstrap 5의 그리드 시스템 기반으로 구성하여  
+해상도별(576px / 768px / 992px / 1200px)에서 자동으로 재배치되도록 설계했습니다.
+```css
+@media (max-width: 992px) {
+  .portfolio-card { flex: 0 0 48%; }
+}
+@media (max-width: 576px) {
+  .portfolio-card { flex: 0 0 100%; }
+}

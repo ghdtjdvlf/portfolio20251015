@@ -1,0 +1,42 @@
+[build]
+  command = "pnpm run build"
+  publish = ".next"
+
+[build.environment]
+  NODE_OPTIONS = "--max-old-space-size=4096"
+  NEXT_TELEMETRY_DISABLED = "1"
+
+# Serverless Functions 설정
+[functions]
+  directory = "netlify/functions"
+
+# 방문자 로그 API 리다이렉트 (Serverless Functions)
+[[redirects]]
+  from = "/api/save-visitor-log"
+  to = "/.netlify/functions/save-visitor-log"
+  status = 200
+
+[[redirects]]
+  from = "/api/get-visitor-logs"
+  to = "/.netlify/functions/get-visitor-logs"
+  status = 200
+
+[[redirects]]
+  from = "/api/delete-visitor-log"
+  to = "/.netlify/functions/delete-visitor-log"
+  status = 200
+
+# 모달 클릭 로깅 (Serverless Function)
+[[redirects]]
+  from = "/api/log-modal"
+  to = "/.netlify/functions/save-modal-log"
+  status = 200
+
+# 페이지 접속만 로깅 (Edge Function, 콘솔용)
+[[edge_functions]]
+  function = "visitor-log"
+  path = "/*"
+
+# Next.js 플러그인
+[[plugins]]
+  package = "@netlify/plugin-nextjs"
