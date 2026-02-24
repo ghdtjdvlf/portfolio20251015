@@ -21,6 +21,7 @@ import { SkillsMarquee } from "@/components/SkillsMarquee";
 import SpotlightCard from "@/components/SpotlightCard";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import { HorizontalTextReveal } from "@/components/ui/horizontal-text-reveal";
+import { TextReveal } from "@/components/magicui/text-reveal";
 import { BentoGalleryFlip } from "@/components/ui/bento-gallery-flip";
 import { GsapListSlide } from "@/components/ui/gsap-list-slide";
 import FallingText from "@/components/ui/falling-text";
@@ -33,6 +34,8 @@ import { Fullstack } from "@/components/Fullstack";
 import { Three } from "@/components/30000";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { LottieContainer } from "@/components/LottieContainer";
+
+
 
 interface BlogData {
   title: string;
@@ -121,7 +124,7 @@ export default async function HomePage() {
 
   return (
     <div>
-      <div style={{ width: "100%", height: "600px", position: "relative" }}>
+      {/* <div style={{ width: "100%", height: "600px", position: "relative" }}>
         <Particles
           particleColors={["#ffffff", "#ffffff"]}
           particleCount={200}
@@ -135,10 +138,15 @@ export default async function HomePage() {
         <div className="h1-title absolute-center">
           <h1>웹퍼블리셔 홍성필 포트폴리오</h1>
         </div>
-      </div>
+      </div> */}
 
       <BentoGalleryFlip />
-      <HorizontalTextReveal>책임감, 효율적인, 능동적인</HorizontalTextReveal>
+
+      {/* <HorizontalTextReveal>책임감, 효율적인, 능동적인</HorizontalTextReveal> */}
+
+      <TextReveal
+        text="책임감, 효율적인, 능동적인"
+      />
 
       <div className="flex h-[70rem] w-full items-center justify-center relative">
             <CometCard className="absolute z-100 top-[10%] lg:top-[-10%]">
@@ -257,8 +265,8 @@ export default async function HomePage() {
       {/* section02 기술스택 + FallingText 래퍼 */}
       <div style={{ position: "relative" }}>
 
-        {/* skills 섹션 — 정상 흐름, z-index 기본값 */}
-        <section className="section02 text">
+        {/* skills 섹션 — FallingText(999)보다 높은 z-index */}
+        <section className="section02 text" style={{ position: "relative", zIndex: 1000 }}>
           <div className="sec02-container">
             <div className="flex flex-col gap-2  text-center title">
               <h2 className="font-medium text-4xl md:text-5xl tracking-tighter">
@@ -319,7 +327,7 @@ export default async function HomePage() {
             - 단어들은 physics floor(착지공간 바닥)에서 멈춤 */}
         <div style={{
           position: "absolute",
-          top: "-44%",
+          top: 0,
           left: 0,
           right: 0,
           bottom: 0,

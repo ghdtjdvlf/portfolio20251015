@@ -18,18 +18,32 @@ const NAV_LINKS = [
   { name: "About Me", link: "/about" },
 ];
 
-export function SiteNav() {
+function Logo({ className }: { className?: string }) {
+  return (
+    <span className={className}>
+      {/* 라이트모드 */}
+      <img
+        src="/images/icon/SeongPil_logo-2-black.png"
+        alt="홍성필 포트폴리오"
+        className="w-full h-full object-cover block dark:hidden"
+      />
+      {/* 다크모드 */}
+      <img
+        src="/images/icon/SeongPil_logo-1-white.png"
+        alt="홍성필 포트폴리오"
+        className="w-full h-full object-cover hidden dark:block"
+      />
+    </span>
+  );
+}
 
+export function SiteNav() {
   return (
     <Navbar>
       {/* PC */}
       <NavBody>
         <Link href="/" className="relative z-20 flex items-center h-10 w-28">
-          <img
-            src="/thumbnails/SeongPil_logo-1.png"
-            alt="홍성필 포트폴리오"
-            className="w-full h-full object-cover"
-          />
+          <Logo className="flex w-full h-full" />
         </Link>
 
         <NavItems items={NAV_LINKS} />
@@ -43,11 +57,7 @@ export function SiteNav() {
       <MobileNav>
         <MobileNavHeader>
           <Link href="/" className="flex items-center h-10 w-28">
-            <img
-              src="/thumbnails/SeongPil_logo-1.png"
-              alt="홍성필 포트폴리오"
-              className="w-full h-full object-cover"
-            />
+            <Logo className="flex w-full h-full" />
           </Link>
           <AnimatedThemeToggler />
         </MobileNavHeader>

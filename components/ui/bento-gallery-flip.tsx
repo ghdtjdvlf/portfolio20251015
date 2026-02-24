@@ -8,15 +8,19 @@ import "./bento-gallery-flip.css"
 
 gsap.registerPlugin(ScrollTrigger, Flip)
 
-const images = [
-  "https://assets.codepen.io/16327/portrait-pattern-1.jpg",
-  "https://assets.codepen.io/16327/portrait-image-12.jpg",
-  "https://assets.codepen.io/16327/portrait-image-8.jpg",
-  "https://assets.codepen.io/16327/portrait-pattern-2.jpg",
-  "https://assets.codepen.io/16327/portrait-image-4.jpg",
-  "https://assets.codepen.io/16327/portrait-image-3.jpg",
-  "https://assets.codepen.io/16327/portrait-pattern-3.jpg",
-  "https://assets.codepen.io/16327/portrait-image-1.jpg",
+type MediaItem =
+  | { type: "image"; src: string }
+  | { type: "video"; src: string }
+
+const items: MediaItem[] = [
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-1.jpg" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-12.jpg" },
+  { type: "video", src: "/video/video-01.mp4" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-2.jpg" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-4.jpg" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-3.jpg" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-3.jpg" },
+  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-1.jpg" },
 ]
 
 export function BentoGalleryFlip() {
@@ -85,9 +89,20 @@ export function BentoGalleryFlip() {
   return (
     <div ref={wrapperRef} className="gallery-wrap">
       <div ref={galleryRef} className="gallery gallery--bento" id="gallery-8">
-        {images.map((src, i) => (
+        {items.map((item, i) => (
           <div key={i} className="gallery__item">
-            <img src={src} alt="" />
+            {item.type === "video" ? (
+              <video
+                src={item.src}
+                autoPlay
+                muted
+                loop
+                playsInline
+                style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            ) : (
+              <img src={item.src} alt="" />
+            )}
           </div>
         ))}
       </div>
