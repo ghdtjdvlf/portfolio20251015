@@ -56,3 +56,27 @@
   width: 100%;
   max-width: 300px;
 }
+
+@media (max-width: 768px) {
+  .gsap-list-content ul {
+    font-size: clamp(1.2rem, 4.5vw, 1.6rem);
+  }
+
+  .gsap-list-slide {
+    width: 45%;
+  }
+
+  .gsap-list-slide img {
+    max-width: 180px;
+  }
+}
+
+@media (max-width: 480px) {
+  .gsap-list-content ul {
+    font-size: 1.25rem;
+  }
+
+  .gsap-list-right {
+    display: none;
+  }
+}
