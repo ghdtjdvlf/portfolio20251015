@@ -20,38 +20,60 @@ export function HorizontalTextReveal({ children }: HorizontalTextRevealProps) {
     const text = textRef.current
     if (!wrapper || !text) return
 
-    const ctx = gsap.context(() => {
-      const split = SplitText.create(text, { type: "chars,words" })
+    let ctx: gsap.Context | undefined
 
-      const scrollTween = gsap.to(text, {
-        xPercent: -100,
-        ease: "none",
-        scrollTrigger: {
-          trigger: wrapper,
-          pin: true,
-          end: "+=2000px",
-          scrub: true,
-          invalidateOnRefresh: true,
-        },
-      })
+    const createAnimation = () => {
+      ctx?.revert()
 
-      split.chars.forEach((char) => {
-        gsap.from(char, {
-          yPercent: "random(-200, 200)",
-          rotation: "random(-20, 20)",
-          ease: "back.out(1.2)",
+      ctx = gsap.context(() => {
+        const split = SplitText.create(text, { type: "chars,words" })
+
+        const scrollTween = gsap.to(text, {
+          xPercent: -100,
+          ease: "none",
           scrollTrigger: {
-            trigger: char,
-            containerAnimation: scrollTween,
-            start: "left 100%",
-            end: "left 30%",
-            scrub: 1,
+            trigger: wrapper,
+            pin: true,
+            end: "+=2000px",
+            scrub: true,
+            invalidateOnRefresh: true,
           },
         })
-      })
-    }, wrapper)
 
-    return () => ctx.revert()
+        split.chars.forEach((char) => {
+          gsap.from(char, {
+            yPercent: "random(-200, 200)",
+            rotation: "random(-20, 20)",
+            ease: "back.out(1.2)",
+            scrollTrigger: {
+              trigger: char,
+              containerAnimation: scrollTween,
+              start: "left 100%",
+              end: "left 30%",
+              scrub: 1,
+            },
+          })
+        })
+      }, wrapper)
+
+      ScrollTrigger.refresh()
+    }
+
+    createAnimation()
+
+    let resizeTimer: ReturnType<typeof setTimeout>
+    const onResize = () => {
+      clearTimeout(resizeTimer)
+      resizeTimer = setTimeout(createAnimation, 200)
+    }
+
+    window.addEventListener("resize", onResize)
+
+    return () => {
+      clearTimeout(resizeTimer)
+      window.removeEventListener("resize", onResize)
+      ctx?.revert()
+    }
   }, [])
 
   return (
