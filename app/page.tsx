@@ -131,8 +131,7 @@ export default async function HomePage() {
           disableRotation={false}
         />
         <div className="h1-title absolute-center">
-          {/* <h1>웹퍼블리셔 홍성필 포트폴리오</h1> */}
-          <h1>ㅁㅇㄴㄴㅁㅇㄴㄴ</h1>
+          <h1>웹퍼블리셔 홍성필 포트폴리오</h1>
         </div>
       </div>
 
