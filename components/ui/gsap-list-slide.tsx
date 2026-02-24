@@ -34,51 +34,52 @@ export function GsapListSlide({
     const fill = fillRef.current
     if (!section || !list || !fill) return
 
-    const listItems = gsap.utils.toArray<HTMLElement>("li", list)
-    const slides = gsap.utils.toArray<HTMLElement>(".gsap-list-slide", section)
+    const ctx = gsap.context(() => {
+      const listItems = gsap.utils.toArray<HTMLElement>("li", list)
+      const slides = gsap.utils.toArray<HTMLElement>(".gsap-list-slide", section)
 
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        trigger: section,
-        start: "top top",
-        end: "+=" + listItems.length * 50 + "%",
-        pin: true,
-        scrub: true,
-      },
-    })
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: section,
+          start: "top top",
+          end: "+=" + listItems.length * 50 + "%",
+          pin: true,
+          scrub: true,
+          invalidateOnRefresh: true,
+        },
+      })
 
-    gsap.set(fill, {
-      scaleY: 1 / listItems.length,
-      transformOrigin: "top left",
-    })
-
-    listItems.forEach((item, i) => {
-      const previousItem = listItems[i - 1]
-      if (previousItem) {
-        tl.set(item, { color: "#0ae448" }, 0.5 * i)
-          .to(slides[i], { autoAlpha: 1, duration: 0.2 }, "<")
-          .set(previousItem, { color: "#fffce1" }, "<")
-          .to(slides[i - 1], { autoAlpha: 0, duration: 0.2 }, "<")
-      } else {
-        gsap.set(item, { color: "#0ae448" })
-        gsap.set(slides[i], { autoAlpha: 1 })
-      }
-    })
-
-    tl.to(
-      fill,
-      {
-        scaleY: 1,
+      gsap.set(fill, {
+        scaleY: 1 / listItems.length,
         transformOrigin: "top left",
-        ease: "none",
-        duration: tl.duration(),
-      },
-      0
-    ).to({}, {})
+      })
 
-    return () => {
-      ScrollTrigger.getAll().forEach((t) => t.kill())
-    }
+      listItems.forEach((item, i) => {
+        const previousItem = listItems[i - 1]
+        if (previousItem) {
+          tl.set(item, { color: "#0ae448" }, 0.5 * i)
+            .to(slides[i], { autoAlpha: 1, duration: 0.2 }, "<")
+            .set(previousItem, { color: "#fffce1" }, "<")
+            .to(slides[i - 1], { autoAlpha: 0, duration: 0.2 }, "<")
+        } else {
+          gsap.set(item, { color: "#0ae448" })
+          gsap.set(slides[i], { autoAlpha: 1 })
+        }
+      })
+
+      tl.to(
+        fill,
+        {
+          scaleY: 1,
+          transformOrigin: "top left",
+          ease: "none",
+          duration: tl.duration(),
+        },
+        0
+      ).to({}, {})
+    }, section)
+
+    return () => ctx.revert()
   }, [])
 
   return (
