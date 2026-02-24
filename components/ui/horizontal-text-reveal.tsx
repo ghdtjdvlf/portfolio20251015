@@ -31,6 +31,7 @@ export function HorizontalTextReveal({ children }: HorizontalTextRevealProps) {
           pin: true,
           end: "+=2000px",
           scrub: true,
+          invalidateOnRefresh: true,
         },
       })
 
@@ -56,9 +57,10 @@ export function HorizontalTextReveal({ children }: HorizontalTextRevealProps) {
   return (
     <section
       ref={wrapperRef}
-      style={{ overflow: "hidden", height: "100vh", display: "flex", alignItems: "center" }}
+      style={{ height: "100vh", display: "flex", alignItems: "center" }}
     >
-      <div className="container">
+      {/* overflow:hidden을 pin되는 section이 아닌 자식에 적용 */}
+      <div style={{ overflow: "hidden", width: "100%" }}>
         <h3
           ref={textRef}
           style={{
