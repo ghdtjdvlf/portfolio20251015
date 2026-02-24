@@ -136,6 +136,18 @@ const FallingText = ({
     })
     ;(render as any).mouse = mouse
 
+    // Matter.js 휠 리스너 제거 (0.20.x 는 "wheel", 구버전은 "mousewheel" 사용)
+    const wheelHandler = (mouse as any).mousewheel
+    mouse.element.removeEventListener("wheel", wheelHandler)
+    mouse.element.removeEventListener("mousewheel", wheelHandler)
+    mouse.element.removeEventListener("DOMMouseScroll", wheelHandler)
+    // passive:true 로 재등록 → preventDefault 없이 wheelDelta만 갱신
+    const passiveWheelHandler = (event: WheelEvent) => {
+      ;(mouse as any).wheelDelta = Math.max(-1, Math.min(1, event.deltaY || -(event as any).detail))
+      ;(mouse as any).sourceEvents.mousewheel = event
+    }
+    mouse.element.addEventListener("wheel", passiveWheelHandler, { passive: true })
+
     World.add(engine.world, [
       floor,
       leftWall,
@@ -164,6 +176,7 @@ const FallingText = ({
 
     return () => {
       cancelAnimationFrame(animFrame)
+      mouse.element.removeEventListener("wheel", passiveWheelHandler)
       Render.stop(render)
       Runner.stop(runner)
       if (render.canvas && canvasContainerRef.current) {
@@ -186,7 +199,7 @@ const FallingText = ({
       className={`falling-text-container ${className}`}
       onClick={trigger === "click" ? handleTrigger : undefined}
       onMouseEnter={trigger === "hover" ? handleTrigger : undefined}
-      style={{ position: "relative", overflow: "hidden" }}
+      style={{ position: "relative", overflow: "hidden", pointerEvents: "auto" }}
     >
       <div
         ref={textRef}
