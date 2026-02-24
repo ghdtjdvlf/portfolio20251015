@@ -34,20 +34,34 @@ JSTL을 활용해 상품 데이터를 동적으로 바인딩하고, 기획전 �
 
 기존 페이지의 레이아웃 개선, 버튼 및 네비게이션 UX 수정, 모바일 대응 작업을 지속적으로 진행했습니다. 사용자 행동 흐름을 분석해 이탈률을 낮추는 방향으로 개선 작업을 수행했습니다.
 
+### 4. 마이페이지 회원정보 수정 버전업
+
+회원 추가정보 수집 프로모션 페이지 신규 제작 및 기존 마이페이지 UI 개선을 진행했습니다. 참여 이력 유무에 따른 케이스 분기, 개인정보 수집 동의 플로우, 맞춤 정보 수정 화면을 PC·모바일 양쪽에 정의하고 구현했습니다.
+
+### 5. 반품 신청 UI 개선
+
+반품 상품 선택 → 사유 선택 → 신청 완료로 이어지는 3단계 플로우 전체를 개선했습니다. 반품 사유 선택 화면에 아코디언 UI를 도입해 가독성을 높였고, PC·모바일 각 화면에서의 일관된 UX를 정의했습니다.
+
+### 6. 상품 세로형 썸네일 레이아웃 정의
+
+기존 정방형 외에 세로형(크롭·여백) 2가지 케이스를 추가 정의했습니다. 어드민(Back Office) 상품 등록·수정부터 FO 상품 목록·상세·검색결과·메인·컬렉션·시크릿 기획전·래플 상세까지 전 화면에 썸네일 처리 방식을 일괄 적용했습니다.
+
 ---
 
 ## 기술 스택
 
-- **HTML5 / CSS3** — 시맨틱 마크업, 반응형 레이아웃
+- **JSP / CSS3** — 시맨틱 마크업, 반응형 레이아웃
 - **JavaScript / jQuery** — 인터랙션 및 동적 UI 처리
 - **JSTL (JSP Standard Tag Library)** — 서버 데이터 동적 바인딩, 조건부 상품 노출
-- **Photoshop / Figma** — 배너 제작 및 시안 작업
+- **Photoshop / Figma** — UI 레이아웃 설계
 
 ---
 
 ## 작업물
 
-드래그 또는 스크롤로 작업물을 탐색할 수 있습니다.
+### 기획전
+
+시즌·이벤트별 캠페인 페이지 작업물입니다. SHIFT, MEGAWEEK, 신학기 백팩, 콜라보레이션, 러닝 이벤트 등 다양한 기획전을 PC·모바일 양쪽으로 제작했습니다.
 
 <div className="not-prose" style={{ width: '100%', height: '500px', borderRadius: '16px', overflow: 'hidden', margin: '24px 0' }}>
   <CircularGallery
@@ -70,12 +84,29 @@ JSTL을 활용해 상품 데이터를 동적으로 바인딩하고, 기획전 �
       { image: "/images/new/204본발매_PC.jpg", text: "204 본발매" },
       { image: "/images/new/509_pc.jpg", text: "509 런칭" },
       { image: "/images/new/플라잉헤비3D_MO.jpg", text: "플라잉헤비 3D" },
-      { image: "/images/new/imc1.png", text: "IMC 작업" },
-      { image: "/images/new/img-01.png", text: "UI/UX 개선" },
-      { image: "/images/new/img-v2.jpg", text: "UI/UX 개선 v2" },
       { image: "/images/new/SHIFT 기획전_MO.jpg", text: "SHIFT MO" },
       { image: "/images/new/MEGAWEEK_MO.jpg", text: "MEGAWEEK MO" },
       { image: "/images/new/2026RYW_하프레이스서울_MO.jpg", text: "하프레이스 MO" },
+    ]}
+  />
+</div>
+
+---
+
+### UI 고도화
+
+마이페이지 회원정보 수정 버전업, 반품 신청 플로우 개선, 상품 세로형 썸네일 레이아웃 정의 등 서비스 품질 향상을 위한 UI 고도화 작업물입니다.
+
+<div className="not-prose" style={{ width: '100%', height: '500px', borderRadius: '16px', overflow: 'hidden', margin: '24px 0' }}>
+  <CircularGallery
+    bend={3}
+    textColor="#ffffff"
+    borderRadius={0.05}
+    scrollSpeed={2}
+    items={[
+      { image: "/images/new/imc1.png", text: "상품 썸네일 레이아웃" },
+      { image: "/images/new/img-01.png", text: "마이페이지 UI 개선" },
+      { image: "/images/new/img-v2.jpg", text: "반품 신청 UI 개선" },
     ]}
   />
 </div>

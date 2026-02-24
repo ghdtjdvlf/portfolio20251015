@@ -43,6 +43,7 @@ export function ProjectsGridHome({ projects }: ProjectsGridHomeProps) {
               src={project.thumbnail}
               alt={project.title}
               fill
+              unoptimized={project.thumbnail.endsWith(".gif")}
               className="object-cover transition-transform duration-300 group-hover:scale-105"
               sizes="(max-width: 768px) 100vw, 50vw"
             />

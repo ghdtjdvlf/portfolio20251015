@@ -6,6 +6,7 @@ import { Providers } from "@/app/providers";
 import { siteConfig } from "@/lib/site";
 import { metadataKeywords } from "./metadata";
 import { SiteNav } from "@/components/site-nav";
+import { MobileBottomNav } from "@/components/MobileBottomNav";
 import Footer from "@/components/footer";
 import { Loading } from "@/components/loading";
 import { GoTopButton } from "@/components/go-top-button";
@@ -77,6 +78,7 @@ export default function RootLayout({
             <SiteNav />
             {children}
             <Footer />
+            <MobileBottomNav />
           </ThemeProvider>
         </Providers>
       </body>
