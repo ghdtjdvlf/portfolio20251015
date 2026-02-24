@@ -19,7 +19,9 @@ import { MaskContainer } from "@/components/ui/svg-mask-effect";
 import { SkillsAccordion } from "@/components/SkillsAccordion";
 import SpotlightCard from "@/components/SpotlightCard";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
-import { TextReveal } from "@/components/ui/text-reveal";
+import { HorizontalTextReveal } from "@/components/ui/horizontal-text-reveal";
+import { BentoGalleryFlip } from "@/components/ui/bento-gallery-flip";
+import { GsapListSlide } from "@/components/ui/gsap-list-slide";
 import CometCard from "@/components/ui/comet-card";
 import { Compare } from "@/components/ui/compare";
 import ScrollVelocity from "@/components/ScrollVelocity";
@@ -129,11 +131,13 @@ export default async function HomePage() {
           disableRotation={false}
         />
         <div className="h1-title absolute-center">
-          <h1>웹퍼블리셔 홍성필 포트폴리오</h1>
+          {/* <h1>웹퍼블리셔 홍성필 포트폴리오</h1> */}
+          <h1>ㅁㅇㄴㄴㅁㅇㄴㄴ</h1>
         </div>
       </div>
 
-      <TextReveal>책임감, 효율적인, 능동적인</TextReveal>
+      <BentoGalleryFlip />
+      <HorizontalTextReveal>책임감, 효율적인, 능동적인</HorizontalTextReveal>
 
       <div className="flex h-[70rem] w-full items-center justify-center relative">
             <CometCard className="absolute z-100 top-[10%] lg:top-[-10%]">
@@ -185,8 +189,7 @@ export default async function HomePage() {
       <ScrollSyncReveal content={content} />
     </div>
 
-
-
+      <GsapListSlide />
 
       {/* section01 자기소개 */}
       <section className="section01 intro overflow-x-hidden w-full">
