@@ -18,7 +18,10 @@ import {
   SiReact,
   SiNotion,
   SiAntdesign,
-  SiFirebase, // Firebase는 Si 패키지에 보통 포함되어 있습니다. (없다면 버전 이슈일 수 있음)
+  SiFirebase,
+  SiClaude,
+  SiJira,
+  SiSourcetree,
 } from "react-icons/si";
 
 // MdAnimation 추가 (Lottie 대체용)
@@ -38,6 +41,7 @@ const skillCategories = [
         icon: <SiFigma size={30} color="#F24E1E" />,
         title: "Figma",
         desc: "UI 시안 제작과 프로토타입 설계 경험이 있으며, 컴포넌트화와 오토 레이아웃을 활용해 효율적인 디자인 협업을 진행할 수 있습니다.",
+        trend: true,
       },
     ],
   },
@@ -64,6 +68,7 @@ const skillCategories = [
         icon: <SiTailwindcss size={30} color="#38BDF8" />,
         title: "Tailwind",
         desc: "유틸리티 클래스로 빠르게 시안을 구현해봤습니다.",
+        trend: true,
       },
       {
         icon: <SiStyledcomponents size={30} color="#DB7093" />,
@@ -112,9 +117,9 @@ const skillCategories = [
         icon: <SiReact size={30} color="#61DAFB" />,
         title: "React",
         desc: "컴포넌트를 만들고 상태 관리를 적용해본 경험이 있습니다.",
+        trend: true,
       },
       {
-        // 2. Firebase 추가
         icon: <SiFirebase size={30} color="#FFCA28" />,
         title: "Firebase",
         desc: "인증(Auth) 및 DB 연동을 통해 서버리스 환경의 웹 서비스를 구축해본 경험이 있습니다.",
@@ -155,6 +160,45 @@ const skillCategories = [
         icon: <FaGitAlt size={30} color="#F1502F" />,
         title: "git",
         desc: "기본 명령어로 버전 관리와 협업 준비를 할 수 있습니다.",
+      },
+      {
+        icon: <SiJira size={30} color="#0052CC" />,
+        title: "Jira",
+        desc: "스프린트 기반 이슈 트래킹과 칸반 보드를 활용해 팀 협업 및 업무 진행 상황을 관리한 경험이 있습니다.",
+        trend: true,
+      },
+      {
+        icon: <SiSourcetree size={30} color="#0052CC" />,
+        title: "SourceTree",
+        desc: "GUI 기반으로 브랜치 관리, 커밋 이력 확인, 병합 작업을 시각적으로 처리한 경험이 있습니다.",
+      },
+    ],
+  },
+  {
+    category: "개발환경 & DevOps",
+    icon: "⚙️",
+    skills: [
+      {
+        icon: <img src="/images/icon/인텔리제이.png" width={30} height={30} alt="IntelliJ IDEA" style={{objectFit:"contain"}} />,
+        title: "IntelliJ IDEA",
+        desc: "Java 및 웹 프로젝트 개발 시 IDE로 활용하며, 코드 자동완성과 디버깅 기능을 사용한 경험이 있습니다.",
+      },
+      {
+        icon: <img src="/images/icon/jenkins.webp" width={30} height={30} alt="Jenkins" style={{objectFit:"contain"}} />,
+        title: "Jenkins",
+        desc: "CI/CD 파이프라인 구성을 통해 빌드 자동화 및 배포 프로세스를 경험한 적이 있습니다.",
+      },
+    ],
+  },
+  {
+    category: "AI 도구",
+    icon: "🤖",
+    skills: [
+      {
+        icon: <SiClaude size={30} color="#CC785C" />,
+        title: "Claude",
+        desc: "AI 코딩 어시스턴트로 활용하며 복잡한 로직 설계, 코드 리뷰, 문서 작성 등 개발 생산성을 높이는 데 적극 활용하고 있습니다.",
+        trend: true,
       },
     ],
   },

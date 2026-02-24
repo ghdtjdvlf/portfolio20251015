@@ -17,11 +17,13 @@ import {
 import { ScrollSyncReveal } from "@/components/ui/scroll-sync-reveal";
 import { MaskContainer } from "@/components/ui/svg-mask-effect";
 import { SkillsAccordion } from "@/components/SkillsAccordion";
+import { SkillsMarquee } from "@/components/SkillsMarquee";
 import SpotlightCard from "@/components/SpotlightCard";
 import { TextHoverEffect } from "@/components/ui/text-hover-effect";
 import { HorizontalTextReveal } from "@/components/ui/horizontal-text-reveal";
 import { BentoGalleryFlip } from "@/components/ui/bento-gallery-flip";
 import { GsapListSlide } from "@/components/ui/gsap-list-slide";
+import FallingText from "@/components/ui/falling-text";
 import CometCard from "@/components/ui/comet-card";
 import { Compare } from "@/components/ui/compare";
 import ScrollVelocity from "@/components/ScrollVelocity";
@@ -183,12 +185,12 @@ export default async function HomePage() {
           </p>
         </MaskContainer>
       </div>
-
+{/* 
     <div className="py-4 hidden md:block">
       <ScrollSyncReveal content={content} />
-    </div>
+    </div> */}
 
-      <GsapListSlide />
+      {/* <GsapListSlide /> */}
 
       {/* section01 자기소개 */}
       <section className="section01 intro overflow-x-hidden w-full">
@@ -252,44 +254,101 @@ export default async function HomePage() {
         </div>
       </section>
       {/* section01 자기소개 */}
-      {/* section02 기술스택 */}
-      <section className="section02 text">
-        <div className="sec02-container">
-          <div className="flex flex-col gap-2  text-center title">
-            <h2 className="font-medium text-4xl md:text-5xl tracking-tighter">
-              Skills
-            </h2>
-            <p className="text-muted-foreground text-sm md:text-base lg:text-lg">
-              프로젝트를 완성도로 이끄는 기술적 역량과 도구들을 다룹니다.
-            </p>
-          </div>
-          {/* PC용 전체 그리드 (1024px 이상) */}
-          <div className="skills-grid-desktop">
-            {allSkills.map((skill, index) => (
-              <SpotlightCard
-                key={index}
-                className="custom-spotlight-card flex flex-col items-start justify-center p-5 gap-2"
-                spotlightColor="rgba(0, 229, 255, 0.15)"
-              >
-                <div className="flex items-center gap-2 text-neutral-800 dark:text-neutral-200">
-                  {skill.icon}
-                  <p className="skill-title font-semibold text-lg">
-                    {skill.title}
-                  </p>
-                </div>
-                <p className="skill-prd text-sm text-gray-600 dark:text-gray-400 leading-snug">
-                  {skill.desc}
-                </p>
-              </SpotlightCard>
-            ))}
-          </div>
+      {/* section02 기술스택 + FallingText 래퍼 */}
+      <div style={{ position: "relative" }}>
 
-          {/* 모바일용 아코디언 (1023px 이하) */}
-          <div className="skills-accordion-mobile">
-            <SkillsAccordion categories={skillCategories} />
+        {/* skills 섹션 — 정상 흐름, z-index 기본값 */}
+        <section className="section02 text">
+          <div className="sec02-container">
+            <div className="flex flex-col gap-2  text-center title">
+              <h2 className="font-medium text-4xl md:text-5xl tracking-tighter">
+                Skills
+              </h2>
+              <p className="text-muted-foreground text-sm md:text-base lg:text-lg">
+                프로젝트를 완성도로 이끄는 기술적 역량과 도구들을 다룹니다.
+              </p>
+            </div>
+
+            {/* PC용 전체 그리드 (1024px 이상) */}
+            <div className="skills-grid-desktop">
+              {allSkills.map((skill, index) => (
+                <SpotlightCard
+                  key={index}
+                  className="custom-spotlight-card flex flex-col items-start justify-center p-5 gap-2"
+                  spotlightColor="rgba(0, 229, 255, 0.15)"
+                >
+                  <div className="flex items-center gap-2 text-neutral-800 dark:text-neutral-200 w-full">
+                    {skill.icon}
+                    <p className="skill-title font-semibold text-lg flex-1">
+                      {skill.title}
+                    </p>
+                    {skill.trend && (
+                      <span className="skill-trend-badge">🔥 Trend</span>
+                    )}
+                  </div>
+                  <p className="skill-prd text-sm text-gray-600 dark:text-gray-400 leading-snug">
+                    {skill.desc}
+                  </p>
+                </SpotlightCard>
+              ))}
+            </div>
+
+            {/* 모바일용 마퀴 (1023px 이하) */}
+            <div className="skills-accordion-mobile">
+              <SkillsMarquee />
+              <div className="flex justify-center mt-8">
+                <Link
+                  href="/skills"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg border border-border bg-background hover:bg-muted transition-colors text-sm font-medium"
+                >
+                  스킬 자세히 보기
+                  <span aria-hidden>→</span>
+                </Link>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        {/* 착지 공간: skills 아래 350px — 단어들이 여기 쌓임 */}
+        <div style={{ height: "10rem" }} />
+
+        {/* FallingText 오버레이
+            - skills 섹션 상단부터 착지 공간 하단까지 전체를 커버
+            - z-index 999로 낙하 중 시각적으로 앞에 보임
+            - pointer-events: none → 낙하 중에도 skills 카드 인터랙션 유지
+            - 단어들은 physics floor(착지공간 바닥)에서 멈춤 */}
+        <div style={{
+          position: "absolute",
+          top: "-44%",
+          left: 0,
+          right: 0,
+          bottom: 0,
+          zIndex: 999,
+          pointerEvents: "none",
+        }}>
+          {/* 데스크톱: 전체 스킬 */}
+          <div className="hidden md:block h-full">
+            <FallingText
+              text={allSkills.map((s) => s.title).join(" ")}
+              highlightWords={allSkills.filter((s) => s.trend).map((s) => s.title)}
+              trigger="scroll"
+              gravity={0.8}
+              fontSize="1.4rem"
+            />
+          </div>
+          {/* 모바일: 트렌드 중심 절반만 */}
+          <div className="block md:hidden h-full">
+            <FallingText
+              text="Html5 CSS3 Tailwind Figma JavaScript Gsap React Firebase 카페24 Notion git Jira Claude"
+              highlightWords={["Figma", "Tailwind", "React", "Jira", "Claude"]}
+              trigger="scroll"
+              gravity={0.8}
+              fontSize="1.2rem"
+            />
           </div>
         </div>
-      </section>
+
+      </div>
       {/* section02 기술스택 */}
       <div className="absolute top-0 left-0 z-0 w-full h-[200px] overflow-hidden [mask-image:linear-gradient(to_top,transparent_25%,black_95%)]">
         <FlickeringGrid
