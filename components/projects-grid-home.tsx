@@ -38,7 +38,7 @@ export function ProjectsGridHome({ projects }: ProjectsGridHomeProps) {
         onMouseLeave={() => setHoveredIndex(null)}
       >
         {project.thumbnail && (
-          <div className="relative w-full h-70 flex-shrink-0">
+          <div className="relative w-full h-40 md:h-70 flex-shrink-0">
             <Image
               src={project.thumbnail}
               alt={project.title}
