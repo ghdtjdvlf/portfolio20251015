@@ -16,6 +16,7 @@ import {
 } from "@/components/ui/draggable-card";
 import { ScrollSyncReveal } from "@/components/ui/scroll-sync-reveal";
 import { MaskContainer } from "@/components/ui/svg-mask-effect";
+import { LottieSuccess } from "@/components/LottieSuccess";
 import { SkillsAccordion } from "@/components/SkillsAccordion";
 import { SkillsMarquee } from "@/components/SkillsMarquee";
 import SpotlightCard from "@/components/SpotlightCard";
@@ -192,6 +193,10 @@ export default async function HomePage() {
             집요한 <span className="text-blue-500">문제해결력</span>으로 <span className="text-blue-500">긍정의변화</span>를 증명 하겠습니다
           </p>
         </MaskContainer>
+
+        <div className="flex justify-center py-10">
+          <LottieSuccess width={400} height={400} />
+        </div>
       </div>
 {/* 
     <div className="py-4 hidden md:block">
