@@ -29,7 +29,7 @@ export default function AboutPage() {
             <div className="flex-shrink-0">
               <div className="relative w-44 h-44 md:w-60 md:h-60 rounded-2xl overflow-hidden border border-border shadow-xl">
                 <Image
-                  src="/images/me.jpg"
+                  src="/images/me.webp"
                   alt="홍성필 프로필 사진"
                   fill
                   className="object-cover"

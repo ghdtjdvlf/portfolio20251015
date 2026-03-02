@@ -13,14 +13,14 @@ type MediaItem =
   | { type: "video"; src: string }
 
 const items: MediaItem[] = [
-  { type: "image", src: "/images/img-04.jpg" },
-  { type: "image", src: "/images/img-02.jpg" },
+  { type: "image", src: "/images/img-04.webp" },
+  { type: "image", src: "/images/img-02.webp" },
   { type: "video", src: "/video/ai.mp4" },
-  { type: "image", src: "/images/img-01.jpg" },
-  { type: "image", src: "/images/img-09.jpg" },
-  { type: "image", src: "/images/img-06.jpg" },
-  { type: "image", src: "/images/img-08.jpg" },
-  { type: "image", src: "/images/img-07.jpg" },
+  { type: "image", src: "/images/img-01.webp" },
+  { type: "image", src: "/images/img-09.webp" },
+  { type: "image", src: "/images/img-06.webp" },
+  { type: "image", src: "/images/img-08.webp" },
+  { type: "image", src: "/images/img-07.webp" },
 
 ]
 

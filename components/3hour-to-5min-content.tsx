@@ -173,8 +173,8 @@ export const ThreeHourToFiveMinContent = () => {
       <div className="mt-4 md:mt-7 px-4 md:px-0">
         <div className="relative flex flex-col items-center w-full">
           <Compare
-            firstImage="/images/단순.png"
-            secondImage="/images/복잡.png"
+            firstImage="/images/단순.webp"
+            secondImage="/images/복잡.webp"
             firstImageClassName="object-cover object-left-top"
             secondImageClassname="object-cover object-left-top"
             className="h-[300px] w-[260px] sm:h-[300px] sm:w-[300px] md:h-[400px] md:w-[400px] lg:h-[500px] lg:w-[500px] mx-auto"
