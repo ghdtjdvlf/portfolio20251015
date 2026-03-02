@@ -4,7 +4,6 @@ import { useRef, useEffect } from "react";
 import { DotLottie } from "@lottiefiles/dotlottie-web";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { MaskContainer } from "@/components/ui/svg-mask-effect";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -81,31 +80,15 @@ export function LottieScrollSection() {
     };
   }, []);
 
-  // ─── 위치 조정 ───────────────────────────────────────────
-  // 음수 = 위로 이동 / 양수 = 아래로 이동 (단위 vh)
-  // -20vh → 콘텐츠가 화면 상단 기준 약 30% 지점에 표시
-  const MASK_OFFSET = "-20vh"; // ← 여기서 세부 조정
-  // ─────────────────────────────────────────────────────────
-
   return (
     <section
       ref={sectionRef}
       className="relative w-full min-h-screen overflow-hidden"
     >
-      <div className="absolute inset-x-0 h-screen" style={{ top: MASK_OFFSET }}>
-      <MaskContainer
-        revealText={
-          <p className="w-[80vw] text-center text-2xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-            확실한 긍정적 변화를 약속하는 인재, 홍성필입니다.
-          </p>
-        }
-        className="h-screen rounded-md text-white dark:text-black"
-      >
-        <p className="text-2xl lg:text-4xl">
-          집요한 <span className="text-blue-500">문제해결력</span>으로{" "}
-          <span className="text-blue-500">긍정의변화</span>를 증명 하겠습니다
+      <div className="absolute inset-x-0 top-[20%] flex justify-center">
+        <p className="w-[80vw] text-center text-2xl lg:text-4xl font-bold text-slate-800 dark:text-white">
+          확실한 긍정적 변화를 약속하는 인재, 홍성필입니다.
         </p>
-      </MaskContainer>
       </div>
 
       <div ref={canvasWrapperRef} className="absolute top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">

@@ -12,6 +12,7 @@ interface BlogData {
   date: { start: string; end: string; day: string };
   tags?: string[];
   thumbnail?: string;
+  order?: number;
 }
 
 interface BlogPage {
@@ -43,6 +44,11 @@ export default async function ProjectsPage({
         return match ? parseInt(match[0]) : 0;
       };
       return getDays(b.data.date.day) - getDays(a.data.date.day);
+    }
+    if (sortOrder === "latest") {
+      const aOrder = a.data.order ?? Infinity;
+      const bOrder = b.data.order ?? Infinity;
+      if (aOrder !== bOrder) return aOrder - bOrder;
     }
     const dateA = new Date(a.data.date.end).getTime();
     const dateB = new Date(b.data.date.end).getTime();

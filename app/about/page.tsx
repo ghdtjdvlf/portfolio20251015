@@ -3,24 +3,6 @@ import { SkillsAccordion } from "@/components/SkillsAccordion";
 import skillCategories from "@/app/data/skills";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
-const IMPACT_STATS = [
-  {
-    number: "97%",
-    label: "업무 시간 단축",
-    description: "3시간이 걸리던 반복 작업을 5분으로 단축. 7개 쇼핑몰 유지보수 자동화.",
-  },
-  {
-    number: "3,000만원",
-    label: "연간 비용 절감",
-    description: "외주에 의존하던 작업을 내재화 개발로 전환해 외주 비용 100% 절감.",
-  },
-  {
-    number: "2주차",
-    label: "API 연동 완료",
-    description: "입사 2주 차, 카페24 API 연동 과제를 CORS 문제까지 해결하며 3일 만에 완료.",
-  },
-];
-
 const CORE_VALUES = ["책임감", "효율적인", "능동적인"];
 
 export default function AboutPage() {
@@ -118,31 +100,6 @@ export default function AboutPage() {
                 책임감으로 계속 성장하고 있습니다.
               </p>
             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ── 임팩트 숫자 섹션 ─────────────────────────── */}
-      <section className="border-b border-border bg-muted/20">
-        <div className="max-w-7xl mx-auto px-6 py-16 md:py-24">
-          <h2 className="font-medium text-3xl md:text-4xl tracking-tighter text-center mb-12">
-            숫자로 보는 성과
-          </h2>
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-            {IMPACT_STATS.map((stat) => (
-              <div
-                key={stat.number}
-                className="flex flex-col items-center text-center gap-3 p-8 rounded-2xl border border-border bg-background"
-              >
-                <span className="text-5xl md:text-6xl font-bold tracking-tighter text-primary">
-                  {stat.number}
-                </span>
-                <span className="text-lg font-semibold">{stat.label}</span>
-                <p className="text-sm text-muted-foreground leading-relaxed">
-                  {stat.description}
-                </p>
-              </div>
-            ))}
           </div>
         </div>
       </section>

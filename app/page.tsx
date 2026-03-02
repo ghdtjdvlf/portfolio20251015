@@ -53,6 +53,7 @@ interface BlogData {
   author?: string;
   authorImage?: string;
   thumbnail?: string;
+  order?: number;
 }
 
 interface BlogPage {
@@ -115,7 +116,12 @@ export default async function HomePage() {
   const allPages = blogSource.getPages() as BlogPage[];
   const latestFour = allPages
     .filter((p) => p.data.tags?.includes("main"))
-    .sort((a, b) => parseStartDate(b.data.date.start) - parseStartDate(a.data.date.start))
+    .sort((a, b) => {
+      const aOrder = a.data.order ?? Infinity;
+      const bOrder = b.data.order ?? Infinity;
+      if (aOrder !== bOrder) return aOrder - bOrder;
+      return parseStartDate(b.data.date.start) - parseStartDate(a.data.date.start);
+    })
     .map((p) => ({
       url: p.url,
       title: p.data.title,

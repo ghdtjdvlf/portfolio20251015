@@ -13,14 +13,15 @@ type MediaItem =
   | { type: "video"; src: string }
 
 const items: MediaItem[] = [
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-1.jpg" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-12.jpg" },
-  { type: "video", src: "/video/video-01.mp4" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-2.jpg" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-4.jpg" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-3.jpg" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-pattern-3.jpg" },
-  { type: "image", src: "https://assets.codepen.io/16327/portrait-image-1.jpg" },
+  { type: "image", src: "/images/img-04.jpg" },
+  { type: "image", src: "/images/img-02.jpg" },
+  { type: "video", src: "/video/ai.mp4" },
+  { type: "image", src: "/images/img-01.jpg" },
+  { type: "image", src: "/images/img-09.jpg" },
+  { type: "image", src: "/images/img-06.jpg" },
+  { type: "image", src: "/images/img-08.jpg" },
+  { type: "image", src: "/images/img-07.jpg" },
+
 ]
 
 export function BentoGalleryFlip() {

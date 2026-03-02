@@ -11,6 +11,7 @@ import Footer from "@/components/footer";
 import { Loading } from "@/components/loading";
 import { GoTopButton } from "@/components/go-top-button";
 import { VisitorTracker } from "@/components/visitor-tracker";
+import { LenisProvider } from "@/components/lenis-provider";
 import "@/app/globals.css";
 
 const pretendard = localFont({
@@ -65,6 +66,7 @@ export default function RootLayout({
             `,
           }}
         />
+        <LenisProvider>
         <Providers>
           <ThemeProvider
             attribute="class"
@@ -83,6 +85,7 @@ export default function RootLayout({
             <MobileBottomNav />
           </ThemeProvider>
         </Providers>
+        </LenisProvider>
       </body>
     </html>
   );

@@ -27,36 +27,36 @@ export function SortFilter() {
       <div className="flex gap-2">
         <button
           onClick={() => handleSortChange("latest")}
-          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors ${
+          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors whitespace-nowrap ${
             currentSort === "latest"
               ? "border-primary bg-primary text-primary-foreground"
               : "border-border hover:bg-muted"
           }`}
         >
-          <ArrowDown className="h-3.5 w-3.5" />
-          <span className="hidden md:inline">최신순</span>
+          <ArrowDown className="h-3.5 w-3.5 shrink-0" />
+          최신순
         </button>
         <button
           onClick={() => handleSortChange("oldest")}
-          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors ${
+          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors whitespace-nowrap ${
             currentSort === "oldest"
               ? "border-primary bg-primary text-primary-foreground"
               : "border-border hover:bg-muted"
           }`}
         >
-          <ArrowUp className="h-3.5 w-3.5" />
-          <span className="hidden md:inline">오래된순</span>
+          <ArrowUp className="h-3.5 w-3.5 shrink-0" />
+          오래된순
         </button>
         <button
           onClick={() => handleSortChange("duration")}
-          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors ${
+          className={`h-8 flex items-center gap-1 px-3 rounded-lg border text-sm transition-colors whitespace-nowrap ${
             currentSort === "duration"
               ? "border-primary bg-primary text-primary-foreground"
               : "border-border hover:bg-muted"
           }`}
         >
-          <Clock className="h-3.5 w-3.5" />
-          <span className="hidden md:inline">작업기간순</span>
+          <Clock className="h-3.5 w-3.5 shrink-0" />
+          작업기간순
         </button>
       </div>
     </div>
