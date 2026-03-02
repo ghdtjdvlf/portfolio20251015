@@ -35,6 +35,7 @@ import { Fullstack } from "@/components/Fullstack";
 import { Three } from "@/components/30000";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { LottieContainer } from "@/components/LottieContainer";
+import { LottieScrollSection } from "@/components/LottieScrollSection";
 
 
 
@@ -66,6 +67,12 @@ const blogSource = loader({
 
 const formatProjectPeriod = (date: { start: string; end: string }): string => {
   return `${date.start} ~ ${date.end}`;
+};
+
+const parseStartDate = (s: string) => {
+  const parts = s.replace(/\./g, "-").split("-").filter(Boolean);
+  if (parts.length === 2) parts.push("01");
+  return new Date(parts.join("-")).getTime();
 };
 
 const content = [
@@ -106,14 +113,9 @@ const content = [
 
 export default async function HomePage() {
   const allPages = blogSource.getPages() as BlogPage[];
-  const getOrder = (tags?: string[]) => {
-    const num = tags?.find((t) => /^\d+$/.test(t));
-    return num ? parseInt(num) : 99;
-  };
-
   const latestFour = allPages
     .filter((p) => p.data.tags?.includes("main"))
-    .sort((a, b) => getOrder(a.data.tags) - getOrder(b.data.tags))
+    .sort((a, b) => parseStartDate(b.data.date.start) - parseStartDate(a.data.date.start))
     .map((p) => ({
       url: p.url,
       title: p.data.title,
@@ -149,55 +151,7 @@ export default async function HomePage() {
         text="책임감, 효율적인, 능동적인"
       />
 
-      <div className="flex h-[70rem] w-full items-center justify-center relative">
-            <CometCard className="absolute z-100 top-[10%] lg:top-[-10%]">
-              <button
-                type="button"
-                className="my-10 flex w-50 lg:w-70 flex-col items-stretch rounded-[16px] border-0 bg-[#1F2121] p-2 saturate-0 md:my-20 md:p-4"
-                aria-label="View invite F7RA"
-                style={{
-                  transformStyle: "preserve-3d",
-                  transform: "none",
-                  opacity: 1,
-                }}
-              >
-                <div className="mx-2 flex-1">
-                  <div className="relative mt-2 aspect-[3/4] w-full">
-                    <img
-                      loading="lazy"
-                      className="absolute inset-0 h-full w-full rounded-[16px] bg-[#000000] object-cover contrast-75"
-                      alt="Invite background"
-                      src="images/me.jpg"
-                      style={{
-                        boxShadow: "rgba(0, 0, 0, 0.05) 0px 5px 6px 0px",
-                        opacity: 1,
-                      }}
-                    />
-                  </div>
-                </div>
-                <div className="mt-2 flex flex-shrink-0 items-center justify-between p-4 font-mono text-white">
-                  <div className="text-xs">홍성필</div>
-                  <div className="text-xs text-gray-300 opacity-50">010-6731-5242</div>
-                </div>
-              </button>
-            </CometCard>
-        <MaskContainer
-          revealText={
-            <p className="w-[80vw] text-center text-2xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-              확실한 긍정적 변화를 약속하는 인재, 홍성필입니다.
-            </p>
-          }
-          className="h-[40rem] rounded-md text-white dark:text-black"
-        >
-          <p className="text-2xl lg:text-4xl">
-            집요한 <span className="text-blue-500">문제해결력</span>으로 <span className="text-blue-500">긍정의변화</span>를 증명 하겠습니다
-          </p>
-        </MaskContainer>
-
-        <div className="flex justify-center py-10">
-          <LottieSuccess width={400} height={400} />
-        </div>
-      </div>
+      <LottieScrollSection />
 {/* 
     <div className="py-4 hidden md:block">
       <ScrollSyncReveal content={content} />

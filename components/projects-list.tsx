@@ -83,7 +83,7 @@ export function ProjectsList({ projects }: ProjectsListProps) {
               )}
             >
               {/* 인덱스 번호 */}
-              <span className="text-7xl font-bold text-muted-foreground/10 leading-none select-none -mb-2">
+              <span className="text-7xl font-bold text-muted-foreground/100 leading-none select-none -mb-2">
                 {String(index + 1).padStart(2, "0")}
               </span>
 

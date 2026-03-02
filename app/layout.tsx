@@ -76,7 +76,9 @@ export default function RootLayout({
             <GoTopButton />
             <VisitorTracker />
             <SiteNav />
-            {children}
+            <main className="pt-16">
+              {children}
+            </main>
             <Footer />
             <MobileBottomNav />
           </ThemeProvider>
