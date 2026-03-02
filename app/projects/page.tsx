@@ -51,7 +51,13 @@ export default async function ProjectsPage({
 
   const allTags = [
     "All",
-    ...Array.from(new Set(sorted.flatMap((p) => p.data.tags || []))).sort(),
+    ...Array.from(
+      new Set(
+        sorted.flatMap((p) =>
+          (p.data.tags || []).filter((t) => !/^\d+$/.test(t) && t !== "main")
+        )
+      )
+    ).sort(),
   ];
 
   const filtered =
@@ -73,7 +79,7 @@ export default async function ProjectsPage({
     description: p.data.description,
     date: p.data.date,
     thumbnail: p.data.thumbnail,
-    tags: p.data.tags,
+    tags: p.data.tags?.filter((t) => !/^\d+$/.test(t) && t !== "main"),
   }));
 
   return (
