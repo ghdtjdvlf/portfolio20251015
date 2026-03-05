@@ -70,7 +70,21 @@ export function BentoGalleryFlip() {
       ScrollTrigger.refresh()
     }
 
-    createTween()
+    // 이미지가 모두 로드된 후 GSAP 초기화 (첫 로드 버벅임 방지)
+    const images = gallery.querySelectorAll<HTMLImageElement>("img")
+    const imageLoadPromises = Array.from(images).map(
+      (img) =>
+        img.complete
+          ? Promise.resolve()
+          : new Promise<void>((resolve) => {
+              img.onload = () => resolve()
+              img.onerror = () => resolve()
+            })
+    )
+
+    Promise.all(imageLoadPromises).then(() => {
+      createTween()
+    })
 
     let resizeTimer: ReturnType<typeof setTimeout>
     const onResize = () => {
@@ -99,10 +113,11 @@ export function BentoGalleryFlip() {
                 muted
                 loop
                 playsInline
+                preload="none"
                 style={{ width: "100%", height: "100%", objectFit: "cover" }}
               />
             ) : (
-              <img src={item.src} alt="" />
+              <img src={item.src} alt="" loading="eager" />
             )}
           </div>
         ))}

@@ -20,6 +20,7 @@
   background-size: cover;
   flex: none;
   position: relative;
+  will-change: transform;
 }
 
 .gallery__item img {
