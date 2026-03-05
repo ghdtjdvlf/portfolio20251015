@@ -18,6 +18,13 @@ export function PageTransition() {
     return () => clearTimeout(timer);
   }, [pathname, searchParams]);
 
+  // 안전장치: 로딩이 2초 이상 지속되면 강제 종료
+  useEffect(() => {
+    if (!isLoading) return;
+    const failsafe = setTimeout(() => setIsLoading(false), 2000);
+    return () => clearTimeout(failsafe);
+  }, [isLoading]);
+
   // 링크 클릭 감지
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
@@ -25,6 +32,9 @@ export function PageTransition() {
       if (!target) return;
 
       const href = target.getAttribute('href');
+
+      // 현재 페이지와 같은 링크 클릭 시 로딩 표시 안 함
+      if (href === pathname) return;
 
       // 내부 링크 클릭 시 로딩 표시
       if (
@@ -39,7 +49,7 @@ export function PageTransition() {
 
     document.addEventListener('click', handleClick);
     return () => document.removeEventListener('click', handleClick);
-  }, []);
+  }, [pathname]);
 
   return <LoadingSpinner isLoading={isLoading} />;
 }
