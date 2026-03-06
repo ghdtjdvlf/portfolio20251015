@@ -29,10 +29,10 @@ export function GeminiHero() {
 
     introTl
       .to("#gemini-curtain", { height: "100vh", duration: 5, ease: "power2.inOut" }, 0)
-      .fromTo(".gemini-t1", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }, 0.2)
-      .to(".gemini-t1", { opacity: 0, scale: 1.1, duration: 0.3, ease: "power2.in" }, 1.05)
-      .fromTo(".gemini-t2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 0.8, ease: "power2.out" }, 1.8)
-      .to(".gemini-t2", { opacity: 0, scale: 1.1, duration: 0.3, ease: "power2.in" }, 2.65)
+      .fromTo(".gemini-t1", { opacity: 0, scale: 0.7, y: 260 }, { opacity: 1, scale: 1, y: 0, duration: 1.1, ease: "power2.out" }, 0.2)
+      .to(".gemini-t1", { opacity: 0, duration: 0.4, ease: "power2.in" }, 1.35)
+      .fromTo(".gemini-t2", { opacity: 0 }, { opacity: 1, duration: 1.1, ease: "power2.out" }, 2.1)
+      .to(".gemini-t2", { opacity: 0, duration: 0.2, ease: "power2.in" }, 3.25)
       .to("#gemini-intro", { opacity: 0, duration: 0.8, ease: "power2.inOut" }, 4.2)
       .to("#site-nav-wrapper", { opacity: 1, pointerEvents: "auto", duration: 0.5, ease: "power2.out" }, 4.8)
 
@@ -61,8 +61,8 @@ export function GeminiHero() {
           className="absolute inset-0 flex items-center justify-center pointer-events-none text-white"
           style={{ zIndex: 20, mixBlendMode: "difference" }}
         >
-          <h1 className="gemini-t1 absolute opacity-0" style={{ ...titleHuge, fontSize: "7rem" }}>Web Publisher & Front End</h1>
-          <h1 className="gemini-t2 absolute opacity-0" style={{ ...titleHuge, fontSize: "8rem" }}>홍성필 포트폴리오</h1>
+          <h1 className="gemini-t1 absolute opacity-0 text-[2.2rem] md:text-[4.5rem] lg:text-[7rem]" style={{ ...titleHuge, fontSize: undefined }}>Web Publisher & Front End</h1>
+          <h1 className="gemini-t2 absolute opacity-0 text-[2.8rem] md:text-[5.5rem] lg:text-[8rem]" style={{ ...titleHuge, fontSize: undefined }}>홍성필 포트폴리오</h1>
         </div>
       </div>
 
