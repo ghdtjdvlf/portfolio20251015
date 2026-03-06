@@ -74,7 +74,7 @@ export function GeminiHero() {
     // 이미지 1초마다 순환
     let currentIdx = 0
     const imgInterval = setInterval(() => {
-      const next = (currentIdx + 1) % 4
+      const next = (currentIdx + 1) % 6
       gsap.to(`.gemini-img-${currentIdx}`, { opacity: 0, duration: 0.15 })
       gsap.to(`.gemini-img-${next}`, { opacity: 1, duration: 0.15 })
       currentIdx = next
@@ -168,9 +168,11 @@ export function GeminiHero() {
             <div className="gemini-product-wrapper absolute inset-0 w-full h-full flex items-center justify-center">
               {[
                 "https://i.ibb.co/84byWcWz/image.png",
-                "https://i.ibb.co/TM3Grc4x/image-removebg-preview.png",
                 "https://i.ibb.co/dJ0wsGWh/image-removebg-preview-1.png",
                 "https://i.ibb.co/MHYgL35/image-removebg-preview-2.png",
+                "https://i.ibb.co/n2czmmx/image.png",
+                "https://i.ibb.co/93zWJQpT/image.png",
+                "https://i.ibb.co/G4WkmkQ8/image.png",          
               ].map((src, i) => (
                 <img
                   key={i}
