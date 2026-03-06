@@ -1,6 +1,7 @@
 "use client";
 import { useScroll, useTransform, motion, AnimatePresence } from "motion/react";
 import { useRef, useState, useEffect, useCallback } from "react";
+import { createPortal } from "react-dom";
 import { cn } from "@/lib/utils";
 
 function Lightbox({
@@ -16,6 +17,9 @@ function Lightbox({
   const [zoom, setZoom] = useState(1);
   const imgRef = useRef<HTMLImageElement>(null);
   const isDragging = useRef(false);
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => { setMounted(true); }, []);
 
   const prev = useCallback(() => { setCurrent((c) => (c - 1 + images.length) % images.length); setZoom(1); }, [images.length]);
   const next = useCallback(() => { setCurrent((c) => (c + 1) % images.length); setZoom(1); }, [images.length]);
@@ -34,22 +38,25 @@ function Lightbox({
     return () => window.removeEventListener("keydown", onKey);
   }, [prev, next, onClose]);
 
-  return (
+  const content = (
     <motion.div
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[99999] flex items-center justify-center bg-black/90"
+      className="fixed inset-0 flex items-center justify-center bg-black/90"
+      style={{ zIndex: 999999 }}
     >
       {/* 좌측 절반 클릭 → 이전 */}
       <div className="absolute inset-y-0 left-0 w-1/2 cursor-pointer" onClick={prev} />
       {/* 우측 절반 클릭 → 다음 */}
       <div className="absolute inset-y-0 right-0 w-1/2 cursor-pointer" onClick={next} />
 
-      {/* 닫기 */}
+      {/* 닫기 — drag 포인터 캡처에 방해받지 않도록 onPointerDown 차단 */}
       <button
-        className="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none z-20"
-        onClick={onClose}
+        style={{ zIndex: 999999 }}
+        className="absolute top-4 right-4 text-white/70 hover:text-white text-3xl leading-none"
+        onPointerDown={(e) => { e.stopPropagation(); }}
+        onClick={(e) => { e.stopPropagation(); onClose(); }}
       >
         ✕
       </button>
@@ -60,6 +67,7 @@ function Lightbox({
         <button
           className="absolute top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-5xl px-3 py-2"
           style={{ right: "calc(100% + 200px)" }}
+          onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); prev(); }}
         >
           ‹
@@ -93,6 +101,7 @@ function Lightbox({
         <button
           className="absolute top-1/2 -translate-y-1/2 text-white/70 hover:text-white text-5xl px-3 py-2"
           style={{ left: "calc(100% + 200px)" }}
+          onPointerDown={(e) => e.stopPropagation()}
           onClick={(e) => { e.stopPropagation(); next(); }}
         >
           ›
@@ -100,10 +109,11 @@ function Lightbox({
       </div>
 
       {/* 인디케이터 */}
-      <div className="absolute bottom-4 flex gap-1.5">
+      <div className="absolute bottom-4 flex gap-1.5" style={{ zIndex: 999999 }}>
         {images.map((_, i) => (
           <button
             key={i}
+            onPointerDown={(e) => e.stopPropagation()}
             onClick={(e) => { e.stopPropagation(); setCurrent(i); }}
             className={cn(
               "w-1.5 h-1.5 rounded-full transition-all",
@@ -114,6 +124,9 @@ function Lightbox({
       </div>
     </motion.div>
   );
+
+  if (!mounted) return null;
+  return createPortal(content, document.body);
 }
 
 export const ParallaxScroll = ({

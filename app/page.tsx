@@ -152,7 +152,6 @@ export default async function HomePage() {
 
       <GeminiHero />
 
-      <BentoGalleryFlip />
 
       {/* <HorizontalTextReveal>책임감, 효율적인, 능동적인</HorizontalTextReveal> */}
 

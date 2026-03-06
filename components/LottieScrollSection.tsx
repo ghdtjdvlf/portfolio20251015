@@ -6,6 +6,8 @@ import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 gsap.registerPlugin(ScrollTrigger);
+// 모바일 주소창 리사이즈로 인한 ScrollTrigger 오작동 방지
+ScrollTrigger.config({ ignoreMobileResize: true });
 
 export function LottieScrollSection() {
   const sectionRef = useRef<HTMLElement>(null);
@@ -14,6 +16,18 @@ export function LottieScrollSection() {
 
   useEffect(() => {
     if (!canvasRef.current || !sectionRef.current) return;
+
+    // CSS clamp() 적용 후 실제 렌더링 크기를 canvas attribute에 반영
+    // DotLottie는 canvas.width / canvas.height 기준으로 렌더링
+    const syncCanvasSize = () => {
+      if (!canvasRef.current) return;
+      const { width, height } = canvasRef.current.getBoundingClientRect();
+      const dpr = window.devicePixelRatio || 1;
+      canvasRef.current.width = Math.round(width * dpr);
+      canvasRef.current.height = Math.round(height * dpr);
+    };
+
+    syncCanvasSize();
 
     const dotLottie = new DotLottie({
       canvas: canvasRef.current,
@@ -32,10 +46,8 @@ export function LottieScrollSection() {
 
       const obj = { frame: 0 };
 
-      // ─── 스크롤 구간 조정 ──────────────────────────────────
-      const FRAME_SCROLL = totalFrames * 15; // Lottie 재생 구간 (px)
-      const FADE_SCROLL  = 300;              // ← fade-out 구간 (px) 세부 조정
-      // ───────────────────────────────────────────────────────
+      const FRAME_SCROLL = totalFrames * 15;
+      const FADE_SCROLL  = 300;
 
       ctx = gsap.context(() => {
         const tl = gsap.timeline({
@@ -74,9 +86,17 @@ export function LottieScrollSection() {
       initScrollTrigger();
     });
 
+    const handleResize = () => {
+      syncCanvasSize();
+      ScrollTrigger.refresh();
+    };
+
+    window.addEventListener("resize", handleResize);
+
     return () => {
       ctx?.revert();
       dotLottie.destroy();
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -91,8 +111,19 @@ export function LottieScrollSection() {
         </p>
       </div>
 
-      <div ref={canvasWrapperRef} className="absolute top-[70%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none">
-        <canvas ref={canvasRef} style={{ width: "50rem", height: "50rem" }} />
+      {/* 반응형: 모바일 16rem ~ 데스크톱 50rem */}
+      <div
+        ref={canvasWrapperRef}
+        className="absolute top-[60%] left-1/2 -translate-x-1/2 -translate-y-1/2 pointer-events-none"
+      >
+        <canvas
+          ref={canvasRef}
+          style={{
+            width: "clamp(14rem, 70vw, 50rem)",
+            height: "clamp(14rem, 70vw, 50rem)",
+            display: "block",
+          }}
+        />
       </div>
     </section>
   );
