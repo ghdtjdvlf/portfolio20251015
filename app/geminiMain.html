@@ -1,0 +1,216 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sofi Health - Feel Better</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts (Inter 적용하여 볼드하고 깔끔한 타이포그래피 구현) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700;900&display=swap" rel="stylesheet">
+    
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #ffffff;
+            color: #000000;
+            margin: 0;
+            overflow-x: hidden;
+            /* 기본 스크롤바 숨기기 (깔끔한 미니멀리즘 유지) */
+            -ms-overflow-style: none;
+            scrollbar-width: none;
+        }
+        body::-webkit-scrollbar {
+            display: none;
+        }
+
+        /* 텍스트의 자간을 극도로 좁혀 브랜드의 특유의 타이포그래피 스타일 재현 */
+        .title-huge {
+            font-size: clamp(6rem, 15vw, 18rem);
+            font-weight: 900;
+            line-height: 0.85;
+            letter-spacing: -0.06em;
+        }
+
+        /* 제품 이미지의 자연스러운 합성을 위해 mix-blend-mode 사용 */
+        .product-image {
+            mix-blend-mode: multiply;
+            filter: contrast(1.1) brightness(0.95);
+        }
+
+        /* 마이크로 텍스트 및 UI 요소 테두리 (Hairline border) */
+        .hairline-border {
+            border: 1px solid rgba(0, 0, 0, 0.1);
+        }
+
+        /* Lenis 스크롤 부드러움 적용을 위한 기본 세팅 */
+        html.lenis { height: auto; }
+        .lenis.lenis-smooth { scroll-behavior: auto; }
+        .lenis.lenis-smooth [data-lenis-prevent] { overscroll-behavior: contain; }
+        .lenis.lenis-stopped { overflow: hidden; }
+        .lenis.lenis-scrolling iframe { pointer-events: none; }
+    </style>
+</head>
+<body class="antialiased selection:bg-black selection:text-white">
+
+    <!-- 0. 인트로 애니메이션 (영화 같은 오프닝 시퀀스) -->
+    <div id="intro-sequence" class="fixed inset-0 z-[100] bg-black flex items-center justify-center overflow-hidden">
+        <!-- 가운데서 서서히 벌어지는 흰색 배경 (Curtain) -->
+        <div id="intro-white-curtain" class="absolute left-0 w-full bg-white top-1/2 -translate-y-1/2 z-10" style="height: 0px;"></div>
+        
+        <!-- 시간에 따라 등장하는 텍스트 (mix-blend-mode로 배경에 따라 흑백 반전) -->
+        <div class="absolute inset-0 flex items-center justify-center z-20 pointer-events-none mix-blend-difference text-white">
+            <h1 class="title-huge absolute opacity-0 intro-text-1">sleep</h1>
+            <h1 class="title-huge absolute opacity-0 intro-text-2">smart</h1>
+            <h1 class="title-huge absolute opacity-0 intro-text-3">naturally</h1>
+        </div>
+    </div>
+
+    <!-- 1. 고정 내비게이션 및 UI 레이어 (Fixed UI Layer) -->
+    <!-- 상단 헤더 -->
+    <header class="fixed top-0 left-0 w-full p-8 flex justify-between items-center z-50 pointer-events-none">
+        <div class="text-3xl font-black tracking-tighter pointer-events-auto cursor-pointer hover:opacity-70 transition-opacity">
+            sofi
+        </div>
+        <div class="flex gap-6 items-center pointer-events-auto">
+            <!-- 아이콘 플레이스홀더 (SVG) -->
+            <button class="w-6 h-6 hover:scale-110 transition-transform"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg></button>
+            <button class="w-6 h-6 hover:scale-110 transition-transform"><svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path></svg></button>
+            <button class="w-6 h-6 hover:scale-110 transition-transform relative">
+                <svg fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
+                <span class="absolute -top-1 -right-1 bg-black text-white text-[10px] w-4 h-4 rounded-full flex items-center justify-center font-bold">0</span>
+            </button>
+        </div>
+    </header>
+
+    <!-- 하단 고정 UI -->
+    <div class="fixed bottom-8 left-8 z-50 pointer-events-none hidden md:block">
+        <p class="text-[10px] font-medium tracking-wide text-gray-500 uppercase">
+            purity of plants - power of people - power of plant at plant
+        </p>
+    </div>
+
+    <button class="fixed bottom-8 left-1/2 -translate-x-1/2 bg-black text-white px-8 py-3 rounded-full text-sm font-bold tracking-tight z-50 hover:bg-gray-800 transition-colors shadow-lg hover:-translate-y-1 transform duration-300">
+        shop sofi
+    </button>
+
+    <!-- 쿠키 동의 배너 -->
+    <div class="fixed bottom-8 right-8 z-50 w-[320px] bg-white hairline-border p-5 rounded shadow-2xl flex flex-col gap-4 text-sm hidden lg:flex">
+        <p class="font-medium text-gray-800 tracking-tight">we collect identifiers...</p>
+        <div class="flex gap-2 font-semibold">
+            <button class="bg-black text-white px-4 py-2 rounded flex-1 hover:bg-gray-800 transition-colors">accept all</button>
+            <button class="border hairline-border text-black px-4 py-2 rounded flex-1 hover:bg-gray-50 transition-colors">accept essentials</button>
+        </div>
+        <button class="text-xs text-gray-500 underline text-center hover:text-black transition-colors">reject all</button>
+    </div>
+
+    <!-- 2. 스크롤 애니메이션 컨테이너 (Scroll Animation Area) -->
+    <!-- 전체 스크롤 길이를 결정하는 래퍼 (인트로가 분리되었으므로 길이를 줄임) -->
+    <main id="scroll-wrapper" class="relative h-[200vh] w-full">
+        
+        <!-- 화면에 고정되어 내용을 교체하여 보여주는 Sticky 블록 -->
+        <section class="sticky top-0 h-screen w-full overflow-hidden flex flex-col md:flex-row bg-white">
+            
+            <!-- 왼쪽 타이포그래피 영역 -->
+            <div class="w-full md:w-[60%] h-full flex items-center justify-center relative p-8 md:p-20 z-10">
+                
+                <!-- 메인 페이지 컨텐츠: Feel Better -->
+                <div class="scene-feel-better absolute inset-0 flex flex-col items-start justify-center p-12 md:p-24">
+                    <h1 class="title-huge text-black">feel<br>better</h1>
+                    <p class="mt-8 text-sm font-medium text-gray-600 max-w-sm tracking-tight leading-relaxed">
+                        we have searched thousands of years in our search for better wellness — until creating the future of plant based remedies...
+                    </p>
+                </div>
+
+            </div>
+
+            <!-- 오른쪽 제품 이미지 영역 (Parallax & 고정 효과) -->
+            <div class="w-full md:w-[40%] h-full absolute right-0 top-0 md:relative flex items-center justify-center pointer-events-none z-0">
+                <div class="scene-product absolute inset-0 w-full h-full flex items-center justify-center origin-right scale-100">
+                    <!-- 미니멀리즘과 렌더링 퀄리티를 표현하기 위한 고해상도 Unsplash 이미지 (화이트 배경용) -->
+                    <!-- 제품을 들고 있는 손의 느낌을 살린 이미지를 선택했습니다. -->
+                    <img 
+                        src="https://images.unsplash.com/photo-1599305090598-fe179d501227?auto=format&fit=crop&w=1200&q=100" 
+                        alt="High-fidelity product rendering"
+                        class="product-image w-full h-full object-cover md:object-contain object-right"
+                    >
+                </div>
+            </div>
+
+        </section>
+    </main>
+
+    <!-- GSAP & Lenis Scripts -->
+    <!-- 애니메이션 엔진 GSAP과 ScrollTrigger -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <!-- 부드러운 스크롤을 위한 Lenis -->
+    <script src="https://cdn.jsdelivr.net/gh/studio-freight/lenis@1.0.19/bundled/lenis.min.js"></script>
+
+    <script>
+        // 1. Lenis 초기화 (관성이 느껴지는 부드러운 스크롤 기법)
+        const lenis = new Lenis({
+            duration: 1.5, // 영상처럼 유기적이고 부드러운 속도감
+            easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)), // Ease-out 곡선
+            direction: 'vertical',
+            smooth: true,
+            smoothTouch: false,
+        });
+
+        // Lenis 스크롤 틱을 GSAP ScrollTrigger와 동기화
+        lenis.on('scroll', ScrollTrigger.update);
+        gsap.ticker.add((time) => { lenis.raf(time * 1000); });
+        gsap.ticker.lagSmoothing(0);
+
+        // GSAP ScrollTrigger 플러그인 등록
+        gsap.registerPlugin(ScrollTrigger);
+
+        // 2. 인트로 타임라인 (페이지 로드 시 자동 실행되는 오프닝 시퀀스)
+        lenis.stop(); // 인트로 재생 중에는 스크롤을 차단
+
+        const introTl = gsap.timeline({
+            onComplete: () => {
+                gsap.set("#intro-sequence", { display: "none" }); // 인트로 종료 후 숨김
+                lenis.start(); // 스크롤 잠금 해제
+            }
+        });
+
+        // 가운데 흰색 배경이 서서히 위아래로 벌어지는 애니메이션
+        introTl.to("#intro-white-curtain", {
+            height: "100vh",
+            duration: 4.5,
+            ease: "power2.inOut"
+        }, 0);
+
+        // 텍스트들이 순차적으로 나타나고 사라짐 (스케일업 효과를 추가하여 영화 같은 깊이감 부여)
+        introTl.fromTo(".intro-text-1", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, 0.5)
+               .to(".intro-text-1", { opacity: 0, scale: 1.1, duration: 0.8, ease: "power2.in" }, "+=0.1")
+               
+               .fromTo(".intro-text-2", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, "-=0.2")
+               .to(".intro-text-2", { opacity: 0, scale: 1.1, duration: 0.8, ease: "power2.in" }, "+=0.1")
+               
+               .fromTo(".intro-text-3", { opacity: 0, scale: 0.9 }, { opacity: 1, scale: 1, duration: 1, ease: "power2.out" }, "-=0.2")
+               .to(".intro-text-3", { opacity: 0, scale: 1.1, duration: 0.8, ease: "power2.in" }, "+=0.5")
+               
+               // 마지막에 인트로 컨테이너 자체를 페이드아웃하여 원래의 메인 페이지를 온전히 보여줌
+               .to("#intro-sequence", { opacity: 0, duration: 1, ease: "power2.inOut" });
+
+        // 3. 메인 스크롤 애니메이션 (간소화된 패럴랙스)
+        const masterTl = gsap.timeline({
+            scrollTrigger: {
+                trigger: "#scroll-wrapper",
+                start: "top top",      // 스크롤이 시작될 때
+                end: "bottom bottom",  // 스크롤이 끝날 때
+                scrub: 1.2,            // 1.2초의 딜레이로 스크럽(Scrub) 효과를 주어 부드러움 극대화
+            }
+        });
+
+        // 스크롤 시 부드러운 패럴랙스(시차) 효과
+        masterTl.to(".scene-feel-better", { y: -150, opacity: 0, duration: 1, ease: "none" }, 0)
+                .to(".product-image", { y: 100, opacity: 0.5, duration: 1, ease: "none" }, 0);
+
+    </script>
+</body>
+</html>

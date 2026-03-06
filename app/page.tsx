@@ -1,5 +1,6 @@
 import "./section01.css";
 import skillCategories, { allSkills } from "@/app/data/skills";
+import { GeminiHero } from "@/components/GeminiHero";
 import Particles from "@/components/Particles";
 import { docs, meta } from "@/.source";
 import { loader } from "fumadocs-core/source";
@@ -133,21 +134,8 @@ export default async function HomePage() {
 
   return (
     <div>
-      {/* <div style={{ width: "100%", height: "600px", position: "relative" }}>
-        <Particles
-          particleColors={["#ffffff", "#ffffff"]}
-          particleCount={200}
-          particleSpread={10}
-          speed={0.1}
-          particleBaseSize={100}
-          moveParticlesOnHover={true}
-          alphaParticles={false}
-          disableRotation={false}
-        />
-        <div className="h1-title absolute-center">
-          <h1>웹퍼블리셔 홍성필 포트폴리오</h1>
-        </div>
-      </div> */}
+      {/* geminiMain.html → 컴포넌트화 후 메인 첫 번째 섹션 */}
+      <GeminiHero />
 
       <BentoGalleryFlip />
 

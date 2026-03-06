@@ -77,7 +77,7 @@ export default function RootLayout({
             <Loading />
             <GoTopButton />
             <VisitorTracker />
-            <SiteNav />
+            <div id="site-nav-wrapper"><SiteNav /></div>
             <main className="pt-16">
               {children}
             </main>
