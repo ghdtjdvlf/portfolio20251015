@@ -1,5 +1,6 @@
 import "./section01.css";
 import skillCategories, { allSkills } from "@/app/data/skills";
+import { GeminiHero } from "@/components/GeminiHero";
 import Particles from "@/components/Particles";
 import { docs, meta } from "@/.source";
 import { loader } from "fumadocs-core/source";
@@ -148,6 +149,8 @@ export default async function HomePage() {
           <h1>웹퍼블리셔 홍성필 포트폴리오</h1>
         </div>
       </div> */}
+
+      <GeminiHero />
 
       <BentoGalleryFlip />
 
