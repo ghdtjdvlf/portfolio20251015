@@ -4,6 +4,8 @@ import { useEffect } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 
+const SHOWN_KEY = "geminiHeroShown"
+
 const titleHuge: React.CSSProperties = {
   fontSize: "clamp(6rem, 15vw, 18rem)",
   fontWeight: 900,
@@ -14,7 +16,20 @@ const titleHuge: React.CSSProperties = {
 
 export function GeminiHero() {
   useEffect(() => {
+    // 이미 재생된 경우 즉시 숨기고 종료
+    if (sessionStorage.getItem(SHOWN_KEY)) {
+      const el = document.getElementById("gemini-intro")
+      if (el) el.style.display = "none"
+      gsap.set("#site-nav-wrapper", { opacity: 1, pointerEvents: "auto" })
+      return
+    }
+
+    sessionStorage.setItem(SHOWN_KEY, "1")
+
     gsap.registerPlugin(ScrollTrigger)
+
+    // 스크롤 차단
+    document.body.style.overflow = "hidden"
 
     // 커튼 동안 navbar 숨기기
     gsap.set("#site-nav-wrapper", { opacity: 0, pointerEvents: "none" })
@@ -24,6 +39,8 @@ export function GeminiHero() {
       onComplete: () => {
         const el = document.getElementById("gemini-intro")
         if (el) el.style.display = "none"
+        // 스크롤 복원
+        document.body.style.overflow = ""
       },
     })
 
@@ -38,6 +55,8 @@ export function GeminiHero() {
 
     return () => {
       introTl.kill()
+      // 컴포넌트 언마운트 시 스크롤 복원
+      document.body.style.overflow = ""
     }
   }, [])
 
