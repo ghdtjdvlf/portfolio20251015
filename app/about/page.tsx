@@ -5,6 +5,27 @@ import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 
 const CORE_VALUES = ["책임감", "효율적인", "능동적인"];
 
+const GMAIL_BODY = `안녕하세요, 홍성필님.
+
+저는 [회사명]의 [담당자명]입니다.
+
+포트폴리오를 인상 깊게 보았고, 아래 포지션을 제안드리고 싶어 연락드립니다.
+
+■ 포지션  :
+■ 회사명  :
+■ 근무형태 : (정규직 / 계약직 / 프리랜서)
+■ 근무지  :
+■ 급여    :
+■ 면접 일정 :
+
+업무 내용 및 기타 세부 사항을 자유롭게 기재해 주세요.
+
+
+감사합니다.
+[담당자명] 드림`;
+
+const GMAIL_URL = `https://mail.google.com/mail/?view=cm&to=tjdvlf0416@gmail.com&su=${encodeURIComponent("[면접 제의] 회사명 · 직군명")}&body=${encodeURIComponent(GMAIL_BODY)}`;
+
 export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background">
@@ -70,6 +91,18 @@ export default function AboutPage() {
                   010-6731-5242
                 </a>
               </p>
+
+              <div className="flex justify-center md:justify-start">
+                <a
+                  href={GMAIL_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="inline-flex items-center gap-2 px-6 py-3 rounded-xl bg-foreground text-background hover:opacity-80 transition-opacity text-sm font-medium"
+                >
+                  <span>✉️</span>
+                  <span>포지션 제안하기</span>
+                </a>
+              </div>
             </div>
           </div>
         </div>
@@ -84,20 +117,19 @@ export default function AboutPage() {
             </h2>
             <div className="text-muted-foreground text-base md:text-lg leading-relaxed space-y-5">
               <p>
-                저는 단순히 화면을 구현하는 것에 그치지 않고,{" "}
-                <strong className="text-foreground">비즈니스에 실질적인 변화를 만드는 개발자</strong>
-                입니다. 웹 퍼블리셔로서 실무 현장에서 3시간이 걸리던 반복 작업을 5분으로 줄이고,
-                연간 3,000만 원의 외주 비용을 내재화 개발로 0원으로 전환한 경험이 있습니다.
+                <strong className="text-foreground">3,000만 원의 외주를 내재화로 0원에.</strong>{" "}
+                반복 작업 3시간을 5분으로. 숫자로 증명해온 퍼블리셔입니다.
               </p>
               <p>
-                입사 2주 차에 카페24 API 연동 작업을 맡아 CORS 문제를 Firebase로 극복하며
-                3일 만에 해결했습니다. 주어진 업무를 처리하는 것을 넘어,{" "}
-                <strong className="text-foreground">문제를 먼저 발견하고 능동적으로 해결하는 자세</strong>
-                로 일해왔습니다.
+                그 경험을 마크업 공정에도 그대로 녹여내고 싶습니다.{" "}
+                나아가{" "}
+                <strong className="text-foreground">AI 에이전트 기반 자동화</strong>를 통해,
+                8시간의 근무를 넘어 24시간 중단 없이 결과물을 검수하고 생성하는 시스템을 지향합니다.
               </p>
               <p>
-                집요한 문제해결력과 효율에 대한 집착, 그리고 팀에 긍정적인 변화를 가져올 수 있다는
-                책임감으로 계속 성장하고 있습니다.
+                빠른 적응력과 효율 추구 성향으로{" "}
+                <strong className="text-foreground">팀의 생산성과 서비스 품질 향상</strong>에
+                실질적으로 기여하겠습니다.
               </p>
             </div>
           </div>
@@ -128,13 +160,24 @@ export default function AboutPage() {
           <p className="text-muted-foreground mb-8 text-base">
             프로젝트나 채용 관련 문의는 언제든지 연락주세요.
           </p>
-          <a
-            href="tel:01067315242"
-            className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-border bg-muted hover:bg-muted/60 transition-colors text-lg font-medium"
-          >
-            <span>📞</span>
-            <span>010-6731-5242</span>
-          </a>
+          <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
+            <a
+              href="tel:01067315242"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-border bg-muted hover:bg-muted/60 transition-colors text-lg font-medium"
+            >
+              <span>📞</span>
+              <span>010-6731-5242</span>
+            </a>
+            <a
+              href={GMAIL_URL}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-3 px-8 py-4 rounded-xl border border-border bg-foreground text-background hover:opacity-80 transition-opacity text-lg font-medium"
+            >
+              <span>✉️</span>
+              <span>포지션 제안하기</span>
+            </a>
+          </div>
         </div>
       </section>
     </div>
