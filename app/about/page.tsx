@@ -26,7 +26,7 @@ export default function AboutPage() {
           <div className="flex flex-col md:flex-row items-center gap-10 md:gap-16">
 
             {/* 프로필 이미지 */}
-            <div className="flex-shrink-0">
+            {/* <div className="flex-shrink-0">
               <div className="relative w-44 h-44 md:w-60 md:h-60 rounded-2xl overflow-hidden border border-border shadow-xl">
                 <Image
                   src="/images/me.webp"
@@ -36,7 +36,7 @@ export default function AboutPage() {
                   priority
                 />
               </div>
-            </div>
+            </div> */}
 
             {/* 텍스트 */}
             <div className="flex flex-col gap-4 text-center md:text-left">
