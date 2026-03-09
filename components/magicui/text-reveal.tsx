@@ -87,7 +87,7 @@ export function TextReveal({ text, className }: TextRevealProps) {
     <section
       ref={wrapperRef}
       className={cn(
-        "flex items-center justify-center min-h-screen",
+        "flex items-center justify-center h-screen",
         className
       )}
     >
