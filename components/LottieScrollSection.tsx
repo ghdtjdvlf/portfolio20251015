@@ -13,6 +13,7 @@ export function LottieScrollSection() {
   const sectionRef = useRef<HTMLElement>(null);
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const canvasWrapperRef = useRef<HTMLDivElement>(null);
+  const highlightRef = useRef<HTMLSpanElement>(null);
 
   useEffect(() => {
     if (!canvasRef.current || !sectionRef.current) return;
@@ -61,7 +62,7 @@ export function LottieScrollSection() {
           },
         });
 
-        // Phase 1: Lottie 프레임 재생
+        // Phase 1: Lottie 프레임 재생 + 텍스트 컬러 변화
         tl.to(obj, {
           frame: totalFrames - 1,
           ease: "none",
@@ -69,7 +70,14 @@ export function LottieScrollSection() {
           onUpdate: () => {
             dotLottie.setFrame(Math.floor(obj.frame));
           },
-        });
+        }, 0);
+
+        tl.fromTo(
+          highlightRef.current,
+          { color: "#ffffff" },
+          { color: "#0064FF", ease: "none", duration: FRAME_SCROLL * 0.6 },
+          0
+        );
 
         // Phase 2: 재생 완료 후 canvas fade-out
         tl.to(canvasWrapperRef.current, {
@@ -107,7 +115,7 @@ export function LottieScrollSection() {
     >
       <div className="absolute inset-x-0 top-[20%] flex justify-center">
         <p className="w-[80vw] text-center text-2xl lg:text-4xl font-bold text-slate-800 dark:text-white">
-          확실한 긍정적 변화를 약속하는 인재, 홍성필입니다.
+          확실한 <span ref={highlightRef} style={{ color: "#ffffff" }}>긍정적 변화</span>를 약속하는 인재, 홍성필입니다.
         </p>
       </div>
 

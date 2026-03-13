@@ -77,7 +77,7 @@ export default function RootLayout({
             <Loading />
             <GoTopButton />
             <VisitorTracker />
-            <div id="site-nav-wrapper" style={{ opacity: 0, pointerEvents: "none" }}><SiteNav /></div>
+            <div id="site-nav-wrapper"><SiteNav /></div>
             <main className="pt-16">
               {children}
             </main>

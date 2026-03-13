@@ -20,9 +20,9 @@
 }
 
 .highlighted {
-  color: #f97316;
+  color: #0064FF;
   font-weight: bold;
-  text-shadow: 0 0 8px rgba(249, 115, 22, 0.5);
+  text-shadow: 0 0 8px rgba(0, 100, 255, 0.5);
 }
 
 .falling-text-canvas {

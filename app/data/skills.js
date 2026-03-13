@@ -197,14 +197,16 @@ const skillCategories = [
       {
         icon: <SiClaude size={30} color="#CC785C" />,
         title: "Claude",
-        desc: "AI 코딩 어시스턴트로 활용하며 복잡한 로직 설계, 코드 리뷰, 문서 작성 등 개발 생산성을 높이는 데 적극 활용하고 있습니다.",
+        desc: "AI 코딩 어시스턴트 및 에이전트로 활용하며 복잡한 로직 설계·코드 리뷰·문서 작성은 물론, Claude Code 에이전트를 통해 파일 편집·명령 실행·자동화 워크플로우를 구성해 개발 생산성을 극대화하고 있습니다.",
         trend: true,
       },
     ],
   },
 ];
 
-const allSkills = skillCategories.flatMap(category => category.skills);
+const allSkills = skillCategories
+  .flatMap(category => category.skills)
+  .sort((a, b) => (b.trend ? 1 : 0) - (a.trend ? 1 : 0));
 
 export default skillCategories;
 export { allSkills };
