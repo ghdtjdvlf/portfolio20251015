@@ -1,6 +1,6 @@
 ---
-title: "Firebase 스크립트 모듈"
-description: "Firebase Hosting을 기반으로 제작된 다중 브랜드 공용 위젯 테스트 플랫폼. 타이머, 배너, 할인바 등 다양한 Cafe24 쇼핑몰용 스크립트를 통합 관리하고 실시간 테스트할 수 있는 환경을 구축했습니다."
+title: "E-commerce 스크립트 모듈(Firebase)"
+description: "Cafe24 다중 브랜드몰에서 반복 사용하는 이커머스 UI(타이머·배너·할인바 등)를 Firebase Hosting 기반 공용 스크립트로 통합해, 코드 한 줄 삽입만으로 모든 브랜드몰에 즉시 적용·유지보수할 수 있는 위젯 배포 시스템을 구축했습니다."
 date:
   start: "2025.07.20"
   end: "2025.09.22"
@@ -12,7 +12,8 @@ author: "홍성필"
 thumbnail: "/thumbnails/파이어베이스.webp"
 ---
 
-Cafe24 브랜드몰 운영 시 반복적으로 사용하는 UI 위젯을 통합 관리하기 위한 테스트 플랫폼을 구축했습니다. 브랜드별로 색상, 디바이스, 속성 값이 자동 반영되며 Firebase Hosting 기반으로 배포되어 있습니다.
+Cafe24 브랜드몰 운영 중 타이머·배너·할인바 같은 이커머스 UI를 각 쇼핑몰마다 FTP로 개별 수정해야 하는 비효율을 해소하기 위해, Firebase Hosting 기반의 공용 E-commerce 스크립트 모듈을 직접 설계·구축했습니다.
+브랜드별 색상·디바이스 설정은 `data-*` 속성으로 자동 반영되며, `<script>` 한 줄만 삽입하면 모든 쇼핑몰에 동일한 위젯을 즉시 배포할 수 있습니다.
 
 <div style={{textAlign: 'center', margin: '32px 0'}}>
   <a href="https://sp-cafe24api.web.app/pages/test.html" target="_blank" rel="noopener noreferrer" style={{display:'inline-block', padding:'12px 32px', background:'linear-gradient(135deg, #16a34a 0%, #15803d 100%)', color:'white', textDecoration:'none', borderRadius:'8px', fontWeight:600, fontSize:'16px', boxShadow:'0 4px 12px rgba(22, 163, 74, 0.3)'}}>
@@ -22,35 +23,58 @@ Cafe24 브랜드몰 운영 시 반복적으로 사용하는 UI 위젯을 통합 
 
 
 ## 프로젝트 개요
-기능 추가 시 각 쇼핑몰별로 FTP를 통해 HTML, CSS, JS를 개별 수정해야 했으나,
-Firebase 기반의 중앙 스크립트 배포 시스템을 구축함으로써 유지보수 효율성을 대폭 개선했습니다.
+
+기존에는 타이머·배너 등 위젯을 수정할 때마다 운영 중인 브랜드몰 각각에 FTP로 접속해 파일을 개별 배포해야 했습니다.
+이 과정을 **Firebase Hosting 기반 중앙화 스크립트**로 전환함으로써, 코드를 한 곳에서만 수정해도 모든 쇼핑몰에 즉시 반영되는 E-commerce 위젯 모듈 시스템을 완성했습니다.
 
 ### 주요 기능
-- 브랜드별 색상·테마 자동 반영  
-- PC/Mobile 디바이스별 UI 전환  
-- JavaScript 단일 삽입 구조 (`<script>` 한 줄로 로드)  
-- 코드 보기·시뮬레이터·버전 캐시 무효화 기능  
-- Firebase Hosting 기반 배포 및 실시간 반영  
+
+- **이커머스 특화 위젯** — 카운트다운 타이머, 프로모션 배너, 배송 타이머, 혜택 할인바
+- 브랜드별 컬러·테마 자동 반영 (`data-brand` 속성)
+- PC/Mobile 디바이스 분기 UI (`data-device` 속성)
+- `<script>` 한 줄 삽입 구조 — FTP 배포 제로화
+- 실시간 버전 캐시 무효화 (`?v=timestamp` 방식)
+- 위젯별 시뮬레이터 및 코드 뷰어 내장
 
 ### 기술 스택
+
 **Frontend**
 - HTML5 / CSS3 / JavaScript(ES6)
-- 반응형 구조 및 브랜드 컬러 매핑
+- 브랜드 컬러 매핑 및 반응형 구조
 
-**Hosting & Tools**
+**Hosting & Delivery**
 - Firebase Hosting (`sp-cafe24api.web.app`)
-- 자동 버전 갱신(`?v=timestamp` 방식)
-- Script 모듈: banner.js, timer.js, ship_timer.js, bnf_bar.js
+- Script 모듈: `banner.js` · `timer.js` · `ship_timer.js` · `bnf_bar.js`
+- 자동 버전 갱신으로 캐시 문제 방지
 
 ## 핵심 구현 사항
-모든 위젯을 section 단위로 분리해 테스트할 수 있도록 설계했으며, 각 브랜드별 테마 색상과 디바이스 설정에 따라 동적으로 스크립트를 불러오도록 구현했습니다.
+
+각 이커머스 위젯을 독립 모듈(section)로 분리하고, `data-brand` · `data-device` 속성 두 개만으로 브랜드·디바이스 환경이 동적으로 적용되도록 설계했습니다.
+신규 쇼핑몰 추가 시 아래 스크립트 한 줄을 HTML에 삽입하는 것으로 모든 위젯 배포가 완료됩니다.
 
 ```html
-<div class="section">
-  <div class="section-title">
-    <span class="badge">timer.js</span>카운트다운 타이머
-  </div>
-  <div class="demo-box">
-    <script src="https://sp-cafe24api.web.app/timer.js" data-brand="udit" data-device="pc"></script>
-  </div>
-</div>
+<!-- 카운트다운 타이머 위젯 삽입 예시 -->
+<script
+  src="https://sp-cafe24api.web.app/timer.js"
+  data-brand="udit"
+  data-device="pc">
+</script>
+```
+
+```html
+<!-- 프로모션 배너 위젯 -->
+<script
+  src="https://sp-cafe24api.web.app/banner.js"
+  data-brand="udit"
+  data-device="mobile">
+</script>
+```
+
+## 도입 효과
+
+| 항목 | 기존 방식 | 개선 후 |
+|---|---|---|
+| 위젯 수정 배포 | 브랜드몰 N개 × FTP 개별 업로드 | 스크립트 파일 1개 수정으로 전체 반영 |
+| 신규 쇼핑몰 적용 | HTML·CSS·JS 파일 복사·붙여넣기 | `<script>` 한 줄 삽입 |
+| 브랜드 테마 변경 | 파일별 색상값 직접 수정 | `data-brand` 속성값 변경 |
+| 디바이스 대응 | 별도 파일 분기 관리 | `data-device` 속성 자동 처리 |

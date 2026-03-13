@@ -37,6 +37,7 @@ import { Three } from "@/components/30000";
 import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
 import { LottieContainer } from "@/components/LottieContainer";
 import { LottieScrollSection } from "@/components/LottieScrollSection";
+import { ParallaxHeroSection } from "@/components/ParallaxHeroSection";
 
 
 
@@ -150,8 +151,9 @@ export default async function HomePage() {
         </div>
       </div> */}
 
-      <GeminiHero />
 
+
+      <ParallaxHeroSection />
 
       {/* <HorizontalTextReveal>책임감, 효율적인, 능동적인</HorizontalTextReveal> */}
 
@@ -177,7 +179,7 @@ export default async function HomePage() {
             <PointerHighlight>
               <span className="text-6xl">문제해결력</span>
             </PointerHighlight>
-            더 자세히 보기
+            자세히 보기
           </div>
 
           <div className="flex flex-col md:flex-row justify-between gap-4 w-full">
