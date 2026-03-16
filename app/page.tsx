@@ -1,43 +1,24 @@
 import "./section01.css";
-import skillCategories, { allSkills } from "@/app/data/skills";
-import { GeminiHero } from "@/components/GeminiHero";
-import Particles from "@/components/Particles";
+import { allSkills } from "@/app/data/skills";
 import { docs, meta } from "@/.source";
 import { loader } from "fumadocs-core/source";
 import { createMDXSource } from "fumadocs-mdx";
 import { ProjectsGridHome } from "@/components/projects-grid-home";
 import Link from "next/link";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
-import { MacbookScrollDemo } from "@/components/ui/macbook-scroll copy";
-import { useScroll, useTransform } from "motion/react";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
-import {
-  DraggableCardBody,
-  DraggableCardContainer,
-} from "@/components/ui/draggable-card";
-import { ScrollSyncReveal } from "@/components/ui/scroll-sync-reveal";
-import { MaskContainer } from "@/components/ui/svg-mask-effect";
-import { LottieSuccess } from "@/components/LottieSuccess";
-import { SkillsAccordion } from "@/components/SkillsAccordion";
 import { SkillsMarquee } from "@/components/SkillsMarquee";
 import SpotlightCard from "@/components/SpotlightCard";
-import { TextHoverEffect } from "@/components/ui/text-hover-effect";
-import { HorizontalTextReveal } from "@/components/ui/horizontal-text-reveal";
 import { TextReveal } from "@/components/magicui/text-reveal";
-import { BentoGalleryFlip } from "@/components/ui/bento-gallery-flip";
-import { GsapListSlide } from "@/components/ui/gsap-list-slide";
-import FallingText from "@/components/ui/falling-text";
-import CometCard from "@/components/ui/comet-card";
-import { Compare } from "@/components/ui/compare";
-import ScrollVelocity from "@/components/ScrollVelocity";
-import EvervaultCardDemo from "@/components/magicui/CardReveal";
-import { ThreeHourToFiveMinContent } from "@/components/3hour-to-5min-content";
-import { Fullstack } from "@/components/Fullstack";
-import { Three } from "@/components/30000";
-import { StickyScroll } from "@/components/ui/sticky-scroll-reveal";
-import { LottieContainer } from "@/components/LottieContainer";
-import { LottieScrollSection } from "@/components/LottieScrollSection";
 import { ParallaxHeroSection } from "@/components/ParallaxHeroSection";
+import {
+  LottieScrollSection,
+  FallingText,
+  EvervaultCardDemo,
+  ThreeHourToFiveMinContent,
+  Fullstack,
+  Three,
+} from "@/components/dynamic-imports";
 
 
 

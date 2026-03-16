@@ -59,7 +59,7 @@ export function EvervaultCardDemo({
   };
   const closeModal = () => setIsModalOpen(false);
 
-  // ESC 키로 모달 닫기
+  // ESC 키로 모달 닫기 + body 스크롤 잠금
   useEffect(() => {
     const handleEscKey = (event: KeyboardEvent) => {
       if (event.key === 'Escape' && isModalOpen) {
@@ -69,10 +69,12 @@ export function EvervaultCardDemo({
 
     if (isModalOpen) {
       document.addEventListener('keydown', handleEscKey);
+      document.body.style.overflow = 'hidden';
     }
 
     return () => {
       document.removeEventListener('keydown', handleEscKey);
+      document.body.style.overflow = '';
     };
   }, [isModalOpen]);
 
@@ -117,9 +119,12 @@ export function EvervaultCardDemo({
               transition={{ type: "spring", duration: 0.5, bounce: 0.3 }}
               className="dark bg-gray-900 rounded-none md:rounded-lg shadow-xl w-screen h-screen md:w-[75vw] md:h-auto md:max-h-[100vh] overflow-y-auto p-4 md:p-6 relative cursor-auto scrollbar-hide py-30"
               onClick={(e) => e.stopPropagation()}
+              onWheel={(e) => e.stopPropagation()}
+              onTouchMove={(e) => e.stopPropagation()}
               style={{
                 scrollbarWidth: 'none',
                 msOverflowStyle: 'none',
+                overscrollBehavior: 'contain',
               }}
             >
               {/* 닫기 버튼 */}

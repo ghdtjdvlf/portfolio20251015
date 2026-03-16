@@ -37,7 +37,7 @@ const FallingText = ({
 
   useEffect(() => {
     if (!textRef.current) return
-    const words = text.split(" ")
+    const words = text.split(" ").sort(() => Math.random() - 0.5)
     const newHTML = words
       .map((word) => {
         const isHighlighted = highlightWords.some((hw) => word.startsWith(hw))

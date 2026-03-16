@@ -7,8 +7,8 @@ export const loadingConfig = {
     position: 'top' as 'top' | 'bottom', // top 또는 bottom
     height: 3, // px
     backgroundColor: 'rgba(0, 0, 0, 0.05)',
-    barColor: '#000000', // 라이트모드: 검정색
-    barColorDark: '#ffffff', // 다크모드: 흰색
+    barColor: '#0064ff', // 라이트모드
+    barColorDark: '#0064ff', // 다크모드
     zIndex: 9999,
   },
 
