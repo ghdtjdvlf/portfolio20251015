@@ -1,0 +1,14 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(git show *)",
+      "Bash(cp /tmp/media-viewer.tsx components/media-viewer.tsx)",
+      "Bash(cp /tmp/copy-header.tsx components/copy-header.tsx)",
+      "Bash(cp /tmp/parallax-scroll.tsx components/ui/parallax-scroll.tsx)",
+      "Bash(pnpm build *)",
+      "Bash(pnpm add *)",
+      "Bash(du -sh .next/static/)",
+      "Bash(du -sh .next/server/)"
+    ]
+  }
+}

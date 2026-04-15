@@ -118,7 +118,7 @@ export default async function ProjectsPage({
       </div>
 
       {/* 프로젝트 목록 */}
-      <div className="max-w-7xl mx-auto w-full px-4 md:px-6 py-8">
+      <div className="mx-auto w-full px-4 md:px-6 py-8">
         <ProjectsList projects={projects} />
       </div>
     </div>

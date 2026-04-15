@@ -18,8 +18,8 @@ import {
   ThreeHourToFiveMinContent,
   Fullstack,
   Three,
-} from "@/components/dynamic-imports";
-
+} from "@/components/dynamic-imports"
+import Gsaptext from "@/components/gsap텍스트스크롤"
 
 
 interface BlogData {
@@ -149,6 +149,8 @@ export default async function HomePage() {
     </div> */}
 
       {/* <GsapListSlide /> */}
+
+        <Gsaptext/>
 
       {/* section01 자기소개 */}
       <section className="section01 intro overflow-x-hidden w-full">

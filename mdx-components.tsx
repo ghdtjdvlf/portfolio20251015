@@ -15,7 +15,6 @@ import {
 import { AuthorCard } from "@/components/author-card";
 import { getAuthor, type AuthorKey } from "@/lib/authors";
 import { CopyHeader } from "@/components/copy-header";
-import CircularGallery from "@/components/CircularGallery";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 
 const createHeading = (level: number) => {
@@ -50,7 +49,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     AccordionItem,
     AccordionTrigger,
     Author,
-    CircularGallery,
     ParallaxScroll,
     h1: createHeading(1),
     h2: createHeading(2),
