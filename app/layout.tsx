@@ -8,10 +8,11 @@ import { metadataKeywords } from "./metadata";
 import { SiteNav } from "@/components/site-nav";
 import { MobileBottomNav } from "@/components/MobileBottomNav";
 import Footer from "@/components/footer";
-import { Loading } from "@/components/loading";
+import { ScrollProgress } from "@/components/loading";
 import { GoTopButton } from "@/components/go-top-button";
 import { VisitorTracker } from "@/components/visitor-tracker";
 import { LenisProvider } from "@/components/lenis-provider";
+import { ViewTransitionProvider } from "@/components/view-transition-provider";
 import "@/app/globals.css";
 
 const pretendard = localFont({
@@ -74,7 +75,8 @@ export default function RootLayout({
             enableSystem
             disableTransitionOnChange
           >
-            <Loading />
+            <ViewTransitionProvider />
+            <ScrollProgress />
             <GoTopButton />
             <VisitorTracker />
             <div id="site-nav-wrapper"><SiteNav /></div>

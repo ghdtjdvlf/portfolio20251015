@@ -42,7 +42,7 @@ export function ParallaxHeroSection() {
           홍성필 포트폴리오
         </h1>
         <p className="text-muted-foreground text-base md:text-lg">
-          웹퍼블리셔 · 프론트엔드 개발자
+          웹퍼블리셔 · 프론트엔드 · AI 프롬프트 디자이너
         </p>
       </div>
     </div>
