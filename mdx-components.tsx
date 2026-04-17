@@ -17,6 +17,7 @@ import { getAuthor, type AuthorKey } from "@/lib/authors";
 import { CopyHeader } from "@/components/copy-header";
 import CircularGallery from "@/components/CircularGallery";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
+import { ExoApe } from "@/app/projects/exo-ape";
 
 const createHeading = (level: number) => {
   const Heading = ({
@@ -52,6 +53,7 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     Author,
     CircularGallery,
     ParallaxScroll,
+    ExoApe,
     h1: createHeading(1),
     h2: createHeading(2),
     h3: createHeading(3),
