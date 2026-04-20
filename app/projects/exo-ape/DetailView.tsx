@@ -157,6 +157,8 @@ export default function DetailView({
 
   return (
     <motion.div
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
       ref={scrollRef}
@@ -186,30 +188,22 @@ export default function DetailView({
       {/* ══════════════════════════════════════════
           1. HERO — 전체 화면
          ══════════════════════════════════════════ */}
-      <motion.section
-        layoutId={`hero-${project.id}`}
-        className="relative w-full h-screen overflow-hidden"
-      >
-        {/* layoutId 공유 이미지 — 애니메이션 없이 즉시 표시 */}
-        <img
+      <section className="relative w-full h-screen overflow-hidden">
+        <ParallaxImage
           src={project.image}
           alt={project.title}
-          className="absolute inset-0 w-full h-full object-cover"
+          containerRef={scrollRef}
+          className="absolute inset-0 w-full h-full"
         />
-        {/* 그라데이션 오버레이 — 레이아웃 전환 후 페이드인 */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 0.5, delay: 0.4 }}
-          className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30"
-        />
+        {/* 그라데이션 오버레이 */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
 
         {/* 타이틀 */}
         <div className="absolute bottom-16 left-10 md:left-16 right-10 md:right-16">
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.55, duration: 0.9, ease: EASE }}
+            transition={{ delay: 0.3, duration: 0.9, ease: EASE }}
             className="text-white/50 text-[11px] tracking-[0.35em] uppercase mb-4"
           >
             {project.subtitle}
@@ -218,7 +212,7 @@ export default function DetailView({
             <motion.h1
               initial={{ y: '110%' }}
               animate={{ y: 0 }}
-              transition={{ delay: 0.6, duration: 1.1, ease: EASE }}
+              transition={{ delay: 0.4, duration: 1.1, ease: EASE }}
               className="font-light leading-[0.88] tracking-tight text-white"
               style={{ fontSize: 'clamp(4rem, 10vw, 11rem)' }}
             >
@@ -230,7 +224,7 @@ export default function DetailView({
           <motion.a
             initial={{ opacity: 0, y: 16 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.9, duration: 0.8, ease: EASE }}
+            transition={{ delay: 0.75, duration: 0.8, ease: EASE }}
             href="#"
             className="mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 text-[11px] font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-black transition-all duration-300 group"
           >
@@ -255,7 +249,7 @@ export default function DetailView({
           </div>
           <span className="text-[9px] tracking-[0.35em] uppercase text-white/40">Scroll</span>
         </motion.div>
-      </motion.section>
+      </section>
 
       {/* ══════════════════════════════════════════
           2. 인트로 — 프로젝트 설명 + 메타

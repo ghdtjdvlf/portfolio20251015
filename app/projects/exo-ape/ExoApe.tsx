@@ -79,12 +79,12 @@ const Navigation = ({ view, onLogoClick, isHovered }) => (
 );
 
 // --- 홈 뷰 ---
-const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick }) => (
+const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick, isCollapsing }) => (
   <motion.div
     key="home-wrapper"
     initial={{ opacity: 1 }}
     exit={{ opacity: 0 }}
-    transition={{ duration: 0.25 }}
+    transition={{ duration: 0.01 }}
     className="fixed inset-0 z-10"
   >
     <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none" />
@@ -92,26 +92,37 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick 
     {/* 카드 — 화면 정중앙 */}
     <div className="absolute" style={{ left: '50%', top: '50%', transform: 'translate(-50%, -50%)' }}>
       <motion.div
-        layoutId={`hero-${project.id}`}
-        style={{ width: CARD_W, height: CARD_H, overflow: 'hidden', position: 'relative' }}
+        animate={{ height: isCollapsing ? 0 : CARD_H, opacity: isCollapsing ? 0 : 1 }}
+        transition={{ duration: 0.65, ease: [0.76, 0, 0.24, 1] }}
+        style={{ width: CARD_W, overflow: 'hidden' }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        onClick={onCardClick}
-        className="cursor-pointer"
+        onClick={!isCollapsing ? onCardClick : undefined}
+        className="cursor-pointer relative"
       >
-        <AnimatePresence initial={false} custom={direction} mode="popLayout">
-          <motion.div
-            key={project.id}
-            custom={direction}
-            initial={{ y: direction > 0 ? '100%' : '-100%' }}
-            animate={{ y: '0%' }}
-            exit={{ y: direction > 0 ? '-100%' : '100%' }}
-            transition={TRANSITION}
-            className="absolute inset-0"
-          >
-            <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
-          </motion.div>
-        </AnimatePresence>
+        <div style={{ height: CARD_H, position: 'relative' }}>
+          <AnimatePresence initial={false} custom={direction} mode="popLayout">
+            <motion.div
+              key={project.id}
+              custom={direction}
+              initial={{ y: direction > 0 ? '100%' : '-100%' }}
+              animate={{ y: '0%' }}
+              exit={{ y: direction > 0 ? '-100%' : '100%' }}
+              transition={TRANSITION}
+              className="absolute inset-0 overflow-hidden"
+            >
+              <motion.div
+                className="absolute inset-x-0 h-[150%] top-[-25%]"
+                initial={{ y: direction > 0 ? '-35%' : '35%' }}
+                animate={{ y: '0%' }}
+                exit={{ y: direction > 0 ? '35%' : '-35%' }}
+                transition={TRANSITION}
+              >
+                <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
+              </motion.div>
+            </motion.div>
+          </AnimatePresence>
+        </div>
       </motion.div>
     </div>
 
@@ -125,22 +136,27 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick 
         maxWidth: 'calc(50% - clamp(210px, 21vw, 310px) - 32px)',
       }}
     >
-      <AnimatePresence mode="wait">
-        <motion.div
-          key={project.id}
-          initial={{ y: 50, opacity: 0 }}
-          animate={{ y: 0, opacity: 1 }}
-          exit={{ y: -40, opacity: 0 }}
-          transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
-        >
-          <h1 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: 'clamp(3.5rem, 6vw, 7rem)' }}>
-            {project.title.split('\n').map((line, i) => (
-              <span key={i} className="block">{line}</span>
-            ))}
-          </h1>
-          <p className="text-white/55 mt-4 tracking-[0.15em] font-medium" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.4rem)' }}>{project.subtitle}</p>
-        </motion.div>
-      </AnimatePresence>
+      <motion.div
+        animate={{ opacity: isCollapsing ? 0 : 1, y: isCollapsing ? -16 : 0 }}
+        transition={{ duration: 0.4, ease: 'easeOut' }}
+      >
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={project.id}
+            initial={{ y: 50, opacity: 0 }}
+            animate={{ y: 0, opacity: 1 }}
+            exit={{ y: -40, opacity: 0 }}
+            transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+          >
+            <h1 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: 'clamp(3.5rem, 6vw, 7rem)' }}>
+              {project.title.split('\n').map((line, i) => (
+                <span key={i} className="block">{line}</span>
+              ))}
+            </h1>
+            <p className="text-white/55 mt-4 tracking-[0.15em] font-medium" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.4rem)' }}>{project.subtitle}</p>
+          </motion.div>
+        </AnimatePresence>
+      </motion.div>
     </div>
   </motion.div>
 );
@@ -268,6 +284,7 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
+  const [isCollapsing, setIsCollapsing] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
   const isWheeling = useRef(false);
 
@@ -292,7 +309,7 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
 
   useEffect(() => {
     const handleWheel = (e) => {
-      if (view !== 'home' || isWheeling.current) return;
+      if (view !== 'home' || isWheeling.current || isCollapsing) return;
       if (Math.abs(e.deltaY) > 30) {
         isWheeling.current = true;
         const newDir = e.deltaY > 0 ? 1 : -1;
@@ -303,10 +320,14 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
     };
     window.addEventListener('wheel', handleWheel);
     return () => window.removeEventListener('wheel', handleWheel);
-  }, [view, projects.length]);
+  }, [view, isCollapsing, projects.length]);
 
   const handleCardClick = () => {
-    setView('detail');
+    setIsCollapsing(true);
+    setTimeout(() => {
+      setView('detail');
+      setIsCollapsing(false);
+    }, 700);
   };
 
   return (
@@ -324,8 +345,8 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
             initial={{ y: direction > 0 ? '100%' : '-100%', filter: 'brightness(0.2)' }}
             animate={{
               y: 0,
-              filter: 'brightness(0.72)',
-              scale: 1.55,
+              filter: isCollapsing ? 'brightness(0.6)' : 'brightness(0.72)',
+              scale: isCollapsing ? 1.1 : 1.55,
             }}
             exit={{ y: direction > 0 ? '-100%' : '100%' }}
             transition={{ ...TRANSITION, scale: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
@@ -345,6 +366,7 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             onCardClick={handleCardClick}
+            isCollapsing={isCollapsing}
           />
         )}
       </AnimatePresence>
