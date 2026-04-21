@@ -22,6 +22,8 @@ import {
   SiClaude,
   SiJira,
   SiSourcetree,
+  SiGooglegemini,
+  SiOpenai,
 } from "react-icons/si";
 
 // MdAnimation 추가 (Lottie 대체용)
@@ -191,13 +193,31 @@ const skillCategories = [
     ],
   },
   {
-    category: "AI 도구",
+    category: "AI 개발",
     icon: "🤖",
     skills: [
       {
         icon: <SiClaude size={30} color="#CC785C" />,
-        title: "Claude",
-        desc: "AI 코딩 어시스턴트 및 에이전트로 활용하며 복잡한 로직 설계·코드 리뷰·문서 작성은 물론, Claude Code 에이전트를 통해 파일 편집·명령 실행·자동화 워크플로우를 구성해 개발 생산성을 극대화하고 있습니다.",
+        title: "Claude Code",
+        desc: "Claude Code CLI 에이전트를 활용해 파일 편집·명령 실행·자동화 워크플로우를 구성합니다. PRD 기반 바이브코딩으로 프로덕션 수준의 코드를 빠르게 구현하며 개발 생산성을 극대화합니다.",
+        trend: true,
+      },
+      {
+        icon: <SiGooglegemini size={30} color="#4285F4" />,
+        title: "Google Gemini API",
+        desc: "Gemini 1.5 Pro/Flash 멀티모달 API를 활용해 이미지 분석·키워드 발굴·콘텐츠 자동 생성 시스템을 구축합니다. AI 블로그 자동화, 이미지 합성 스튜디오 등 실제 서비스에 적용한 경험이 있습니다.",
+        trend: true,
+      },
+      {
+        icon: <SiOpenai size={30} color="#10a37f" />,
+        title: "ChatGPT / GPT API",
+        desc: "GPT 모델을 프롬프트 설계·코드 리뷰·아이디어 발산에 활용합니다. 체계적인 프롬프트 엔지니어링으로 원하는 출력 형식과 품질을 제어하는 방법을 이해하고 있습니다.",
+        trend: true,
+      },
+      {
+        icon: <span style={{fontSize:"26px", lineHeight:1}}>⌨️</span>,
+        title: "Cursor",
+        desc: "AI 기반 IDE인 Cursor로 코드 자동완성·인라인 편집·채팅 기반 리팩토링을 활용합니다. Claude Code와 병행해 상황에 맞게 최적의 AI 도구를 선택합니다.",
         trend: true,
       },
     ],

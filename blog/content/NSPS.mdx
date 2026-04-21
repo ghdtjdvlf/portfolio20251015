@@ -1,0 +1,68 @@
+---
+title: "NSPS"
+description: "두 이미지를 AI로 분석해 구도, 포즈, 의상, 얼굴, 체형 중 원하는 요소만 골라 조합하는 정밀 AI 이미지 생성 웹앱입니다."
+date:
+  start: "2026.03"
+  end: "2026.04"
+  day: "1개월"
+tags: ["개인프로젝트", "AI", "이미지생성", "Next.js", "Gemini", "main"]
+order: 9
+featured: true
+readTime: "6 min read"
+author: "홍성필"
+thumbnail: "/images/img-03.webp"
+subtitle: "정밀 AI 이미지 합성 스튜디오"
+client: "개인 프로젝트"
+services: "Next.js, Gemini AI, AWS S3, Supabase"
+projectDate: "2026.03 – 2026.04"
+heading: "원하는 요소만 골라 합성"
+additionalImage: "/images/img-03.webp"
+---
+
+## 프로젝트 개요
+
+**Nano-Swap Precision Studio (NSPS)**는 두 이미지를 업로드하면 Gemini AI가 각 이미지를 분석하고, 사용자가 원하는 요소(구도·포즈·의상·얼굴·체형)를 선택해 새로운 이미지를 합성하는 AI 이미지 편집 플랫폼입니다.
+
+단순한 이미지 합성이 아닌, **요소별 정밀 제어**가 핵심입니다. 어떤 이미지의 구도를 가져오고, 어떤 이미지의 의상을 적용할지 세밀하게 조합할 수 있습니다.
+
+---
+
+## 핵심 기능
+
+### 이미지 분석
+드래그앤드롭으로 두 이미지를 업로드하면 Gemini 1.5 Pro가 각 이미지의 속성을 자동 분석합니다.
+
+### 요소별 선택 조합
+구도, 포즈, 의상, 얼굴, 체형 5가지 카테고리별로 어느 이미지의 요소를 적용할지 라디오 버튼으로 선택합니다.
+
+### 실시간 프롬프트 뷰어
+선택한 요소 조합이 JSON 프롬프트로 실시간 변환되어 표시됩니다. AI에 정확히 어떤 지시가 전달되는지 투명하게 확인할 수 있습니다.
+
+### 히스토리 관리
+생성 작업 이력을 조회하고, 결과 이미지를 다운로드합니다. 신용 기반 과금 시스템으로 사용량을 추적합니다.
+
+---
+
+## 기술적 도전
+
+### Gemini 멀티모달 분석
+이미지를 단순 설명이 아닌 구조화된 JSON으로 분석받아야 했습니다. Gemini에 응답 스키마를 명시하는 `responseMimeType: 'application/json'` 옵션으로 파싱 없이 구조화된 데이터를 받았습니다.
+
+### AWS S3 업로드 플로우
+클라이언트에서 직접 S3에 업로드하면 보안 문제가 생겨, 서버에서 Pre-signed URL을 생성하고 클라이언트가 그 URL로 직접 업로드하는 방식을 적용했습니다.
+
+### 생성 상태 폴링
+이미지 생성은 비동기로 수 초~수십 초가 걸립니다. Supabase Realtime을 활용해 생성 완료 이벤트를 실시간으로 감지하고 결과를 즉시 표시했습니다.
+
+---
+
+## 기술 스택
+
+| 분류 | 기술 |
+|------|------|
+| 프레임워크 | Next.js, React 19, TypeScript |
+| AI/ML | Gemini 1.5 Pro/Flash, Nano Banana 2 |
+| 클라우드 | AWS S3, Google Vertex AI |
+| 백엔드 | Supabase (DB + Realtime) |
+| UI | shadcn/ui, Framer Motion |
+| 스타일 | Tailwind CSS 4 |

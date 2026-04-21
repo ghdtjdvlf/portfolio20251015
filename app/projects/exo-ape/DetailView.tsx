@@ -1,8 +1,9 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
 import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
-import { X, ArrowUpRight, ChevronRight } from 'lucide-react';
+import { X, ArrowUpRight } from 'lucide-react';
 import Lenis from 'lenis';
+import SplitText from '@/components/SplitText';
 
 const EASE = [0.76, 0, 0.24, 1] as const;
 
@@ -115,9 +116,11 @@ interface Project {
 
 export default function DetailView({
   project,
+  mdxContent,
   onClose,
 }: {
   project: Project;
+  mdxContent?: React.ReactNode;
   onClose: () => void;
 }) {
   const scrollRef = useRef<HTMLDivElement>(null);
@@ -157,13 +160,11 @@ export default function DetailView({
 
   return (
     <motion.div
-      initial={{ opacity: 0 }}
-      animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
       transition={{ duration: 0.4 }}
       ref={scrollRef}
       data-lenis-prevent
-      className="fixed inset-0 z-[50] overflow-y-auto no-scrollbar bg-[#0a0a0a] text-white"
+      className="fixed inset-0 z-[50] overflow-y-auto no-scrollbar text-white"
     >
       {/* ── 왼쪽 중앙 뒤로가기 버튼 ── */}
       <motion.button
@@ -173,7 +174,7 @@ export default function DetailView({
         onClick={onClose}
         className="fixed left-6 top-1/2 -translate-y-1/2 z-[160] flex flex-col items-center gap-4 group cursor-pointer"
       >
-        <div className="w-16 h-16 rounded-full border border-white/30 flex items-center justify-center group-hover:bg-white transition-colors duration-300">
+        <div className="w-16 h-16 rounded-full border border-white/30 bg-black flex items-center justify-center group-hover:bg-white transition-colors duration-300">
           <X size={22} strokeWidth={2} className="text-white group-hover:text-black transition-colors duration-300" />
         </div>
         <span
@@ -188,211 +189,124 @@ export default function DetailView({
       {/* ══════════════════════════════════════════
           1. HERO — 전체 화면
          ══════════════════════════════════════════ */}
-      <section className="relative w-full h-screen overflow-hidden">
-        <ParallaxImage
-          src={project.image}
-          alt={project.title}
-          containerRef={scrollRef}
-          className="absolute inset-0 w-full h-full"
-        />
-        {/* 그라데이션 오버레이 */}
-        <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/20 to-black/30" />
-
-        {/* 타이틀 */}
-        <div className="absolute bottom-16 left-10 md:left-16 right-10 md:right-16">
-          <motion.p
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.3, duration: 0.9, ease: EASE }}
-            className="text-white/50 text-[11px] tracking-[0.35em] uppercase mb-4"
-          >
-            {project.subtitle}
-          </motion.p>
-          <div className="overflow-hidden">
-            <motion.h1
-              initial={{ y: '110%' }}
-              animate={{ y: 0 }}
-              transition={{ delay: 0.4, duration: 1.1, ease: EASE }}
-              className="font-light leading-[0.88] tracking-tight text-white"
-              style={{ fontSize: 'clamp(4rem, 10vw, 11rem)' }}
-            >
-              {project.title}
-            </motion.h1>
-          </div>
-
-          {/* Visit website 버튼 */}
-          <motion.a
-            initial={{ opacity: 0, y: 16 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.75, duration: 0.8, ease: EASE }}
-            href="#"
-            className="mt-8 inline-flex items-center gap-3 border border-white/30 px-6 py-3 text-[11px] font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-black transition-all duration-300 group"
-          >
-            Visit website
-            <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-          </motion.a>
-        </div>
-
-        {/* 스크롤 힌트 */}
+      {/* ══ 1. HERO — ExoApe 배경이 그대로 비치는 투명 섹션 ══ */}
+      <section className="relative w-full h-screen">
+        {/* 그라데이션 오버레이 — 카드 붕괴 후 서서히 등장 */}
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.2 }}
-          className="absolute bottom-10 right-10 md:right-16 flex flex-col items-center gap-2"
+          transition={{ delay: 0.1, duration: 0.6, ease: EASE }}
+          className="absolute inset-0 bg-gradient-to-t from-black/90 via-black/20 to-transparent"
+        />
+
+        {/* 스크롤 힌트 — 상단 왼쪽 */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ delay: 1.0 }}
+          className="absolute top-24 left-10 md:left-16 flex items-center gap-3"
         >
-          <div className="h-12 w-px bg-white/20 overflow-hidden">
+          <div className="w-8 h-px bg-white/30 overflow-hidden relative">
             <motion.div
-              className="h-full w-full bg-white/60"
-              animate={{ y: ['-100%', '100%'] }}
+              className="absolute inset-0 bg-white/70"
+              animate={{ x: ['-100%', '100%'] }}
               transition={{ duration: 1.5, repeat: Infinity, ease: 'linear' }}
             />
           </div>
-          <span className="text-[9px] tracking-[0.35em] uppercase text-white/40">Scroll</span>
+          <span className="text-[10px] tracking-[0.3em] uppercase text-white/40">Scroll</span>
         </motion.div>
+
+        {/* 타이틀 — 하단 왼쪽 */}
+        <div className="absolute bottom-16 left-10 md:left-16">
+          <h1 className="font-normal leading-[0.9] tracking-tight text-white" style={{ fontSize: 'clamp(2rem, 7.7vw, 9rem)' }}>
+            {project.title.split('\n').map((line, i) => (
+              <SplitText
+                key={line + i}
+                text={line}
+                tag="span"
+                className="block"
+                splitType="word"
+                from={{ y: '110%' }}
+                delay={130}
+                duration={0.8}
+                ease={[0.165, 0.84, 0.44, 1]}
+                initialDelay={0}
+                once={true}
+              />
+            ))}
+          </h1>
+          <SplitText
+            text={project.subtitle}
+            tag="p"
+            className="text-white/60 text-[13px] tracking-[0.25em] uppercase mt-5"
+            splitType="word"
+            from={{ y: '110%' }}
+            delay={130}
+            duration={0.8}
+            ease={[0.165, 0.84, 0.44, 1]}
+            initialDelay={0}
+            once={true}
+          />
+        </div>
+
+        {/* Visit website — 하단 오른쪽 */}
+        <motion.a
+          initial={{ opacity: 0, y: 16 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 0.8, duration: 0.8, ease: EASE }}
+          href="#"
+          className="absolute bottom-16 right-10 md:right-16 inline-flex items-center gap-3 border border-white/30 px-6 py-3 text-[11px] font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-black transition-all duration-300 group"
+        >
+          Visit website
+          <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+        </motion.a>
+      </section>
+
+      {/* 히어로 아래 콘텐츠: bg 적용해서 ExoApe 배경 가림 */}
+      <div className="bg-[#0a0a0a]">
+
+      {/* ══════════════════════════════════════════
+          2. 인트로 — 메타
+         ══════════════════════════════════════════ */}
+      <section className="bg-[#0a0a0a] px-10 md:px-20 lg:px-32 pt-20 pb-16">
+        <div className="max-w-[1400px] mx-auto">
+          <RevealLine delay={0.1} />
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-12 mt-14 text-center">
+            {[
+              { label: 'Client', value: project.meta.client },
+              { label: 'Services', value: project.meta.services },
+              { label: 'Date', value: project.meta.date },
+            ].map(({ label, value }, i) => (
+              <FadeUp key={label} delay={0.1 + i * 0.07}>
+                <p className="text-lg md:text-xl font-light text-white/60 leading-relaxed mb-2">{value}</p>
+                <p className="font-semibold text-white" style={{ fontSize: '0.6em' }}>{label}</p>
+              </FadeUp>
+            ))}
+          </div>
+        </div>
       </section>
 
       {/* ══════════════════════════════════════════
-          2. 인트로 — 프로젝트 설명 + 메타
+          3. MDX 본문
          ══════════════════════════════════════════ */}
-      <section className="bg-[#0a0a0a] px-10 md:px-20 lg:px-32 py-32 md:py-48">
-        <div className="max-w-[1400px] mx-auto">
-          <FadeUp>
-            <p className="text-[11px] tracking-[0.35em] uppercase text-white/35 mb-12">Overview</p>
-          </FadeUp>
-
-          <FadeUp delay={0.1}>
-            <h2
-              className="font-light leading-tight tracking-tight text-white mb-20"
-              style={{ fontSize: 'clamp(2.4rem, 5vw, 6rem)' }}
-            >
-              {project.content.heading}
-            </h2>
-          </FadeUp>
-
-          <RevealLine delay={0.15} />
-
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-16 mt-20">
-            {/* 본문 */}
-            <FadeUp delay={0.2} className="lg:col-span-7">
+      {mdxContent ? (
+        <div className="mdx-detail px-10 md:px-20 lg:px-32 py-16 max-w-[1400px] mx-auto text-white">
+          {mdxContent}
+        </div>
+      ) : (
+        <section className="px-10 md:px-20 lg:px-32 py-32">
+          <div className="max-w-[1400px] mx-auto">
+            <FadeUp>
               <p className="text-xl md:text-2xl font-light leading-relaxed text-white/65">
                 {project.content.description}
               </p>
             </FadeUp>
-
-            {/* 메타 */}
-            <div className="lg:col-span-4 lg:col-start-9 space-y-10">
-              {[
-                { label: 'Client', value: project.meta.client },
-                { label: 'Services', value: project.meta.services },
-                { label: 'Date', value: project.meta.date },
-              ].map(({ label, value }, i) => (
-                <FadeUp key={label} delay={0.25 + i * 0.08}>
-                  <p className="text-[10px] uppercase tracking-[0.35em] text-white/30 mb-2">{label}</p>
-                  <p className="text-base font-light text-white/80 leading-relaxed">{value}</p>
-                </FadeUp>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════
-          3. 전체폭 이미지 (패럴랙스)
-         ══════════════════════════════════════════ */}
-      <section className="relative w-full" style={{ height: '80vh' }}>
-        <ParallaxImage
-          src={project.content.additionalImage || project.image}
-          alt={project.title}
-          containerRef={scrollRef}
-          className="absolute inset-0 w-full h-full"
-        />
-        <div className="absolute inset-0 bg-black/30" />
-      </section>
-
-      {/* ══════════════════════════════════════════
-          4. 피처 섹션 — 두 컬럼 텍스트
-         ══════════════════════════════════════════ */}
-      <section className="bg-[#0f0f0f] px-10 md:px-20 lg:px-32 py-36 md:py-52">
-        <div className="max-w-[1400px] mx-auto grid grid-cols-1 md:grid-cols-2 gap-20 md:gap-32 items-start">
-          <FadeUp>
-            <h3
-              className="font-light leading-tight tracking-tight text-white"
-              style={{ fontSize: 'clamp(2rem, 4vw, 4.5rem)' }}
-            >
-              Unforgettable<br />in every scroll
-            </h3>
-          </FadeUp>
-          <FadeUp delay={0.15}>
-            <p className="text-lg md:text-xl font-light leading-relaxed text-white/55 mt-4 md:mt-6">
-              Every interaction was designed to create an emotional connection — balancing
-              sensory-rich visuals with frictionless usability. The result is a digital experience
-              that users remember long after they leave the screen.
-            </p>
-            <motion.a
-              href="#"
-              whileHover={{ x: 4 }}
-              transition={{ duration: 0.3 }}
-              className="mt-10 inline-flex items-center gap-3 text-[11px] font-semibold tracking-[0.22em] uppercase text-white/60 hover:text-white transition-colors group"
-            >
-              View case study
-              <ChevronRight size={13} className="group-hover:translate-x-1 transition-transform" />
-            </motion.a>
-          </FadeUp>
-        </div>
-      </section>
-
-      {/* ══════════════════════════════════════════
-          5. 두 번째 이미지 (가로 전체)
-         ══════════════════════════════════════════ */}
-      <section className="relative w-full" style={{ height: '65vh' }}>
-        <ParallaxImage
-          src={project.image}
-          alt={project.title}
-          containerRef={scrollRef}
-          className="absolute inset-0 w-full h-full"
-        />
-        <div className="absolute inset-0 bg-black/40" />
-        <FadeUp className="absolute bottom-12 left-10 md:left-20 right-10 md:right-20 pointer-events-none">
-          <p
-            className="font-light tracking-tight text-white/80"
-            style={{ fontSize: 'clamp(1.5rem, 3.5vw, 4rem)' }}
-          >
-            "Boundary-pushing work that<br />sets a new standard."
-          </p>
-          <p className="mt-4 text-sm text-white/40 tracking-[0.2em]">— {project.meta.client}</p>
-        </FadeUp>
-      </section>
-
-      {/* ══════════════════════════════════════════
-          6. AWARDS
-         ══════════════════════════════════════════ */}
-      {project.awards && project.awards.length > 0 && (
-        <section className="bg-[#0a0a0a] px-10 md:px-20 lg:px-32 py-32 md:py-48">
-          <div className="max-w-[1400px] mx-auto">
-            <FadeUp>
-              <p className="text-[11px] tracking-[0.35em] uppercase text-white/30 mb-12">Recognition</p>
-            </FadeUp>
-            <FadeUp delay={0.1}>
-              <h3
-                className="font-light tracking-tight text-white mb-16"
-                style={{ fontSize: 'clamp(2rem, 4vw, 4.5rem)' }}
-              >
-                Awards &<br />Recognitions
-              </h3>
-            </FadeUp>
-
-            <div className="space-y-0">
-              {project.awards.map(({ name, award }, i) => (
-                <AwardRow key={name} name={name} award={award} index={i} />
-              ))}
-              <RevealLine />
-            </div>
           </div>
         </section>
       )}
 
       {/* ══════════════════════════════════════════
-          7. NEXT PROJECT
+          4. NEXT PROJECT
          ══════════════════════════════════════════ */}
       <section
         className="relative w-full overflow-hidden cursor-pointer group"
@@ -436,8 +350,18 @@ export default function DetailView({
       <style>{`
         .no-scrollbar::-webkit-scrollbar { display: none; }
         .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+        .mdx-detail h2 { font-size: clamp(1.6rem, 3vw, 2.8rem); font-weight: 300; line-height: 1.25; margin-top: 3rem; margin-bottom: 1rem; color: rgba(255,255,255,0.9); }
+        .mdx-detail h3 { font-size: clamp(1.1rem, 2vw, 1.6rem); font-weight: 400; margin-top: 2.5rem; margin-bottom: 0.75rem; color: rgba(255,255,255,0.8); }
+        .mdx-detail p { font-size: 1.05rem; line-height: 1.8; color: rgba(255,255,255,0.6); margin-bottom: 1rem; }
+        .mdx-detail ul, .mdx-detail ol { color: rgba(255,255,255,0.6); padding-left: 1.5rem; margin-bottom: 1rem; line-height: 1.8; }
+        .mdx-detail li { margin-bottom: 0.3rem; }
+        .mdx-detail strong { color: rgba(255,255,255,0.85); font-weight: 500; }
+        .mdx-detail hr { border-color: rgba(255,255,255,0.1); margin: 2.5rem 0; }
+        .mdx-detail a { color: rgba(255,255,255,0.7); text-decoration: underline; text-underline-offset: 3px; }
+        .mdx-detail code { background: rgba(255,255,255,0.08); padding: 0.15em 0.4em; border-radius: 3px; font-size: 0.88em; color: rgba(255,255,255,0.75); }
       `}</style>
-      </div>
+      </div>{/* bg-[#0a0a0a] 닫기 */}
+      </div>{/* contentRef 닫기 */}
     </motion.div>
   );
 }

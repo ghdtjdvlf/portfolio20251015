@@ -3,18 +3,20 @@ import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useSpring } from 'framer-motion';
 import Lenis from 'lenis';
 import DetailView from './DetailView';
+import SplitText from '@/components/SplitText';
 
 type Project = {
   id: string;
   title: string;
   subtitle: string;
   image: string;
+  imageCard: string;
   meta: { client: string; services: string; date: string };
   content: { heading: string; description: string; additionalImage: string };
   awards?: { name: string; award: string }[];
 };
 
-const TRANSITION = { duration: 1.4, ease: [0.76, 0, 0.24, 1] };
+const TRANSITION = { duration: 0.8, ease: [0.76, 0, 0.24, 1] };
 const CARD_W = 'clamp(360px, 36vw, 510px)';
 const CARD_H = 'clamp(480px, 48vw, 680px)';
 
@@ -105,20 +107,20 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick,
             <motion.div
               key={project.id}
               custom={direction}
-              initial={{ y: direction > 0 ? '100%' : '-100%' }}
+              initial={{ y: direction > 0 ? '-100%' : '100%' }}
               animate={{ y: '0%' }}
-              exit={{ y: direction > 0 ? '-100%' : '100%' }}
+              exit={{ y: direction > 0 ? '100%' : '-100%' }}
               transition={TRANSITION}
               className="absolute inset-0 overflow-hidden"
             >
               <motion.div
-                className="absolute inset-x-0 h-[150%] top-[-25%]"
-                initial={{ y: direction > 0 ? '-35%' : '35%' }}
+                className="absolute inset-x-0 h-[120%] top-[-10%]"
+                initial={{ y: direction > 0 ? '20%' : '-20%' }}
                 animate={{ y: '0%' }}
-                exit={{ y: direction > 0 ? '35%' : '-35%' }}
+                exit={{ y: direction > 0 ? '-20%' : '20%' }}
                 transition={TRANSITION}
               >
-                <img src={project.image} className="w-full h-full object-cover" alt={project.title} />
+                <img src={project.imageCard} className="w-full h-full object-cover" alt={project.title} />
               </motion.div>
             </motion.div>
           </AnimatePresence>
@@ -143,17 +145,42 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick,
         <AnimatePresence mode="wait">
           <motion.div
             key={project.id}
-            initial={{ y: 50, opacity: 0 }}
+            initial={{ y: 30, opacity: 0 }}
             animate={{ y: 0, opacity: 1 }}
-            exit={{ y: -40, opacity: 0 }}
-            transition={{ duration: 0.9, ease: [0.76, 0, 0.24, 1] }}
+            exit={{ y: -20, opacity: 0 }}
+            transition={{ duration: 0.45, ease: [0.76, 0, 0.24, 1] }}
           >
-            <h1 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: 'clamp(3.5rem, 6vw, 7rem)' }}>
+            <h1 className="font-bold leading-tight tracking-tight text-white" style={{ fontSize: 'clamp(1.6rem, 4.2vw, 4.9rem)' }}>
               {project.title.split('\n').map((line, i) => (
-                <span key={i} className="block">{line}</span>
+                <SplitText
+                  key={`${project.id}-${i}`}
+                  text={line}
+                  tag="span"
+                  className="block"
+                  splitType="word"
+                  from={{ y: '110%' }}
+                  delay={130}
+                  duration={0.8}
+                  ease={[0.165, 0.84, 0.44, 1]}
+                  initialDelay={0}
+                  once={false}
+                />
               ))}
             </h1>
-            <p className="text-white/55 mt-4 tracking-[0.15em] font-medium" style={{ fontSize: 'clamp(1rem, 1.4vw, 1.4rem)' }}>{project.subtitle}</p>
+            <SplitText
+              key={`${project.id}-sub`}
+              text={project.subtitle}
+              tag="p"
+              className="text-white/55 mt-4 tracking-[0.15em] font-medium"
+              style={{ fontSize: 'clamp(1rem, 1.4vw, 1.4rem)' }}
+              splitType="word"
+              from={{ y: '110%' }}
+              delay={130}
+              duration={0.8}
+              ease={[0.165, 0.84, 0.44, 1]}
+              initialDelay={0}
+              once={false}
+            />
           </motion.div>
         </AnimatePresence>
       </motion.div>
@@ -279,7 +306,7 @@ const GridView = ({ projects, onClose, onSelect }: {
 };
 
 // --- MAIN ---
-export default function ExoApe({ projects }: { projects: Project[] }) {
+export default function ExoApe({ projects, mdxContents = {} }: { projects: Project[]; mdxContents?: Record<string, React.ReactNode> }) {
   const [view, setView] = useState('home');
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
@@ -315,7 +342,7 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
         const newDir = e.deltaY > 0 ? 1 : -1;
         setDirection(newDir);
         setCurrentIndex((prev) => (prev + newDir + projects.length) % projects.length);
-        setTimeout(() => { isWheeling.current = false; }, 1400);
+        setTimeout(() => { isWheeling.current = false; }, 800);
       }
     };
     window.addEventListener('wheel', handleWheel);
@@ -345,14 +372,22 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
             initial={{ y: direction > 0 ? '100%' : '-100%', filter: 'brightness(0.2)' }}
             animate={{
               y: 0,
-              filter: isCollapsing ? 'brightness(0.6)' : 'brightness(0.72)',
-              scale: isCollapsing ? 1.1 : 1.55,
+              filter: (isCollapsing || view === 'detail') ? 'brightness(0.6)' : 'brightness(0.72)',
+              scale: (isCollapsing || view === 'detail') ? 1.0 : 1.05,
             }}
             exit={{ y: direction > 0 ? '-100%' : '100%' }}
             transition={{ ...TRANSITION, scale: { duration: 0.8, ease: [0.76, 0, 0.24, 1] } }}
             className="absolute inset-0 w-full h-full"
           >
-            <img src={currentProject.image} className="w-full h-full object-cover" alt="" />
+            {currentProject.image.endsWith('.mp4') ? (
+              <video
+                src={currentProject.image}
+                className="w-full h-full object-cover"
+                autoPlay muted loop playsInline
+              />
+            ) : (
+              <img src={currentProject.image} className="w-full h-full object-cover" alt="" />
+            )}
           </motion.div>
         </AnimatePresence>
       </div>
@@ -415,6 +450,7 @@ export default function ExoApe({ projects }: { projects: Project[] }) {
         <DetailView
           key="detail"
           project={currentProject}
+          mdxContent={mdxContents[currentProject.id]}
           onClose={() => { setView('home'); setIsHovered(false); }}
         />
       )}

@@ -2,12 +2,14 @@ import { docs, meta } from '@/.source';
 import { loader } from 'fumadocs-core/source';
 import { createMDXSource } from 'fumadocs-mdx';
 import ExoApe from './exo-ape/ExoApe';
+import { getMDXComponents } from '@/mdx-components';
 
 type Project = {
   id: string;
   title: string;
   subtitle: string;
   image: string;
+  imageCard: string;
   meta: { client: string; services: string; date: string };
   content: { heading: string; description: string; additionalImage: string };
   awards?: { name: string; award: string }[];
@@ -31,6 +33,7 @@ export default function ProjectsPage() {
         title: d.title,
         subtitle: d.subtitle ?? '',
         image: thumbnail,
+        imageCard: d.thumbnailCard ?? thumbnail,
         meta: {
           client: d.client ?? '개인 프로젝트',
           services: d.services ?? '',
@@ -45,5 +48,14 @@ export default function ProjectsPage() {
       };
     });
 
-  return <ExoApe projects={projects} />;
+  const mdxContents: Record<string, React.ReactNode> = {};
+  for (const page of pages) {
+    const id = page.slugs[0] ?? (page.data as any).title;
+    const Body = (page.data as any).body;
+    if (Body) {
+      mdxContents[id] = <Body components={getMDXComponents()} />;
+    }
+  }
+
+  return <ExoApe projects={projects} mdxContents={mdxContents} />;
 }

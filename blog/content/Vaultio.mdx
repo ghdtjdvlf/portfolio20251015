@@ -1,0 +1,70 @@
+---
+title: "Vaultio"
+description: "포트폴리오, 작업물, 참고자료를 한 곳에서 체계적으로 관리하는 개인 디지털 자산 관리 플랫폼입니다. Supabase 인증과 Cloudflare R2 스토리지를 기반으로 구축했습니다."
+date:
+  start: "2026.02"
+  end: "2026.03"
+  day: "6주"
+tags: ["개인프로젝트", "풀스택", "Next.js", "Supabase", "main"]
+order: 8
+featured: true
+readTime: "7 min read"
+author: "홍성필"
+thumbnail: "/images/img-02.webp"
+subtitle: "개인 디지털 자산 관리 플랫폼"
+client: "개인 프로젝트"
+services: "Next.js 14, Supabase, Cloudflare R2"
+projectDate: "2026.02 – 2026.03"
+heading: "나만의 창작물을 한 곳에"
+additionalImage: "/images/img-02.webp"
+---
+
+## 프로젝트 개요
+
+분산된 포트폴리오, 작업물, 참고자료를 **한 곳에서 체계적으로 저장하고 관리**하는 개인 디지털 자산 플랫폼입니다.
+
+클라우드 스토리지, 인증, 실시간 데이터베이스를 자체적으로 구성해 외부 SaaS 의존 없이 완전한 소유권을 갖는 아카이브 시스템을 만들고자 했습니다.
+
+---
+
+## 핵심 기능
+
+### 자산 관리
+이미지와 파일을 업로드하고 그룹으로 분류합니다. **드래그앤드롭** 정렬로 원하는 순서로 배치할 수 있습니다.
+
+### 포트폴리오 전시
+작업물을 카드 형태로 정리해 포트폴리오처럼 전시합니다. 썸네일 자동 생성과 메타데이터 편집을 지원합니다.
+
+### 참고자료 보관함
+링크와 파일을 태그와 함께 저장하고 키워드로 빠르게 검색합니다.
+
+### 인증 시스템
+Supabase Auth 기반 회원가입·로그인으로 개인 자산을 안전하게 보호합니다.
+
+---
+
+## 기술적 도전
+
+### Cloudflare R2 + FFmpeg
+미디어 파일을 AWS S3 호환 API인 Cloudflare R2에 저장하고, 업로드 시 FFmpeg로 영상 썸네일을 자동 추출해 프리뷰를 생성했습니다.
+
+### dnd-kit 정렬 최적화
+드래그앤드롭 정렬 중 DB를 매번 업데이트하면 과도한 요청이 발생했습니다. 드래그 종료 시점에만 순서를 일괄 저장하는 방식으로 최적화했습니다.
+
+### TanStack Query 캐시 전략
+파일 목록, 그룹, 태그 등 여러 리소스가 연동되어 있어 하나를 수정하면 관련 쿼리를 invalidate하는 의존성 캐시 전략을 설계했습니다.
+
+---
+
+## 기술 스택
+
+| 분류 | 기술 |
+|------|------|
+| 프레임워크 | Next.js 14, React 18, TypeScript |
+| 상태관리 | Zustand, TanStack Query |
+| 데이터베이스 | PostgreSQL (Supabase) |
+| 인증 | Supabase Auth |
+| 파일 저장소 | Cloudflare R2 |
+| UI | shadcn/ui, Framer Motion, Lenis |
+| 미디어 | FFmpeg |
+| 검증 | React Hook Form, Zod |
