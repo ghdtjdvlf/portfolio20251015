@@ -1,11 +1,12 @@
 'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
 import { motion, AnimatePresence, useSpring } from 'framer-motion';
+import Image from 'next/image';
 import Lenis from 'lenis';
 import DetailView from './DetailView';
 import SplitText from '@/components/SplitText';
 
-type Project = {
+export type Project = {
   id: string;
   title: string;
   subtitle: string;
@@ -120,7 +121,13 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick,
                 exit={{ y: direction > 0 ? '-20%' : '20%' }}
                 transition={TRANSITION}
               >
-                <img src={project.imageCard} className="w-full h-full object-cover" alt={project.title} />
+                <Image
+                  src={project.imageCard}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 768px) 90vw, 36vw"
+                  className="object-cover"
+                />
               </motion.div>
             </motion.div>
           </AnimatePresence>
@@ -266,13 +273,19 @@ const GridView = ({ projects, onClose, onSelect }: {
           >
             {/* 이미지 */}
             <div className="relative overflow-hidden bg-white/5" style={{ aspectRatio: '3/4' }}>
-              <motion.img
-                src={project.image}
-                alt={project.title}
-                className="w-full h-full object-cover"
+              <motion.div
+                className="w-full h-full"
                 whileHover={{ scale: 1.06 }}
                 transition={{ duration: 0.7, ease: [0.76, 0, 0.24, 1] }}
-              />
+              >
+                <Image
+                  src={project.imageCard || project.image}
+                  alt={project.title}
+                  fill
+                  sizes="(max-width: 640px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                  className="object-cover"
+                />
+              </motion.div>
               <div className="absolute inset-0 bg-black/20 group-hover:bg-black/0 transition-colors duration-500" />
               {/* 호버 오버레이 */}
               <motion.div
@@ -386,7 +399,14 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
                 autoPlay muted loop playsInline
               />
             ) : (
-              <img src={currentProject.image} className="w-full h-full object-cover" alt="" />
+              <Image
+                src={currentProject.image}
+                alt=""
+                fill
+                priority={currentIndex === 0}
+                sizes="100vw"
+                className="object-cover"
+              />
             )}
           </motion.div>
         </AnimatePresence>
