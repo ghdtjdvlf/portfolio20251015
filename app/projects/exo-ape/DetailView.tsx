@@ -314,22 +314,11 @@ export default function DetailView({
           4. NEXT PROJECT
          ══════════════════════════════════════════ */}
       <section
-        className="relative w-full overflow-hidden cursor-pointer group"
+        className="relative w-full overflow-hidden cursor-pointer group bg-[#111111]"
         style={{ height: '60vh' }}
         onClick={onClose}
       >
-        <motion.div
-          className="absolute inset-0"
-          whileHover={{ scale: 1.04 }}
-          transition={{ duration: 0.8, ease: EASE }}
-        >
-          <img
-            src="https://images.unsplash.com/photo-1618221195710-dd6b41faaea6?q=80&w=2000"
-            alt="Next project"
-            className="w-full h-full object-cover"
-          />
-        </motion.div>
-        <div className="absolute inset-0 bg-black/50 group-hover:bg-black/35 transition-colors duration-500" />
+        <div className="absolute inset-0 bg-white/0 group-hover:bg-white/5 transition-colors duration-500" />
 
         <div className="absolute inset-0 flex flex-col justify-end p-10 md:p-20">
           <FadeUp>
