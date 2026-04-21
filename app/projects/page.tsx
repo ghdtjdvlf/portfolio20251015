@@ -13,6 +13,7 @@ type Project = {
   meta: { client: string; services: string; date: string };
   content: { heading: string; description: string; additionalImage: string };
   awards?: { name: string; award: string }[];
+  link?: string;
 };
 
 const blogSource = loader({
@@ -51,6 +52,7 @@ export default function ProjectsPage() {
         additionalImage: d.additionalImage ?? thumbnail,
       },
       awards: d.awards,
+      link: d.link,
     };
   });
 

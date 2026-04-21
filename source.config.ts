@@ -35,6 +35,7 @@ export const { docs, meta } = defineDocs({
       heading: z.string().optional(),
       additionalImage: z.string().optional(),
       awards: z.array(z.object({ name: z.string(), award: z.string() })).optional(),
+      link: z.string().optional(),
     }),
   },
 });

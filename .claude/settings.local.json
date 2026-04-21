@@ -1,0 +1,11 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(pnpm build *)",
+      "WebFetch(domain:www.exoape.com)",
+      "Bash(sort -t: -k2 -n)",
+      "Bash(powershell.exe -Command ' *)",
+      "Bash(git merge *)"
+    ]
+  }
+}

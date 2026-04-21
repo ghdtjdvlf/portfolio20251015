@@ -172,13 +172,14 @@ export default function DetailView({
         animate={{ opacity: 1, x: 0 }}
         transition={{ delay: 0.6, duration: 0.5 }}
         onClick={onClose}
-        className="fixed left-6 top-1/2 -translate-y-1/2 z-[160] flex flex-col items-center gap-4 group cursor-pointer"
+        className="fixed left-6 top-1/2 -translate-y-1/2 z-[160] flex flex-col items-center gap-4 cursor-pointer"
+        style={{ mixBlendMode: 'difference' }}
       >
-        <div className="w-16 h-16 rounded-full border border-white/30 bg-black flex items-center justify-center group-hover:bg-white transition-colors duration-300">
-          <X size={22} strokeWidth={2} className="text-white group-hover:text-black transition-colors duration-300" />
+        <div className="w-20 h-20 rounded-full bg-white flex items-center justify-center">
+          <X size={28} strokeWidth={1.5} className="text-black" />
         </div>
         <span
-          className="text-[9px] font-semibold tracking-[0.2em] uppercase text-white/50 group-hover:text-white transition-colors duration-300"
+          className="text-[9px] font-semibold tracking-[0.2em] uppercase text-white"
           style={{ writingMode: 'vertical-rl' }}
         >
           Back
@@ -250,16 +251,20 @@ export default function DetailView({
         </div>
 
         {/* Visit website — 하단 오른쪽 */}
-        <motion.a
-          initial={{ opacity: 0, y: 16 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.8, duration: 0.8, ease: EASE }}
-          href="#"
-          className="absolute bottom-16 right-10 md:right-16 inline-flex items-center gap-3 border border-white/30 px-6 py-3 text-[11px] font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-black transition-all duration-300 group"
-        >
-          Visit website
-          <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
-        </motion.a>
+        {project.link && (
+          <motion.a
+            initial={{ opacity: 0, y: 16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8, ease: EASE }}
+            href={project.link}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="absolute bottom-16 right-10 md:right-16 inline-flex items-center gap-3 border border-white/30 px-6 py-3 text-[11px] font-semibold tracking-[0.22em] uppercase hover:bg-white hover:text-black transition-all duration-300 group"
+          >
+            Visit website
+            <ArrowUpRight size={13} className="group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+          </motion.a>
+        )}
       </section>
 
       {/* 히어로 아래 콘텐츠: bg 적용해서 ExoApe 배경 가림 */}

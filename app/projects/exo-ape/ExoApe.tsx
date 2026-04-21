@@ -15,6 +15,7 @@ export type Project = {
   meta: { client: string; services: string; date: string };
   content: { heading: string; description: string; additionalImage: string };
   awards?: { name: string; award: string }[];
+  link?: string;
 };
 
 const TRANSITION = { duration: 0.8, ease: [0.76, 0, 0.24, 1] };
@@ -22,7 +23,7 @@ const CARD_W = 'clamp(360px, 36vw, 510px)';
 const CARD_H = 'clamp(480px, 48vw, 680px)';
 
 // --- 커스텀 커서 ---
-const CustomCursor = ({ isHovered, viewMode }) => {
+const CustomCursor = ({ isHovered, viewMode, isOverUI }) => {
   const mouseX = useSpring(0, { stiffness: 500, damping: 40 });
   const mouseY = useSpring(0, { stiffness: 500, damping: 40 });
   useEffect(() => {
@@ -30,12 +31,13 @@ const CustomCursor = ({ isHovered, viewMode }) => {
     window.addEventListener('mousemove', move);
     return () => window.removeEventListener('mousemove', move);
   }, [mouseX, mouseY]);
+  const visible = !isOverUI && (viewMode === 'home' || isHovered);
   return (
     <motion.div
       style={{ x: mouseX, y: mouseY, translateX: '-50%', translateY: '-50%' }}
-      className="fixed top-0 left-0 w-20 h-20 bg-white/15 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-none z-[200] text-white text-[9px] tracking-[0.25em] font-semibold border border-white/25"
-      animate={{ scale: isHovered ? 1 : 0, opacity: isHovered ? 1 : 0 }}
-      transition={{ duration: 0.2 }}
+      className="fixed top-0 left-0 w-[120px] h-[120px] bg-white/15 backdrop-blur-md rounded-full flex items-center justify-center pointer-events-none z-[200] text-white text-[14px] tracking-[0.25em] font-semibold border border-white/25"
+      animate={{ scale: visible ? 1 : 0, opacity: visible ? 1 : 0 }}
+      transition={{ duration: 0.25 }}
     >
       {viewMode === 'home' ? 'VIEW' : 'SCROLL'}
     </motion.div>
@@ -43,41 +45,14 @@ const CustomCursor = ({ isHovered, viewMode }) => {
 };
 
 // --- 네비게이션 ---
-const Navigation = ({ view, onLogoClick, isHovered }) => (
+const Navigation = ({ view, onLogoClick }) => (
   <header className="fixed top-0 left-0 w-full px-10 md:px-14 py-8 flex justify-between items-center z-[100] pointer-events-none">
     <div className="flex items-center gap-4">
       <div
-        className="text-xl font-bold tracking-tight text-white cursor-pointer pointer-events-auto select-none"
-        style={{ fontFamily: "'Helvetica Neue', Helvetica, Arial, sans-serif" }}
+        className="cursor-pointer pointer-events-auto select-none"
         onClick={onLogoClick}
-      >
-        exo <em className="italic font-normal" style={{ fontFamily: 'Georgia, serif' }}>ape</em>
-      </div>
-      <motion.div
-        animate={{ scale: isHovered ? 1 : 0.4, opacity: isHovered ? 1 : 0 }}
-        transition={{ duration: 0.25 }}
-        className="w-12 h-12 bg-white/15 backdrop-blur-md rounded-full flex items-center justify-center text-white text-[8px] tracking-[0.2em] font-semibold border border-white/25"
-      >
-        View
-      </motion.div>
+      />
     </div>
-    <AnimatePresence>
-      {view === 'home' && (
-        <motion.nav
-          initial={{ opacity: 0, y: -10 }}
-          animate={{ opacity: 1, y: 0 }}
-          exit={{ opacity: 0, y: -10 }}
-          className="hidden md:flex items-center space-x-10 text-[11px] tracking-[0.18em] uppercase text-white pointer-events-auto"
-        >
-          <a href="#" className="font-semibold flex items-center gap-1 hover:opacity-70 transition-opacity">
-            Work <span className="text-base leading-none">+</span>
-          </a>
-          {['Studio', 'News', 'Contact'].map((item) => (
-            <a key={item} href="#" className="opacity-75 hover:opacity-100 transition-opacity font-medium">{item}</a>
-          ))}
-        </motion.nav>
-      )}
-    </AnimatePresence>
   </header>
 );
 
@@ -88,7 +63,8 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick,
     initial={{ opacity: 1 }}
     exit={{ opacity: 0 }}
     transition={{ duration: 0.01 }}
-    className="fixed inset-0 z-10"
+    className="fixed inset-0 z-10 cursor-pointer"
+    onClick={!isCollapsing ? onCardClick : undefined}
   >
     <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-transparent pointer-events-none" />
 
@@ -100,8 +76,7 @@ const HomeView = ({ project, direction, onMouseEnter, onMouseLeave, onCardClick,
         style={{ width: CARD_W, overflow: 'hidden' }}
         onMouseEnter={onMouseEnter}
         onMouseLeave={onMouseLeave}
-        onClick={!isCollapsing ? onCardClick : undefined}
-        className="cursor-pointer relative"
+        className="relative"
       >
         <div style={{ height: CARD_H, position: 'relative' }}>
           <AnimatePresence initial={false} custom={direction} mode="popLayout">
@@ -324,6 +299,7 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
   const [currentIndex, setCurrentIndex] = useState(0);
   const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
+  const [isOverUI, setIsOverUI] = useState(false);
   const [isCollapsing, setIsCollapsing] = useState(false);
   const [showGrid, setShowGrid] = useState(false);
   const isWheeling = useRef(false);
@@ -373,8 +349,8 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
   return (
     <>
     <div className="bg-[#0d0d0d] text-white h-screen w-full select-none relative overflow-hidden">
-      <CustomCursor isHovered={isHovered} viewMode={view} />
-      <Navigation view={view} onLogoClick={() => { setView('home'); setIsHovered(false); }} isHovered={isHovered} />
+      <CustomCursor isHovered={isHovered} viewMode={view} isOverUI={isOverUI} />
+      <Navigation view={view} onLogoClick={() => { setView('home'); setIsHovered(false); }} />
 
       {/* 배경 */}
       <div className="fixed inset-0 z-0 overflow-hidden">
@@ -427,17 +403,23 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
       </AnimatePresence>
 
       {/* 푸터 */}
-      <footer className="fixed bottom-10 left-0 w-full px-10 md:px-14 flex justify-between items-center z-[100] pointer-events-none">
+      <footer
+        className="fixed bottom-10 left-0 w-full px-10 md:px-14 flex justify-between items-center z-[100] pointer-events-none"
+        onMouseEnter={() => setIsOverUI(true)}
+        onMouseLeave={() => setIsOverUI(false)}
+      >
         <div
-          className="flex items-center space-x-3 text-white pointer-events-auto cursor-pointer group"
-          onClick={() => setShowGrid(true)}
+          className={`flex items-center space-x-3 text-white pointer-events-auto cursor-pointer group transition-opacity duration-300 ${view === 'detail' ? 'opacity-0 pointer-events-none' : 'opacity-100'}`}
+          onClick={() => setShowGrid(prev => !prev)}
         >
           <div className="grid grid-cols-2 gap-[3px] opacity-60 group-hover:opacity-100 transition-opacity">
             {[...Array(4)].map((_, i) => (<div key={i} className="w-[3px] h-[3px] rounded-full bg-white" />))}
           </div>
-          <span className="text-[11px] font-medium tracking-[0.2em] uppercase opacity-80 group-hover:opacity-100 transition-opacity">All Projects</span>
+          <span className="text-[20px] font-semibold tracking-[0.2em] uppercase opacity-80 group-hover:opacity-100 transition-opacity">
+            {showGrid ? 'Close' : 'All Projects'}
+          </span>
         </div>
-        <div className="text-[11px] font-medium tracking-[0.35em] text-white/70">
+        <div className="text-[22px] font-black tracking-[0.2em] text-white" style={{ fontWeight: 900 }}>
           {String(currentIndex + 1).padStart(2, '0')} / {String(projects.length).padStart(2, '0')}
         </div>
       </footer>
