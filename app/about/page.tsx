@@ -163,7 +163,6 @@ export default function AboutPage() {
 
       {/* ── STORY ──────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
-        <PerspectiveMarquee />
 
         <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
@@ -202,6 +201,11 @@ export default function AboutPage() {
             </div>
           </div>
         </div>
+      </section>
+
+      {/* ── PERSPECTIVE MARQUEE ────────────────────────── */}
+      <section className="border-b border-border overflow-hidden" style={{ height: "340px" }}>
+        <PerspectiveMarquee />
       </section>
 
       {/* ── CAREER ─────────────────────────────────────── */}
