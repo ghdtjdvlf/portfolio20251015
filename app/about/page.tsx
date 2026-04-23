@@ -83,11 +83,6 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
 
-      {/* Perspective Marquee 전체 배경 */}
-      <div className="opacity-[0.12] dark:opacity-[0.15] text-foreground">
-        <PerspectiveMarquee />
-      </div>
-
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
         <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-0 flex items-center justify-between">
@@ -167,8 +162,12 @@ export default function AboutPage() {
       </section>
 
       {/* ── STORY ──────────────────────────────────────── */}
-      <section className="border-b border-border">
-        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
+      <section className="relative border-b border-border overflow-hidden">
+        {/* Perspective Marquee 배경 */}
+        <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.08]">
+          <PerspectiveMarquee />
+        </div>
+        <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
             <div className="pt-1">
               <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">

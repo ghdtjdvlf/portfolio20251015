@@ -4,58 +4,80 @@ const ITEMS = [
   "자동화", "AI", "퍼블리싱", "Frontend", "Web Publisher",
 ];
 
-const doubled = [...ITEMS, ...ITEMS];
+const ROWS = [
+  { items: ITEMS, speed: 40, reverse: false },
+  { items: ITEMS, speed: 35, reverse: true },
+  { items: ITEMS, speed: 45, reverse: false },
+  { items: ITEMS, speed: 38, reverse: true },
+  { items: ITEMS, speed: 42, reverse: false },
+];
 
 export function PerspectiveMarquee() {
   return (
     <>
       <style>{`
-        @keyframes marquee {
+        @keyframes pmq {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
+        }
+        @keyframes pmq-r {
+          from { transform: translateX(-50%); }
+          to   { transform: translateX(0); }
         }
       `}</style>
 
       <div
         style={{
-          position: "fixed",
+          position: "absolute",
           inset: 0,
-          width: "100vw",
-          height: "100vh",
           overflow: "hidden",
           pointerEvents: "none",
-          zIndex: 0,
-          display: "flex",
-          alignItems: "center",
-          perspective: "500px",
+          perspective: "600px",
+          perspectiveOrigin: "50% 30%",
         }}
       >
         <div
           style={{
-            width: "100%",
-            transform: "rotateX(20deg)",
-            transformOrigin: "center center",
+            position: "absolute",
+            inset: "-40% 0",
+            transform: "rotateX(35deg)",
+            transformOrigin: "50% 0%",
           }}
         >
-          <div style={{ display: "flex", overflow: "hidden" }}>
-            <div
-              style={{
-                display: "flex",
-                flexShrink: 0,
-                gap: "2.5rem",
-                alignItems: "center",
-                animation: "marquee 35s linear infinite",
-                willChange: "transform",
-              }}
-            >
-              {doubled.map((item, i) => (
-                <span key={i} style={{ whiteSpace: "nowrap", fontSize: "1.125rem", fontWeight: 600, letterSpacing: "0.05em" }}>
-                  {item}
-                  <span style={{ marginLeft: "2.5rem", opacity: 0.25 }}>·</span>
-                </span>
-              ))}
-            </div>
-          </div>
+          {ROWS.map((row, i) => {
+            const doubled = [...row.items, ...row.items];
+            return (
+              <div key={i} style={{ display: "flex", overflow: "hidden" }}>
+                <div
+                  style={{
+                    display: "flex",
+                    flexShrink: 0,
+                    gap: "3rem",
+                    alignItems: "center",
+                    padding: "14px 0",
+                    animation: `${row.reverse ? "pmq-r" : "pmq"} ${row.speed}s linear infinite`,
+                    willChange: "transform",
+                  }}
+                >
+                  {doubled.map((item, j) => (
+                    <span
+                      key={j}
+                      style={{
+                        whiteSpace: "nowrap",
+                        fontSize: "2.25rem",
+                        fontWeight: 700,
+                        letterSpacing: "-0.02em",
+                        lineHeight: 1,
+                      }}
+                    >
+                      {item}
+                      <span style={{ margin: "0 1.5rem", opacity: 0.2, fontWeight: 400 }}>·</span>
+                    </span>
+                  ))}
+                </div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </>
