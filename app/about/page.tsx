@@ -163,10 +163,8 @@ export default function AboutPage() {
 
       {/* ── STORY ──────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
-        {/* Perspective Marquee 배경 */}
-        <div className="absolute inset-0 opacity-[0.06] dark:opacity-[0.08]">
-          <PerspectiveMarquee />
-        </div>
+        <PerspectiveMarquee />
+
         <div className="relative z-10 max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
           <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
             <div className="pt-1">
