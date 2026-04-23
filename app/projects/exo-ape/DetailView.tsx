@@ -1,6 +1,6 @@
 'use client';
 import { useRef, useEffect, useState } from 'react';
-import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'framer-motion';
+import { motion, useInView, useScroll, useTransform, AnimatePresence } from 'motion/react';
 import { X, ArrowUpRight } from 'lucide-react';
 import Lenis from 'lenis';
 import SplitText from '@/components/SplitText';

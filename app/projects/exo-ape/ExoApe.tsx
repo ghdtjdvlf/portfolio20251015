@@ -1,6 +1,6 @@
 'use client';
 import React, { useState, useEffect, useRef, useMemo } from 'react';
-import { motion, AnimatePresence, useSpring } from 'framer-motion';
+import { motion, AnimatePresence, useSpring } from 'motion/react';
 import Image from 'next/image';
 import Lenis from 'lenis';
 import DetailView from './DetailView';
