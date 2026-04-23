@@ -83,12 +83,13 @@ export default function AboutPage() {
   return (
     <div className="min-h-screen bg-background text-foreground">
 
+      {/* Perspective Marquee 전체 배경 */}
+      <div className="opacity-[0.12] dark:opacity-[0.15] text-foreground">
+        <PerspectiveMarquee />
+      </div>
+
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
-        {/* Perspective Marquee 배경 */}
-        <div className="absolute inset-0 opacity-[0.12] dark:opacity-[0.15] text-foreground">
-          <PerspectiveMarquee />
-        </div>
         <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-0 flex items-center justify-between">
           <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">About Me</span>
           <span className="text-[11px] tracking-[0.2em] text-muted-foreground font-mono">2026</span>
