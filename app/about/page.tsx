@@ -51,34 +51,58 @@ const CAREERS = [
   },
 ];
 
+const STATS = [
+  { value: "1년 7개월", label: "총 경력" },
+  { value: "97%", label: "업무 시간 단축" },
+  { value: "3,000만원", label: "비용 절감" },
+];
+
+const CHARS = [
+  {
+    badge: "장점",
+    title: "극한의 효율성과 집요한 문제해결력",
+    body: "3시간 업무를 5분으로. 3,000만 원 외주를 내재화로 0원에. 숫자로 증명해온 실행력입니다.",
+    accent: "3h → 5min",
+  },
+  {
+    badge: "단점",
+    title: "낯선 방식 도입에 따른 조직 내 우려",
+    body: "기존 방식에 안주하지 않으려는 성향이 때로는 동료에게 부담으로 다가올 수 있음을 경계합니다.",
+    accent: null,
+  },
+  {
+    badge: "보완점",
+    title: "설득과 검증을 통한 점진적 변화",
+    body: "독단적으로 진행하지 않습니다. 팀원과 충분히 상의하고 PoC로 효용성을 먼저 입증합니다.",
+    accent: null,
+  },
+];
+
 export default function AboutPage() {
   return (
-    <div className="min-h-screen bg-[#f7f6f3] dark:bg-[#0f0f0e] text-[#111110] dark:text-[#f0ede8]">
+    <div className="min-h-screen bg-background text-foreground">
 
       {/* ── HERO ─────────────────────────────────────── */}
-      <section className="border-b border-[#e0ddd8] dark:border-[#252525]">
-        <div className="flex items-center justify-between px-6 md:px-12 pt-8">
-          <span className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium">About Me</span>
-          <span className="text-[11px] tracking-[0.2em] text-[#bbb] font-mono">2026</span>
+      <section className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-0 flex items-center justify-between">
+          <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">About Me</span>
+          <span className="text-[11px] tracking-[0.2em] text-muted-foreground font-mono">2026</span>
         </div>
 
-        <div className="px-6 md:px-12 pt-10 pb-16">
-          <div className="flex flex-col lg:flex-row items-start gap-12 lg:gap-0">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-12 md:py-16">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 items-start">
 
-            {/* Left */}
-            <div className="flex-1 flex flex-col gap-7 lg:pr-16 lg:pt-4">
-              <p className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium">
+            {/* Left: Text */}
+            <div className="flex flex-col gap-6">
+              <p className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">
                 Web Publisher · Frontend Developer
               </p>
 
-              <h1
-                className="font-bold leading-[0.85] tracking-tighter"
-                style={{ fontSize: "clamp(5rem, 13vw, 10rem)" }}
-              >
-                홍<br />성필
+              <h1 className="font-bold tracking-tighter leading-none text-7xl md:text-8xl">
+                홍성필
               </h1>
 
-              <p className="text-base md:text-lg text-[#666] dark:text-[#888] max-w-xs leading-relaxed">
+              <p className="text-base text-muted-foreground leading-relaxed max-w-sm">
                 효율을 숫자로 증명해온 퍼블리셔.<br />
                 확실한 긍정적 변화를 약속합니다.
               </p>
@@ -87,37 +111,37 @@ export default function AboutPage() {
                 {["책임감", "효율적인", "능동적인"].map((tag) => (
                   <span
                     key={tag}
-                    className="px-4 py-1.5 border border-[#d8d5cf] dark:border-[#2e2e2e] text-sm font-medium rounded-full text-[#444] dark:text-[#aaa]"
+                    className="px-4 py-1.5 border border-border text-sm font-medium rounded-full text-muted-foreground"
                   >
                     {tag}
                   </span>
                 ))}
               </div>
 
-              <div className="flex gap-8 pt-6 border-t border-[#e0ddd8] dark:border-[#252525]">
-                {[
-                  { value: "1년 7개월", label: "총 경력" },
-                  { value: "3h → 5min", label: "업무 효율화" },
-                  { value: "3,000만원", label: "비용 절감" },
-                ].map(({ value, label }) => (
+              {/* Stats */}
+              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
+                {STATS.map(({ value, label }) => (
                   <div key={label}>
-                    <p className="text-xl md:text-2xl font-bold tracking-tight">{value}</p>
-                    <p className="text-[10px] text-[#999] mt-1 tracking-[0.2em] uppercase">{label}</p>
+                    <p className="text-lg md:text-xl font-bold tracking-tight">{value}</p>
+                    <p className="text-[10px] text-muted-foreground mt-1 tracking-[0.15em] uppercase leading-tight">{label}</p>
                   </div>
                 ))}
               </div>
+
+              {/* Contact shortcut */}
+              <a
+                href={GMAIL_URL}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center gap-2 w-fit px-5 py-2.5 bg-foreground text-background text-sm font-medium rounded-lg hover:opacity-80 transition-opacity"
+              >
+                ✉️ 포지션 제안하기
+              </a>
             </div>
 
             {/* Right: Photo */}
-            <div className="relative w-full lg:w-[360px] xl:w-[420px] flex-shrink-0">
-              <span className="absolute -top-6 -right-2 text-[9rem] font-bold leading-none select-none pointer-events-none text-[#111110]/[0.04] dark:text-[#f0ede8]/[0.04]">
-                01
-              </span>
-
-              <div
-                className="relative w-full max-w-[320px] ml-auto overflow-hidden rounded-2xl"
-                style={{ aspectRatio: "3/4" }}
-              >
+            <div className="w-full max-w-sm mx-auto lg:mx-0 lg:max-w-none">
+              <div className="relative w-full rounded-2xl overflow-hidden bg-muted" style={{ aspectRatio: "4/5" }}>
                 <Image
                   src="/images/me.webp"
                   alt="홍성필 프로필"
@@ -125,10 +149,11 @@ export default function AboutPage() {
                   className="object-cover object-top"
                   priority
                 />
-              </div>
-
-              <div className="absolute bottom-4 left-0 bg-[#111110] dark:bg-[#f0ede8] text-[#f0ede8] dark:text-[#111110] px-4 py-2 text-[10px] tracking-[0.25em] uppercase font-semibold">
-                HSP · 홍성필
+                <div className="absolute bottom-0 left-0 right-0 px-5 py-3 bg-foreground/90 backdrop-blur-sm">
+                  <p className="text-background text-[10px] tracking-[0.25em] uppercase font-semibold">
+                    Hong Seong-pil · Frontend Developer
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -136,39 +161,39 @@ export default function AboutPage() {
       </section>
 
       {/* ── STORY ──────────────────────────────────────── */}
-      <section className="border-b border-[#e0ddd8] dark:border-[#252525]">
-        <div className="px-6 md:px-12 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-20">
-            <div className="md:w-44 flex-shrink-0 pt-1">
-              <span className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium">
+      <section className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16">
+            <div className="pt-1">
+              <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">
                 02 · Story
               </span>
             </div>
-            <div className="flex-1 max-w-2xl">
-              <blockquote className="text-2xl md:text-[1.75rem] font-semibold leading-snug tracking-tight mb-8">
-                "9살 때 고장 난 PC를 스스로 고치며 느꼈던
-                문제해결의 희열이, 저만의 경쟁력이 되었습니다."
+            <div className="max-w-2xl">
+              <blockquote className="text-xl md:text-2xl font-semibold leading-snug tracking-tight mb-7 text-foreground">
+                &ldquo;9살 때 고장 난 PC를 스스로 고치며 느꼈던
+                문제해결의 희열이, 저만의 경쟁력이 되었습니다.&rdquo;
               </blockquote>
-              <div className="space-y-4 text-[#666] dark:text-[#999] leading-relaxed text-[0.9375rem]">
+              <div className="space-y-4 text-muted-foreground leading-relaxed text-sm md:text-base">
                 <p>
                   어린 시절부터 남들이 포기할 때 끝까지 답을 찾는 아이였습니다.
                   그 성향은 성인이 되어{" "}
-                  <strong className="text-[#111110] dark:text-[#f0ede8]">
-                    &apos;기존보다 더 나은 효율&apos;
+                  <strong className="text-foreground font-semibold">
+                    &lsquo;기존보다 더 나은 효율&rsquo;
                   </strong>
                   을 찾아내는 경쟁력이 되었습니다.
                 </p>
                 <p>
                   사수 없이 독립적으로 레퍼런스를 분석·적용하며{" "}
-                  <strong className="text-[#111110] dark:text-[#f0ede8]">
+                  <strong className="text-foreground font-semibold">
                     3시간짜리 업무를 5분으로 단축
                   </strong>
                   하고, 월 300만 원 외주 의존을 자체 개발로 전환했습니다.
                 </p>
                 <p>
-                  뉴발란스 프로젝트에서 10명 규모 팀의 FE 파트를 담당하며 복잡한
-                  요구사항을 빠르게 파악하고 사용자 중심 인터페이스를 설계·구현하는
-                  역량을 갖췄습니다.
+                  뉴발란스 프로젝트에서 10명 규모 팀의 FE 파트를 담당하며
+                  복잡한 요구사항을 빠르게 파악하고 사용자 중심 인터페이스를
+                  설계·구현하는 역량을 갖췄습니다.
                 </p>
               </div>
             </div>
@@ -177,41 +202,41 @@ export default function AboutPage() {
       </section>
 
       {/* ── CAREER ─────────────────────────────────────── */}
-      <section className="border-b border-[#e0ddd8] dark:border-[#252525]">
-        <div className="px-6 md:px-12 py-16 md:py-24">
-          <div className="flex flex-col md:flex-row gap-10 md:gap-20 mb-10">
-            <div className="md:w-44 flex-shrink-0 pt-1">
-              <span className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium">
+      <section className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
+          <div className="grid grid-cols-1 md:grid-cols-[180px_1fr] gap-8 md:gap-16 mb-10">
+            <div className="pt-1">
+              <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">
                 03 · Career
               </span>
             </div>
-            <p className="text-sm text-[#999]">총 경력 1년 7개월</p>
+            <p className="text-sm text-muted-foreground">총 경력 1년 7개월</p>
           </div>
 
-          <div className="divide-y divide-[#e0ddd8] dark:divide-[#252525] border-t border-[#e0ddd8] dark:border-[#252525]">
+          <div className="divide-y divide-border border-t border-border">
             {CAREERS.map((c, i) => (
-              <div key={i} className="flex flex-col md:flex-row md:items-start gap-3 md:gap-0 py-8">
-                <div className="md:w-12 flex-shrink-0 pt-0.5">
-                  <span className="text-xs font-mono text-[#ccc] dark:text-[#444]">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
+              <div key={i} className="py-8 grid grid-cols-1 md:grid-cols-[48px_1fr_auto] gap-4 md:gap-6">
+                {/* Index */}
+                <span className="text-xs font-mono text-muted-foreground/50 pt-1">
+                  {String(i + 1).padStart(2, "0")}
+                </span>
+
+                {/* Main info */}
+                <div>
+                  <div className="flex flex-wrap items-baseline gap-2 mb-1">
+                    <p className="text-lg font-bold tracking-tight">{c.company}</p>
+                    <p className="text-sm text-muted-foreground">{c.team}</p>
+                  </div>
+                  <p className="text-xs font-mono text-muted-foreground mb-3">{c.period} · {c.duration}</p>
+                  <p className="text-sm text-muted-foreground leading-relaxed">{c.work}</p>
                 </div>
-                <div className="md:w-44 flex-shrink-0">
-                  <p className="text-sm font-mono text-[#666] dark:text-[#777]">{c.period}</p>
-                  <p className="text-xs text-[#bbb] dark:text-[#555] mt-0.5">{c.duration}</p>
-                </div>
-                <div className="flex-1 md:px-8">
-                  <p className="text-xl font-bold tracking-tight">{c.company}</p>
-                  <p className="text-sm text-[#999] mt-0.5">{c.team}</p>
-                  <p className="text-sm text-[#777] dark:text-[#888] mt-3 leading-relaxed max-w-md">
-                    {c.work}
-                  </p>
-                </div>
-                <div className="md:w-44 flex-shrink-0 md:text-right flex md:flex-col gap-2 items-center md:items-end">
-                  <span className="inline-block px-3 py-1 text-xs border border-[#d8d5cf] dark:border-[#2e2e2e] rounded-full font-medium text-[#666] dark:text-[#aaa]">
+
+                {/* Badge + salary */}
+                <div className="flex md:flex-col items-start md:items-end gap-2">
+                  <span className="inline-block px-3 py-1 text-xs border border-border rounded-full text-muted-foreground whitespace-nowrap">
                     {c.type}
                   </span>
-                  <p className="text-sm text-[#999]">{c.salary}</p>
+                  <p className="text-sm text-muted-foreground whitespace-nowrap">{c.salary}</p>
                 </div>
               </div>
             ))}
@@ -220,45 +245,24 @@ export default function AboutPage() {
       </section>
 
       {/* ── CHARACTER ──────────────────────────────────── */}
-      <section className="border-b border-[#e0ddd8] dark:border-[#252525]">
-        <div className="px-6 md:px-12 py-16 md:py-24">
-          <div className="mb-12">
-            <span className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium">
+      <section className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
+          <div className="mb-10">
+            <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">
               04 · Character
             </span>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 divide-y md:divide-y-0 md:divide-x divide-[#e0ddd8] dark:divide-[#252525] border border-[#e0ddd8] dark:border-[#252525] rounded-2xl overflow-hidden">
-            {[
-              {
-                badge: "장점",
-                title: "극한의 효율성과\n집요한 문제해결력",
-                body: "3시간 업무를 5분으로. 3,000만 원 외주를 내재화로 0원에. 숫자로 증명해온 실행력입니다.",
-                stat: "3h → 5min",
-              },
-              {
-                badge: "단점",
-                title: "낯선 방식 도입에\n따른 조직 내 우려",
-                body: "기존 방식에 안주하지 않으려는 성향이 때로는 동료에게 부담으로 다가올 수 있음을 경계합니다.",
-                stat: null,
-              },
-              {
-                badge: "보완점",
-                title: "설득과 검증을 통한\n점진적 변화",
-                body: "독단적으로 진행하지 않습니다. 팀원과 충분히 상의하고 PoC로 효용성을 먼저 입증합니다.",
-                stat: null,
-              },
-            ].map(({ badge, title, body, stat }) => (
-              <div key={badge} className="p-8 md:p-10">
-                <span className="inline-block px-3 py-1 text-[10px] tracking-[0.2em] uppercase border border-[#d8d5cf] dark:border-[#2e2e2e] rounded-full text-[#888] mb-6 font-medium">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-px bg-border rounded-2xl overflow-hidden">
+            {CHARS.map(({ badge, title, body, accent }) => (
+              <div key={badge} className="bg-background p-8">
+                <span className="inline-block px-3 py-1 text-[10px] tracking-[0.2em] uppercase border border-border rounded-full text-muted-foreground mb-5 font-medium">
                   {badge}
                 </span>
-                <h3 className="text-xl font-bold leading-tight mb-4 whitespace-pre-line">
-                  {title}
-                </h3>
-                <p className="text-sm text-[#777] dark:text-[#888] leading-relaxed">{body}</p>
-                {stat && (
-                  <p className="mt-6 text-2xl font-bold">{stat}</p>
+                <h3 className="text-base font-bold leading-snug mb-3">{title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">{body}</p>
+                {accent && (
+                  <p className="mt-5 text-xl font-bold">{accent}</p>
                 )}
               </div>
             ))}
@@ -267,20 +271,17 @@ export default function AboutPage() {
       </section>
 
       {/* ── VISION ─────────────────────────────────────── */}
-      <section className="border-b border-[#e0ddd8] dark:border-[#252525]">
-        <div className="px-6 md:px-12 py-16 md:py-28">
-          <p className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium mb-10">
+      <section className="border-b border-border">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-24">
+          <p className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium mb-8">
             05 · Vision
           </p>
-          <h2
-            className="font-bold leading-tight tracking-tight mb-8 max-w-4xl"
-            style={{ fontSize: "clamp(1.75rem, 4.5vw, 3.5rem)" }}
-          >
-            &ldquo;AI 에이전트 기반 자동화로
-            <span className="text-[#aaa]"> 24시간 멈추지 않는</span>
-            <br />지능형 시스템을 구축합니다.&rdquo;
+          <h2 className="text-2xl md:text-4xl font-bold leading-tight tracking-tight mb-6 max-w-3xl">
+            &ldquo;AI 에이전트 기반 자동화로{" "}
+            <span className="text-muted-foreground">24시간 멈추지 않는</span>
+            {" "}지능형 시스템을 구축합니다.&rdquo;
           </h2>
-          <p className="text-base text-[#777] dark:text-[#888] leading-relaxed max-w-xl">
+          <p className="text-sm md:text-base text-muted-foreground leading-relaxed max-w-xl">
             단순 도구 활용을 넘어, AI가 결과물을 검수하고 관리하는 자동화 시스템 구축이
             가장 도전하고 싶은 핵심 영역입니다. 팀이 반복 업무에서 자유로워지고
             독보적인 기술 우위를 점할 수 있도록 기여하겠습니다.
@@ -290,23 +291,23 @@ export default function AboutPage() {
 
       {/* ── CONTACT ────────────────────────────────────── */}
       <section>
-        <div className="px-6 md:px-12 py-16 md:py-24">
+        <div className="max-w-6xl mx-auto px-6 md:px-10 py-14 md:py-20">
           <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-8">
             <div>
-              <p className="text-[11px] tracking-[0.3em] uppercase text-[#999] font-medium mb-3">
+              <p className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium mb-3">
                 06 · Contact
               </p>
-              <h2 className="text-3xl md:text-4xl font-bold tracking-tight">
+              <h2 className="text-2xl md:text-3xl font-bold tracking-tight">
                 포지션 제안하기
               </h2>
-              <p className="text-[#999] mt-2 text-sm">
+              <p className="text-muted-foreground mt-1.5 text-sm">
                 채용 제안, 프로젝트 협업 문의를 환영합니다.
               </p>
             </div>
-            <div className="flex flex-col sm:flex-row gap-3">
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
               <a
                 href="tel:01067315242"
-                className="inline-flex items-center gap-2 px-6 py-3.5 border border-[#d8d5cf] dark:border-[#2e2e2e] hover:bg-[#111110] hover:text-[#f0ede8] dark:hover:bg-[#f0ede8] dark:hover:text-[#111110] transition-colors text-sm font-medium rounded-xl"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 border border-border hover:bg-muted transition-colors text-sm font-medium rounded-xl"
               >
                 📞 010-6731-5242
               </a>
@@ -314,7 +315,7 @@ export default function AboutPage() {
                 href={GMAIL_URL}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="inline-flex items-center gap-2 px-6 py-3.5 bg-[#111110] text-[#f0ede8] dark:bg-[#f0ede8] dark:text-[#111110] hover:opacity-75 transition-opacity text-sm font-medium rounded-xl"
+                className="inline-flex items-center justify-center gap-2 px-6 py-3 bg-foreground text-background hover:opacity-80 transition-opacity text-sm font-medium rounded-xl"
               >
                 ✉️ 이메일로 제안하기
               </a>
