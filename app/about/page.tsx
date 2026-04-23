@@ -1,4 +1,5 @@
 import Image from "next/image";
+import { PerspectiveMarquee } from "@/components/PerspectiveMarquee";
 
 const GMAIL_BODY = `안녕하세요, 홍성필님.
 
@@ -83,7 +84,11 @@ export default function AboutPage() {
     <div className="min-h-screen bg-background text-foreground">
 
       {/* ── HERO ─────────────────────────────────────── */}
-      <section className="border-b border-border">
+      <section className="relative border-b border-border overflow-hidden">
+        {/* Perspective Marquee 배경 */}
+        <div className="absolute inset-0 opacity-[0.045] dark:opacity-[0.07] text-foreground">
+          <PerspectiveMarquee />
+        </div>
         <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-0 flex items-center justify-between">
           <span className="text-[11px] tracking-[0.3em] uppercase text-muted-foreground font-medium">About Me</span>
           <span className="text-[11px] tracking-[0.2em] text-muted-foreground font-mono">2026</span>
