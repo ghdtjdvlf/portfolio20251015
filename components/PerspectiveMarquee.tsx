@@ -12,7 +12,7 @@ function MarqueeRow({ items, reverse }: { items: string[]; reverse?: boolean }) 
   return (
     <div className="flex overflow-hidden whitespace-nowrap">
       <div
-        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-[marquee-reverse_30s_linear_infinite]" : "animate-[marquee_30s_linear_infinite]"}`}
+        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
       >
         {doubled.map((item, i) => (
           <span key={i} className="text-sm font-medium tracking-wide">
@@ -24,7 +24,7 @@ function MarqueeRow({ items, reverse }: { items: string[]; reverse?: boolean }) 
       {/* 두 번 렌더해서 끊김 없이 이어지게 */}
       <div
         aria-hidden
-        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-[marquee-reverse_30s_linear_infinite]" : "animate-[marquee_30s_linear_infinite]"}`}
+        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
       >
         {doubled.map((item, i) => (
           <span key={i} className="text-sm font-medium tracking-wide">
