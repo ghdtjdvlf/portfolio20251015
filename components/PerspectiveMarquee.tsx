@@ -4,13 +4,7 @@ const ITEMS = [
   "자동화", "AI", "퍼블리싱", "Frontend", "Web Publisher",
 ];
 
-const ROWS = [
-  { items: ITEMS, speed: 40, reverse: false },
-  { items: ITEMS, speed: 35, reverse: true },
-  { items: ITEMS, speed: 45, reverse: false },
-  { items: ITEMS, speed: 38, reverse: true },
-  { items: ITEMS, speed: 42, reverse: false },
-];
+const doubled = [...ITEMS, ...ITEMS];
 
 export function PerspectiveMarquee() {
   return (
@@ -20,64 +14,58 @@ export function PerspectiveMarquee() {
           from { transform: translateX(0); }
           to   { transform: translateX(-50%); }
         }
-        @keyframes pmq-r {
-          from { transform: translateX(-50%); }
-          to   { transform: translateX(0); }
-        }
       `}</style>
 
+      {/* 섹션 전체를 채우는 절대 위치 컨테이너 */}
       <div
         style={{
           position: "absolute",
           inset: 0,
+          display: "flex",
+          alignItems: "center",
           overflow: "hidden",
           pointerEvents: "none",
-          perspective: "600px",
-          perspectiveOrigin: "50% 30%",
         }}
       >
+        {/* 좌우 fade mask */}
         <div
           style={{
-            position: "absolute",
-            inset: "-40% 0",
-            transform: "rotateX(35deg)",
-            transformOrigin: "50% 0%",
+            width: "100%",
+            maskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to right, transparent 0%, black 12%, black 88%, transparent 100%)",
+            perspective: "800px",
+            perspectiveOrigin: "50% 50%",
           }}
         >
-          {ROWS.map((row, i) => {
-            const doubled = [...row.items, ...row.items];
-            return (
-              <div key={i} style={{ display: "flex", overflow: "hidden" }}>
-                <div
+          {/* 단일 행 */}
+          <div style={{ overflow: "hidden" }}>
+            <div
+              style={{
+                display: "inline-flex",
+                flexShrink: 0,
+                gap: "3.5rem",
+                alignItems: "center",
+                animation: "pmq 40s linear infinite",
+                willChange: "transform",
+                whiteSpace: "nowrap",
+              }}
+            >
+              {doubled.map((item, i) => (
+                <span
+                  key={i}
                   style={{
-                    display: "flex",
-                    flexShrink: 0,
-                    gap: "3rem",
-                    alignItems: "center",
-                    padding: "14px 0",
-                    animation: `${row.reverse ? "pmq-r" : "pmq"} ${row.speed}s linear infinite`,
-                    willChange: "transform",
+                    fontSize: "2rem",
+                    fontWeight: i % 3 === 1 ? 700 : i % 3 === 2 ? 400 : 600,
+                    letterSpacing: "-0.01em",
+                    lineHeight: 1,
                   }}
                 >
-                  {doubled.map((item, j) => (
-                    <span
-                      key={j}
-                      style={{
-                        whiteSpace: "nowrap",
-                        fontSize: "2.25rem",
-                        fontWeight: 700,
-                        letterSpacing: "-0.02em",
-                        lineHeight: 1,
-                      }}
-                    >
-                      {item}
-                      <span style={{ margin: "0 1.5rem", opacity: 0.2, fontWeight: 400 }}>·</span>
-                    </span>
-                  ))}
-                </div>
-              </div>
-            );
-          })}
+                  {item}
+                  <span style={{ marginLeft: "3.5rem", opacity: 0.2, fontWeight: 300 }}>·</span>
+                </span>
+              ))}
+            </div>
+          </div>
         </div>
       </div>
     </>
