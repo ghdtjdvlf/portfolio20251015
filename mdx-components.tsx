@@ -15,7 +15,6 @@ import {
 import { AuthorCard } from "@/components/author-card";
 import { getAuthor, type AuthorKey } from "@/lib/authors";
 import { CopyHeader } from "@/components/copy-header";
-import CircularGallery from "@/components/CircularGallery";
 import { ParallaxScroll } from "@/components/ui/parallax-scroll";
 import { ExoApe } from "@/app/projects/exo-ape";
 
@@ -51,7 +50,6 @@ export function getMDXComponents(components?: MDXComponents): MDXComponents {
     AccordionItem,
     AccordionTrigger,
     Author,
-    CircularGallery,
     ParallaxScroll,
     ExoApe,
     h1: createHeading(1),
