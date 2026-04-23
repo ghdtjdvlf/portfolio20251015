@@ -1,35 +1,31 @@
 const ROWS = [
-  ["React", "TypeScript", "Next.js", "Tailwind", "GSAP", "Motion", "Three.js", "Figma"],
-  ["문제해결", "효율", "집요함", "성장", "자동화", "AI", "퍼블리싱", "개발"],
-  ["Frontend", "Web Publisher", "UI/UX", "Component", "Animation", "Performance"],
-  ["React", "TypeScript", "Next.js", "Tailwind", "GSAP", "Motion", "Three.js", "Figma"],
-  ["문제해결", "효율", "집요함", "성장", "자동화", "AI", "퍼블리싱", "개발"],
-  ["Frontend", "Web Publisher", "UI/UX", "Component", "Animation", "Performance"],
+  ["React", "TypeScript", "Next.js", "Tailwind", "GSAP", "Motion", "Three.js", "Figma", "Firebase", "Git"],
+  ["문제해결", "효율", "집요함", "성장", "자동화", "AI", "퍼블리싱", "개발", "협업", "혁신"],
+  ["Frontend", "Web Publisher", "UI/UX", "Component", "Animation", "Performance", "Accessibility"],
+  ["React", "TypeScript", "Next.js", "Tailwind", "GSAP", "Motion", "Three.js", "Figma", "Firebase", "Git"],
+  ["문제해결", "효율", "집요함", "성장", "자동화", "AI", "퍼블리싱", "개발", "협업", "혁신"],
+  ["Frontend", "Web Publisher", "UI/UX", "Component", "Animation", "Performance", "Accessibility"],
 ];
 
-function MarqueeRow({ items, reverse }: { items: string[]; reverse?: boolean }) {
+function MarqueeRow({ items, reverse, speed = 30 }: { items: string[]; reverse?: boolean; speed?: number }) {
   const doubled = [...items, ...items];
   return (
-    <div className="flex overflow-hidden whitespace-nowrap">
+    <div style={{ display: "flex", overflow: "hidden" }}>
       <div
-        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
+        style={{
+          display: "flex",
+          flexShrink: 0,
+          gap: "1.5rem",
+          alignItems: "center",
+          padding: "10px 0",
+          animation: `${reverse ? "marqueeReverse" : "marquee"} ${speed}s linear infinite`,
+          willChange: "transform",
+        }}
       >
         {doubled.map((item, i) => (
-          <span key={i} className="text-sm font-medium tracking-wide">
+          <span key={i} style={{ whiteSpace: "nowrap", fontSize: "0.875rem", fontWeight: 500 }}>
             {item}
-            <span className="mx-3 opacity-30">·</span>
-          </span>
-        ))}
-      </div>
-      {/* 두 번 렌더해서 끊김 없이 이어지게 */}
-      <div
-        aria-hidden
-        className={`flex shrink-0 gap-6 items-center py-2.5 ${reverse ? "animate-marquee-reverse" : "animate-marquee"}`}
-      >
-        {doubled.map((item, i) => (
-          <span key={i} className="text-sm font-medium tracking-wide">
-            {item}
-            <span className="mx-3 opacity-30">·</span>
+            <span style={{ margin: "0 10px", opacity: 0.3 }}>·</span>
           </span>
         ))}
       </div>
@@ -39,23 +35,44 @@ function MarqueeRow({ items, reverse }: { items: string[]; reverse?: boolean }) 
 
 export function PerspectiveMarquee() {
   return (
-    <div
-      className="absolute inset-0 overflow-hidden pointer-events-none select-none"
-      style={{ perspective: "400px" }}
-    >
+    <>
+      <style>{`
+        @keyframes marquee {
+          from { transform: translateX(0); }
+          to   { transform: translateX(-50%); }
+        }
+        @keyframes marqueeReverse {
+          from { transform: translateX(-50%); }
+          to   { transform: translateX(0); }
+        }
+      `}</style>
+
       <div
-        className="w-full"
         style={{
-          transform: "rotateX(25deg)",
-          transformOrigin: "top center",
-          maskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
-          WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 20%, black 80%, transparent 100%)",
+          position: "absolute",
+          inset: 0,
+          overflow: "hidden",
+          perspective: "400px",
         }}
       >
-        {ROWS.map((row, i) => (
-          <MarqueeRow key={i} items={row} reverse={i % 2 !== 0} />
-        ))}
+        <div
+          style={{
+            transform: "rotateX(22deg)",
+            transformOrigin: "top center",
+            maskImage: "linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)",
+            WebkitMaskImage: "linear-gradient(to bottom, transparent 0%, black 25%, black 75%, transparent 100%)",
+          }}
+        >
+          {ROWS.map((row, i) => (
+            <MarqueeRow
+              key={i}
+              items={row}
+              reverse={i % 2 !== 0}
+              speed={25 + i * 3}
+            />
+          ))}
+        </div>
       </div>
-    </div>
+    </>
   );
 }

@@ -86,7 +86,7 @@ export default function AboutPage() {
       {/* ── HERO ─────────────────────────────────────── */}
       <section className="relative border-b border-border overflow-hidden">
         {/* Perspective Marquee 배경 */}
-        <div className="absolute inset-0 opacity-[0.045] dark:opacity-[0.07] text-foreground">
+        <div className="absolute inset-0 opacity-[0.12] dark:opacity-[0.15] text-foreground">
           <PerspectiveMarquee />
         </div>
         <div className="max-w-6xl mx-auto px-6 md:px-10 pt-8 pb-0 flex items-center justify-between">
