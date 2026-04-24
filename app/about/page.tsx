@@ -3,8 +3,6 @@ import { PerspectiveMarquee } from "@/components/PerspectiveMarquee";
 
 const GMAIL_BODY = `안녕하세요, 홍성필님.
 
-저는 [회사명]의 [담당자명]입니다.
-
 아래 포지션을 제안드리고 싶어 연락드립니다.
 
 ■ 포지션  :
@@ -13,12 +11,9 @@ const GMAIL_BODY = `안녕하세요, 홍성필님.
 ■ 근무지  :
 ■ 급여    :
 ■ 면접 일정 :
+.
 
-업무 내용 및 기타 세부 사항을 자유롭게 기재해 주세요.
-
-
-감사합니다.
-[담당자명] 드림`;
+`;
 
 const GMAIL_URL = `https://mail.google.com/mail/?view=cm&to=tjdvlf0416@gmail.com&su=${encodeURIComponent("[면접 제의] 회사명 · 직군명")}&body=${encodeURIComponent(GMAIL_BODY)}`;
 
@@ -52,11 +47,6 @@ const CAREERS = [
   },
 ];
 
-const STATS = [
-  { value: "1년 7개월", label: "총 경력" },
-  { value: "97%", label: "업무 시간 단축" },
-  { value: "3,000만원", label: "비용 절감" },
-];
 
 const CHARS = [
   {
@@ -119,16 +109,6 @@ export default function AboutPage() {
                 ))}
               </div>
 
-              {/* Stats */}
-              <div className="grid grid-cols-3 gap-4 pt-6 border-t border-border">
-                {STATS.map(({ value, label }) => (
-                  <div key={label}>
-                    <p className="text-lg md:text-xl font-bold tracking-tight">{value}</p>
-                    <p className="text-[10px] text-muted-foreground mt-1 tracking-[0.15em] uppercase leading-tight">{label}</p>
-                  </div>
-                ))}
-              </div>
-
               {/* Contact shortcut */}
               <a
                 href={GMAIL_URL}
@@ -144,7 +124,7 @@ export default function AboutPage() {
             <div className="w-full max-w-sm mx-auto lg:mx-0 lg:max-w-none">
               <div className="relative w-full rounded-2xl overflow-hidden bg-muted" style={{ aspectRatio: "4/5" }}>
                 <Image
-                  src="/images/me.webp"
+                  src="/images/me.jpg"
                   alt="홍성필 프로필"
                   fill
                   className="object-cover object-top"
@@ -172,11 +152,11 @@ export default function AboutPage() {
               </span>
             </div>
             <div className="max-w-2xl">
-              <blockquote className="text-xl md:text-2xl font-semibold leading-snug tracking-tight mb-7 text-foreground">
-                &ldquo;9살 때 고장 난 PC를 스스로 고치며 느꼈던
-                문제해결의 희열이, 저만의 경쟁력이 되었습니다.&rdquo;
+              <blockquote className="text-2xl md:text-4xl font-semibold leading-snug tracking-tight mb-7 text-foreground">
+                &ldquo;8살, 고장 난 PC를 스스로 고치며 느꼈던
+                문제해결의 즐거움 .&rdquo;
               </blockquote>
-              <div className="space-y-4 text-muted-foreground leading-relaxed text-sm md:text-base">
+              <div className="space-y-4 text-muted-foreground leading-relaxed text-base md:text-lg">
                 <p>
                   어린 시절부터 남들이 포기할 때 끝까지 답을 찾는 아이였습니다.
                   그 성향은 성인이 되어{" "}
