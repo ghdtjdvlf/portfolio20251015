@@ -294,9 +294,18 @@ const GridView = ({ projects, onClose, onSelect }: {
 };
 
 // --- MAIN ---
-export default function ExoApe({ projects, mdxContents = {} }: { projects: Project[]; mdxContents?: Record<string, React.ReactNode> }) {
-  const [view, setView] = useState('home');
-  const [currentIndex, setCurrentIndex] = useState(0);
+export default function ExoApe({ projects, mdxContents = {}, initialId }: { projects: Project[]; mdxContents?: Record<string, React.ReactNode>; initialId?: string }) {
+  const [view, setView] = useState<'home' | 'detail'>(() => {
+    if (initialId && projects.some(p => p.id === initialId)) return 'detail';
+    return 'home';
+  });
+  const [currentIndex, setCurrentIndex] = useState(() => {
+    if (initialId) {
+      const idx = projects.findIndex(p => p.id === initialId);
+      return idx >= 0 ? idx : 0;
+    }
+    return 0;
+  });
   const [direction, setDirection] = useState(1);
   const [isHovered, setIsHovered] = useState(false);
   const [isOverUI, setIsOverUI] = useState(false);

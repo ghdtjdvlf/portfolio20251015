@@ -16,9 +16,10 @@ export interface ProjectItem {
 
 interface ProjectsGridHomeProps {
   projects: ProjectItem[];
+  hrefOverride?: string;
 }
 
-export function ProjectsGridHome({ projects }: ProjectsGridHomeProps) {
+export function ProjectsGridHome({ projects, hrefOverride }: ProjectsGridHomeProps) {
   const [hoveredIndex, setHoveredIndex] = useState<number | null>(null);
 
   const renderCard = (project: ProjectItem, originalIndex: number) => {
@@ -28,7 +29,7 @@ export function ProjectsGridHome({ projects }: ProjectsGridHomeProps) {
     return (
       <Link
         key={project.url}
-        href={project.url}
+        href={hrefOverride ?? project.url}
         className={cn(
           "group flex flex-col rounded-2xl border border-border overflow-hidden",
           "transition-opacity duration-300",
