@@ -4,6 +4,7 @@ import { docs, meta } from "@/.source";
 import { loader } from "fumadocs-core/source";
 import { createMDXSource } from "fumadocs-mdx";
 import { ProjectsGridHome } from "@/components/projects-grid-home";
+import { Preloader } from "@/components/Preloader";
 import Link from "next/link";
 import { FlickeringGrid } from "@/components/magicui/flickering-grid";
 import { PointerHighlight } from "@/components/ui/pointer-highlight";
@@ -97,6 +98,15 @@ const content = [
 
 export default async function HomePage() {
   const allPages = blogSource.getPages() as BlogPage[];
+
+  // 전체 프로젝트 이미지/비디오 URL 수집 (프리로드용)
+  const preloadUrls = Array.from(new Set(
+    allPages.flatMap((p) => {
+      const d = p.data as any;
+      return [d.thumbnail, d.thumbnailCard, d.additionalImage].filter(Boolean);
+    })
+  ));
+
   const latestFour = allPages
     .filter((p) => p.data.tags?.includes("main"))
     .sort((a, b) => {
@@ -116,6 +126,7 @@ export default async function HomePage() {
 
   return (
     <div>
+      <Preloader urls={preloadUrls} />
       {/* <div style={{ width: "100%", height: "600px", position: "relative" }}>
         <Particles
           particleColors={["#ffffff", "#ffffff"]}

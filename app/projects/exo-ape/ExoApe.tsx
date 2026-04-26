@@ -311,6 +311,18 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
 
   if (!projects.length || !currentProject) return null;
 
+  // 전체 프로젝트 이미지 프리로드
+  useEffect(() => {
+    projects.forEach((p) => {
+      [p.image, p.imageCard].forEach((src) => {
+        if (src && !src.endsWith('.mp4')) {
+          const img = new window.Image();
+          img.src = src;
+        }
+      });
+    });
+  }, [projects]);
+
   // 페이지 자체 스크롤바 숨기기
   useEffect(() => {
     const prevBody = document.body.style.overflow;
@@ -379,7 +391,7 @@ export default function ExoApe({ projects, mdxContents = {} }: { projects: Proje
                 src={currentProject.image}
                 alt=""
                 fill
-                priority={currentIndex === 0}
+                priority
                 sizes="100vw"
                 className="object-cover"
               />
