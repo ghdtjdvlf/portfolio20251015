@@ -1,4 +1,16 @@
+import type { Metadata } from "next";
 import { docs, meta } from '@/.source';
+
+export const metadata: Metadata = {
+  title: "Projects",
+  description:
+    "홍성필의 웹 퍼블리싱 및 프론트엔드 프로젝트 모음입니다. 뉴발란스, 카페24, 개인 프로젝트 등을 확인하세요.",
+  openGraph: {
+    title: "Projects | 홍성필 포트폴리오",
+    description:
+      "홍성필의 웹 퍼블리싱 및 프론트엔드 프로젝트 모음입니다. 뉴발란스, 카페24, 개인 프로젝트 등을 확인하세요.",
+  },
+};
 import { loader } from 'fumadocs-core/source';
 import { createMDXSource } from 'fumadocs-mdx';
 import { getMDXComponents } from '@/mdx-components';
